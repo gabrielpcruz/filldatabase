@@ -1,0 +1,19 @@
+{
+  "name": "GabrielCruzSI/filldatabase",
+  "description": "Fill DataBase",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Gabriel Cruz",
+      "email": "gabriel.cruz116@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "FillDataBase\\" : "vendor\\class\\"
+    }
+  },
+  "require": {
+    "fzaninotto/faker":"dev-master"
+  }
+}
