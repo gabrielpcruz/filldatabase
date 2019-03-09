@@ -8,5 +8,5 @@ session_start();
 
 
 
-// $config = require 'config.php';
-// Bind::set('config', $config);
+$config = require 'config.php';
+Bind::set('config', $config);

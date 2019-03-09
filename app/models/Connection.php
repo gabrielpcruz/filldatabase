@@ -16,6 +16,14 @@ class Connection {
     return $pdo;
   }
 
+  public static function insert($sql)
+  {
+    $con = Connection::connect();
+    $stmt = $con->prepare($sql);
+    $stmt->execute();
+    return $stmt;
+  }
+
 }
 
  ?>
