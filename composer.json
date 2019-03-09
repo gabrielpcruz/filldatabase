@@ -1,22 +1,18 @@
 {
-  "name": "GabrielCruzSI/filldatabase",
-  "description": "Fill DataBase",
-  "type": "project",
-  "authors": [
-    {
-      "name": "Gabriel Cruz",
-      "email": "gabriel.cruz116@gmail.com"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "app\\"  :"app/"
-    },
-    "files":[
-      "app/helpers/config.php"
-    ]
-  },
-  "require": {
-    "fzaninotto/faker":"dev-master"
-  }
+	"autoload" : {
+		"psr-4" : {
+			"app\\"  :"app/",
+			"core\\" :"core/"
+		},
+		"files":[
+			"app/functions/helpers.php",
+			"app/functions/db.php"
+		]
+	},
+	"require": {
+		"twig/twig": "^2.5",
+		"twig/extensions": "^1.5",
+		"fortawesome/font-awesome": "^4.7",
+		"fzaninotto/faker":"dev-master"
+	}
 }
