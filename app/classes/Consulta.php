@@ -1,8 +1,6 @@
 <?php
 
-namespace FillDataBase;
-
-require_once '../autoload.php';
+namespace app\classes;
 
 class Consulta{
 

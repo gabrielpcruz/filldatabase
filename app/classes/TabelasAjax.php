@@ -6,9 +6,8 @@
  * Time: 00:16
  */
 
-namespace FillDataBase;
+namespace app\classes;
 
-require_once '../autoload.php';
 /**
  * Class TabelasAjax
  */

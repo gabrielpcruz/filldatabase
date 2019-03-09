@@ -6,7 +6,7 @@
  * Time: 23:07
  */
 
-namespace FillDataBase;
+namespace app\classes;
 
 class Error extends Exception
 {

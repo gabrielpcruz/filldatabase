@@ -1,8 +1,6 @@
 <?php
 
-namespace FillDataBase;
-
-require '../autoload.php';
+namespace app\classes;
 
 class Conexao{
 

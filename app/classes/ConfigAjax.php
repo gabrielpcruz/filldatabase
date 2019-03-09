@@ -6,9 +6,7 @@
  * Time: 20:28
  */
 
-namespace FillDataBase;
-
-require_once '../autoload.php';
+namespace app\classes;
 
 class ConfigAjax extends Ajax
 {

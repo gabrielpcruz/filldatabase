@@ -10,8 +10,11 @@
   ],
   "autoload": {
     "psr-4": {
-      "FillDataBase\\" : "vendor\\class\\"
-    }
+      "app\\"  :"app/"
+    },
+    "files":[
+      "app/helpers/config.php"
+    ]
   },
   "require": {
     "fzaninotto/faker":"dev-master"

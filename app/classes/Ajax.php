@@ -6,9 +6,7 @@
  * Time: 20:40
  */
 
-namespace FillDataBase;
-
-require_once '../autoload.php';
+namespace app\classes;
 
 /**
  * Class Ajax

@@ -6,7 +6,7 @@
  * Time: 23:31
  */
 
-namespace FillDataBase;
+namespace app\classes;
 
 class FillEnum
 {

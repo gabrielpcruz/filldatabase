@@ -6,11 +6,9 @@
  * Time: 19:51
  */
 
-namespace FillDataBase;
+namespace app\classes;
 
 use Faker\Factory;
-
-require_once '../autoload.php';
 
 class SortDataAjax extends Ajax
 {
