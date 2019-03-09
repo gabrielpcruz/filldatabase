@@ -1,0 +1,90 @@
+{% extends 'portal/layout.html' %}
+
+{% block head %}
+  {{ parent() }}
+  <style type="text/css">
+    .perfil {
+      width: 70%;
+    }
+    .foto {
+      margin-right: 1em;
+    }
+
+    @media (max-width: 576px) {
+      .size {
+        width:100%;
+      }
+    }
+
+    @media (min-width: 576px) {
+      .size {
+        width:15em;
+        height:140px;
+      }
+    }
+  </style>
+{% endblock %}
+
+{% block portal %}
+
+<div class="jumbotron fixed">
+  <form>
+    <div class="form-row">
+      <div class="col-sm-12 col-md-6">
+        <label for="categorias">Selecione uma categoria</label>
+        <select class="form-control" id="categorias">
+          {% for categoria in categorias %}
+            <option>{{categoria.descricao}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <label for="profissionais">Selecione o profissional desejado</label>
+        <select class="form-control" id="profissionais">
+          {% for profissional in profissionais %}
+            <option>{{profissional}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <br>
+    <div class="form-row">
+      <div class="col-sm-12 col-md-12">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Digite o que está procurando..." aria-label="Digite o que está procurando..." aria-describedby="digitado">
+        <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+      </div>
+    </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<hr>
+{% for perfil in perfis %}
+  <div id="perfil col-xs-12 col-md-6 ">
+    <div class="foto float-left ">
+      <img class="img-fluid rounded size" src="{{perfil.usuario.img}}" alt="">
+    </div>
+    <div class="conteudo clear text-left">
+      <div class="nome">
+        <h3>{{perfil.nome | capitalize}}</h3>
+      </div>
+      <div class="area">
+        <h5>{{perfil.area.descricao}}</h5>
+      </div>
+      <div class="telefone">
+        <span><i class="fa fa-phone" aria-hidden="true"></i> &nbsp;{{perfil.contato.telefone1}}</span>
+      </div>
+      <div class="email">
+        <span> <i class="fa fa-envelope" aria-hidden="true"></i> &nbsp;{{perfil.contato.email}}</span>
+      </div>
+    </div>
+  </div>
+  <br>
+  <hr>
+
+{% endfor %}
+<script src="/assets/js/login.js"></script>
+{% endblock %}
