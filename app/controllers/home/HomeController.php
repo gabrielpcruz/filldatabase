@@ -4,7 +4,6 @@ namespace app\controllers\home;
 
 use app\controllers\ContainerController;
 
-use app\classes\Ajax;
 use app\classes\ConfigAjax;
 use app\classes\TabelasAjax;
 use app\classes\SortDataAjax;
@@ -54,5 +53,4 @@ class HomeController extends ContainerController{
         $sorte_data_ajax = new SortDataAjax();
         echo $sorte_data_ajax->fillDataBase($_POST['campos'], $_POST['tabela']);
     }
-
 }

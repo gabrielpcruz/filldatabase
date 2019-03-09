@@ -1,6 +1,7 @@
 $(document).ready(function () {
     $("#formulario").on("submit", function (event) {
         event.preventDefault();
+        console.log(this)
         $.ajax({
             type: "POST",
             url: '/home/conectar',
@@ -12,6 +13,5 @@ $(document).ready(function () {
                 }
             },
         });
-
     });
 });

@@ -40,20 +40,23 @@
                     </div>
 
                     <div class="form-group col-md-12 align-self-center">
+
                         <span class="badge {{session.sucesso ? 'badge-success' : 'badge-warning'}}">
                             {{session.sucesso ? 'conectado' : 'conexão pendente'}}
                         </span>
+
                         <button id="submit" class="btn badge badge-dark align-self-center" type="submit">
                             {{session.sucesso ? 'logout' : 'conectar'}}
                         </button>
-                        <?php if (isset($_SESSION['preenchimento'])): ?>
-                        <small class="text-danger text-xs">Preencha Todos os Campos;</small>
-                        <?php endif ?>
-                        <?php if (isset($_SESSION['erro-conexao'])): ?>
-                        <small class="text-danger text-xs">Falha na conexão: revise os dados informados e
-                            tente novamente;
-                        </small>
-                        <?php endif ?>
+
+                        {% if session.preenchimento is not null %}
+                            <small class="text-danger text-xs">Preencha Todos os Campos </small>
+                        {% endif %}
+
+                        {% if session.erro-conexao is not null %}
+                            <small class="text-danger text-xs"> Falha na conexão: revise os dados informados e tente novamente</small>
+                        {% endif %}
+
                     </div>
                 </div>
             </form>
@@ -74,7 +77,7 @@
         <div class="col-md-4">
             <form action="">
                 <div class="form-row">
-                    <label for="">Tabelas</label>
+                    <label for="tabelas">Tabelas</label>
                     <select class="form-control " name="tabelas" id="tabelas">
                         <option class="form-control"
                                 value="Selecione a tabela"></option>
