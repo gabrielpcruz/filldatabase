@@ -15,13 +15,26 @@ use app\models\Connection;
 class SortDataAjax
 {
 
+    /**
+     * @var \Faker\Generator
+     */
     private $faker;
 
+    /**
+     * @var array
+     */
     private $types;
 
+    /**
+     * @var string
+     */
     private $tabela;
 
-    //Prepara as coisas antes de executar tudo
+    /**
+     * Prepara as coisas antes de executar tudo
+     *
+     * SortDataAjax constructor.
+     */
     public function __construct(){
 
         $this->faker = Factory::create();
@@ -33,7 +46,13 @@ class SortDataAjax
         ];
     }
 
-    //Método genérico
+    /**
+     *
+     * @param $colunas
+     * @param $tabela
+     * @return false|string
+     * @throws \Exception
+     */
     public function fillDataBase($colunas, $tabela)
     {
         //Trasnforma o Json em array
@@ -45,7 +64,12 @@ class SortDataAjax
 
     }
 
-    //Prepara o insert
+    /**
+     * Prepara o insert
+     * @param $dados
+     * @return false|string
+     * @throws \Exception
+     */
     private function insertPrepare($dados)
     {
         //Trata os dados para um array
@@ -79,7 +103,6 @@ class SortDataAjax
                 } else {
                     $vals .= " '" . $dado . "',";
                 }
-
             }
         }
 
@@ -91,13 +114,16 @@ class SortDataAjax
         $stmt = Connection::insert($insert);
 
         if ($stmt->errorCode() == "00000") {
-            return ['msg' => "Registro inserido com sucesso!", "status" => "success"];
+            return json_encode(['msg' => "Registro inserido com sucesso!", "status" => "success"]);
         } else {
-            return ['msg' => "Falha ao inserir registro: " . $stmt->errorInfo()[2], 'status' => "error"];
+            return json_encode(['msg' => "Falha ao inserir registro: " . $stmt->errorInfo()[2], 'status' => "error"]);
         }
     }
 
-    //Deixa o array mais organizado com map
+    /**
+     * Deixa o array mais organizado com map
+     * @param $data
+     */
     private function dataTrate(&$data)
     {
         //Inicializa os arrays de colunas e valores
@@ -115,19 +141,31 @@ class SortDataAjax
         array_push($data, $colunas);
     }
 
-    //tudo pra minúsculo e depois chama outra função
+    /**
+     * tudo pra minúsculo e depois chama outra função
+     * @param $tipoDado
+     * @return mixed
+     */
     private function gerarDado($tipoDado)
     {
         $tipo = strtolower($tipoDado);
         return $this->getDado($tipo);
     }
 
-    //Gera um dado de acordo com o tipo passado
+    /**
+     * Gera um dado de acordo com o tipo passado
+     * @param $tipo
+     * @return mixed
+     */
     private function getDado($tipo)
     {
       return $this->types[$tipo];
     }
 
+    /**
+     * @param $string
+     * @return bool|string
+     */
     public function trataVirgula($string)
     {
         //Procura a posição da última ocorrência da vírgula
@@ -140,8 +178,4 @@ class SortDataAjax
         }
         return $params;
     }
-
-
 }
-
-$ajax = new SortDataAjax();

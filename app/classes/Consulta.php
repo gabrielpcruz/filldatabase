@@ -7,9 +7,13 @@ use app\models\Connection;
 
 class Consulta{
 
+    /**
+     * @return array
+     * @throws \Exception
+     */
     public static function retorna_tabelas()
     {
-        $conexao = Connection::connect();
+        $conexao = Connection::getConn();
         $resultado = $conexao->query("SHOW TABLES");
 
         while ($row = $resultado->fetch(\PDO::FETCH_NUM)) {
@@ -25,12 +29,16 @@ class Consulta{
         return $tabelas;
     }
 
+    /**
+     * @param $tabela
+     * @return array
+     * @throws \Exception/
+     */
     public static function retorna_campos($tabela)
     {
 
-        $conexao = Connection::connect();
+        $conexao = Connection::getConn();
         $resultado = $conexao->query("DESC $tabela");
-        $i = 0;
 
         while ($row = $resultado->fetch(\PDO::FETCH_ASSOC)) {
             $fields[] = $row;
@@ -52,9 +60,14 @@ class Consulta{
         return $campo_info;
     }
 
+    /**
+     * @param $tabelas
+     * @return array
+     * @throws \Exception
+     */
     public static function retorna_tabelas_info($tabelas)
     {
-        $conexao = Connection::connect();
+        $conexao = Connection::getConn();
 
         $tabelas_info = array();
 
@@ -75,5 +88,4 @@ class Consulta{
 
         return $tabelas_info;
     }
-
 }

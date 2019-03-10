@@ -64,40 +64,38 @@ class ConfigAjax
      */
     private $password;
 
+    /**
+     * @return false|string
+     * @throws \Exception
+     */
     public function init()
     {
         $this->sessionControl();
 
         if($this->ParamsVerify()) {
             $this->setConfig();
+            return json_encode(['msg' => "concetado com sucesso", 'status' => 'success', 'conexao' => 'conectado']);
         } else {
             $this->setSuccess(false);
-            return json_encode(['msg' => "falha na conexão", 'status' => 'error']);
+            return json_encode(['msg' => "falha na conexão", 'status' => 'error', 'conexao' => 'desconectado']);
         }
-        return json_encode(['msg' => "concetado com sucesso", 'status' => 'success']);
     }
 
+    /**
+     *
+     * O if abaixo serve para controlar a sessão
+     * Se a sessão estiver ativa e esta sessão conter uma variável chamada sucesso
+     * quer dizer que esse arquivo já foi aberto antes e consegui abrir uma conexão
+     * com o banco de dados.
+     * Neste caso a sessão deve ser destruída porque a página foi redirecionada da index.php
+     * pelo botão 'logout'.
+     * No entanto, se se o 	'if' resultar em falso, quer dizer que ainda não foi feita uma
+     * conexão com o banco, logo não há porque destruir a sessão que não foi criada
+     * Este trecho de código foi extraído da página da documentação oficial do PHP
+     * link("http://php.net/manual/pt_BR/function.session-destroy.php");
+     */
     public function sessionControl()
     {
-        /**
-         * O if abaixo serve para controlar a sessão
-         *
-         * Se a sessão estiver ativa e esta sessão conter uma variável chamada sucesso
-         * quer dizer que esse arquivo já foi aberto antes e consegui abrir uma conexão
-         * com o banco de dados.
-         *
-         * Neste caso a sessão deve ser destruída porque a página foi redirecionada da index.php
-         * pelo botão 'logout'.
-         *
-         * No entanto, se se o 	'if' resultar em falso, quer dizer que ainda não foi feita uma
-         * conexão com o banco, logo não há porque destruir a sessão que não foi criada
-         *
-         * Este trecho de código foi extraído da página da documentação oficial do PHP
-         *
-         * link("http://php.net/manual/pt_BR/function.session-destroy.php");
-         *
-         */
-
         if(isset($_SESSION['sucesso']) && isset($_SESSION)){
             // Apaga todas as variáveis da sessão
             $_SESSION = array();
@@ -117,11 +115,13 @@ class ConfigAjax
         }
     }
 
+    /**
+     * @return bool
+     */
     public function ParamsVerify()
     {
         parse_str($_POST["data"], $_POST);
 
-//        mp($_POST);exit;
         if (
             (isset($_POST['host'])       && $_POST['host']       != "") &&
             (isset($_POST['banco'])      && $_POST['banco'] 	 != "") &&
@@ -142,6 +142,9 @@ class ConfigAjax
 
     }
 
+    /**
+     * @param bool $status
+     */
     private function setSuccess($status = true)
     {
         if($status) {
@@ -151,6 +154,9 @@ class ConfigAjax
         }
     }
 
+    /**
+     * @throws \Exception
+     */
     public function setConfig()
     {
         $this->setSuccess();
@@ -166,7 +172,7 @@ class ConfigAjax
 
         //Conexão
         try{
-            $conexao = Connection::connect();
+            $conexao = Connection::getConn();
         } catch( Exception $e){
             throw new Exception( $e);
             $_SESSION['erro-conexao'] = "erro-conexao";
@@ -187,6 +193,9 @@ class ConfigAjax
         }
     }
 
+    /**
+     * @return string
+     */
     public function getStgringConfig()
     {
         return

@@ -4,8 +4,15 @@ namespace app\classes;
 
 class Bind {
 
+  /**
+   * @var array
+   */
   private static $bind = [];
 
+  /**
+   * @param $name
+   * @param $value
+   */
   public static function set ($name, $value)
   {
     if(!isset(static::$bind[$name])) {
@@ -13,6 +20,11 @@ class Bind {
     }
   }
 
+  /**
+   * @param $name
+   * @return object
+   * @throws \Exception
+   */
   public function get($name)
   {
     if(!isset(static::$bind[$name])) {
@@ -21,8 +33,5 @@ class Bind {
 
     return (object) static::$bind[$name];
   }
-
 }
 
-
- ?>

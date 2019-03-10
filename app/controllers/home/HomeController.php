@@ -10,6 +10,9 @@ use app\classes\SortDataAjax;
 
 class HomeController extends ContainerController{
 
+    /**
+     * Carrega a tela inicial
+     */
 	public function index()
 	{
         $this->view([
@@ -19,7 +22,7 @@ class HomeController extends ContainerController{
 	}
 
     /**
-     *
+     * Conecta no banco de dados informado
      */
 	public function conectar()
     {
@@ -28,7 +31,7 @@ class HomeController extends ContainerController{
     }
 
     /**
-     *
+     * Carrega na tela, as tabelas do banco disponíveis
      */
     public function carregarTabelas()
     {
@@ -37,7 +40,7 @@ class HomeController extends ContainerController{
     }
 
     /**
-     *
+     * Carrega na tela, os campos da tabela no banco
      */
     public function carregarCampos()
     {
@@ -46,7 +49,7 @@ class HomeController extends ContainerController{
     }
 
     /**
-     *
+     * Preenche a tabela com dados fake
      */
     public function filldatabase()
     {

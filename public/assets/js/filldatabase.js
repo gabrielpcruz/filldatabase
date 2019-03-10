@@ -40,9 +40,9 @@ function fillDatabase($json) {
         data: {'campos' : $json, 'tabela' : $("#tabelas").val()},
         success: function (data) {
             if (data) {
-                console.log(JSON.parse(data));
-                // var data = JSON.parse(data);
-                // toastr[data.status](data.msg)
+                var data = JSON.parse(data);
+
+                toastr[data.status](data.msg)
             }
         }
     });
