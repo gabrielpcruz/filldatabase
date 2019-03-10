@@ -44,6 +44,11 @@ class Connection {
     return isset(Connection::$connection);
   }
 
+  public static function desconectar()
+  {
+    self::$connection = NULL;
+  }
+
   /**
    * @param $sql
    * @return bool|\PDOStatement

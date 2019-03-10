@@ -1,118 +1,118 @@
-$(document).ready(function () {
-   $("#tabelas").change( function () {
-       $tabela = $(this).val();
+var ScriptCampos = (function () {
 
-       $.ajax({
-           type: "POST",
-           url: '/home/carregarCampos',
-           data: {'tabela':$tabela},
-           success: function (data) {
-               let obj = $.parseJSON(data);
+    var carregarCampos = function(){
+        $(document).ready(function () {
+            $("#tabelas").change( function () {
+                $tabela = $(this).val();
 
-               $("#campos").html("");
+                $.ajax({
+                    type: "POST",
+                    url: '/home/carregarCampos',
+                    data: {'tabela':$tabela},
+                    success: function (data) {
+                        let obj = $.parseJSON(data);
 
-               $(obj).each(function ($a) {
-                    console.log($a)
-                   criarCampo(obj[$a]);
-               })
-           },
-       });
+                        $("#campos").html("");
 
-   });
-});
+                        $(obj).each(function ($a) {
+                            criarCampo(obj[$a]);
+                        })
+                    },
+                });
 
-/**
- *
- * @param $campo
- */
-function criarCampo($campo) {
+            });
+        });
+    };
 
-    let $div = criarDiv();
-    let $label = criarLabel($campo);
-    let $select = criarSelect($campo);
+    /**
+     *
+     * @param $campo
+     */
+    var criarCampo = function($campo) {
 
-    $div.append($label);
-    $div.append($select);
+        let $div = criarDiv();
+        let $label = criarLabel($campo);
+        let $select = criarSelect($campo);
 
-    $("#campos").append($div);
-}
+        $div.append($label);
+        $div.append($select);
 
-/**
- *
- * @returns {void|jQuery|HTMLElement}
- */
-function criarDiv() {
-    //Div
-    let $div = $("<div>");
+        $("#campos").append($div);
+    };
 
-    $div.attr("class", "form-group col-md-3 float-left");
+    /**
+     *
+     * @returns {void|jQuery|HTMLElement}
+     */
+    var criarDiv = function () {
+        //Div
+        let $div = $("<div>");
 
-    return $div;
-}
+        $div.attr("class", "form-group col-md-3 float-left");
 
-/**
- *
- * @param $nomeCampo
- * @returns {void|jQuery|HTMLElement}
- */
-function criarLabel($nomeCampo) {
-    //Label
-    let $label = $("<label>");
+        return $div;
+    };
 
-    $label.text($nomeCampo['campo']);
+    /**
+     *
+     * @returns {void|jQuery|HTMLElement}
+     */
+    var criarLabel = function ($nomeCampo) {
+        //Label
+        let $label = $("<label>");
 
-    return $label;
-}
+        $label.text($nomeCampo['campo']);
 
-/**
- *
- * @param $campo
- * @returns {void|jQuery|HTMLElement}
- */
-function criarSelect($campo) {
-    //Select
-    let $select = $("<select>");
+        return $label;
+    };
 
-    $select.attr("class", "form-control");
-    $select.attr("disabled", "disabled");
-    $select.attr("name", $campo['campo']);
-    $select.attr("id", $campo['campo']);
-    $select.attr("data-tamanho", $campo['tamanho']);
-    $select.append(criarOptionCampo($campo['tipo'], $campo['tamanho']));
+    /**
+     *
+     * @param $campo
+     * @returns {void|jQuery|HTMLElement}
+     */
+    var criarSelect = function ($campo) {
+        //Select
+        let $select = $("<select>");
 
-    return $select;
-}
+        $select.attr("class", "form-control");
+        $select.attr("disabled", "disabled");
+        $select.attr("name", $campo['campo']);
+        $select.attr("id", $campo['campo']);
+        $select.attr("data-tamanho", $campo['tamanho']);
+        $select.append(criarOptionCampo($campo['tipo'], $campo['tamanho']));
 
-/**
- *
- * @param $nome
- * @returns {void|jQuery|HTMLElement}
- */
-function criarOptionTabela($nome = "teste") {
-    //Option
-    let $option = $("<option>");
+        return $select;
+    };
 
-    $option.text($nome)
-    $option.attr("value", $nome)
+    /**
+     *
+     * @param $nome
+     * @param $tamanho
+     * @returns {void|jQuery|HTMLElement}
+     */
+    var criarOptionCampo = function ($nome = 'teste', $tamanho = 'erro') {
+        //Option
+        let $option = $("<option>");
+        let $tipo_tamanho = $nome + "(" + $tamanho + ")";
 
-    return $option;
-}
+        $option.text($tipo_tamanho)
 
+        $option.attr("value", $nome)
 
-/**
- *
- * @param $nome
- * @param $tamanho
- * @returns {void|jQuery|HTMLElement}
- */
-function criarOptionCampo($nome = 'teste', $tamanho = 'erro') {
-    //Option
-    let $option = $("<option>");
-    let $tipo_tamanho = $nome + "(" + $tamanho + ")";
+        return $option;
+    };
 
-    $option.text($tipo_tamanho)
+    /**
+     * Revelando métodos
+     *
+     * @return object
+     */
+    return {
+        init : function() {
+            carregarCampos();
+        },
+    };
+})();
 
-    $option.attr("value", $nome)
-
-    return $option;
-}
+ScriptCampos.init();

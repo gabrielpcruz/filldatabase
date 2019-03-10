@@ -72,12 +72,12 @@ class ConfigAjax
     {
         $this->sessionControl();
 
-        if($this->ParamsVerify()) {
+        if($this->ParamsVerify() && !Connection::isConnected()) {
             $this->setConfig();
             return json_encode(['msg' => "concetado com sucesso", 'status' => 'success', 'conexao' => 'conectado']);
         } else {
             $this->setSuccess(false);
-            return json_encode(['msg' => "falha na conexão", 'status' => 'error', 'conexao' => 'desconectado']);
+            return json_encode(['msg' => "falha na conexão", 'status' => 'error', 'conexao' => 'conexão pendente']);
         }
     }
 

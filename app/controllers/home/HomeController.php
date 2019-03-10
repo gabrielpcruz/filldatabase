@@ -7,6 +7,7 @@ use app\controllers\ContainerController;
 use app\classes\ConfigAjax;
 use app\classes\TabelasAjax;
 use app\classes\SortDataAjax;
+use app\models\Connection;
 
 class HomeController extends ContainerController{
 
@@ -28,6 +29,20 @@ class HomeController extends ContainerController{
     {
         $config_ajax = new ConfigAjax();
         echo $config_ajax->init();
+    }
+
+    /**
+     * Desconecta no banco de dados informado
+     */
+    public function desconectar()
+    {
+        $_SESSION['host']     = NULL;
+        $_SESSION['usuario']    = NULL;
+        $_SESSION['senha'] = NULL;
+        $_SESSION['banco']    = NULL;
+        $_SESSION['sucesso']    = NULL;
+        $_SESSION['banco']    = NULL;
+        Connection::desconectar();
     }
 
     /**
