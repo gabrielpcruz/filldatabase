@@ -74,6 +74,7 @@ function criarSelect($campo) {
     let $select = $("<select>");
 
     $select.attr("class", "form-control");
+    $select.attr("disabled", "disabled");
     $select.attr("name", $campo['campo']);
     $select.attr("id", $campo['campo']);
     $select.attr("data-tamanho", $campo['tamanho']);

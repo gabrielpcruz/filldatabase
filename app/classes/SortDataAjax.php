@@ -10,6 +10,7 @@ namespace app\classes;
 
 use Faker\Factory;
 use app\models\Connection;
+use app\classes\ParserDado;
 
 
 class SortDataAjax
@@ -38,12 +39,6 @@ class SortDataAjax
     public function __construct(){
 
         $this->faker = Factory::create();
-
-        $this->types = [
-            "varchar(30)" => $this->faker->name,
-            "int(2)" => $this->faker->numberBetween(0,80),
-            "int(11)" => $this->faker->numberBetween(0,80)
-        ];
     }
 
     /**
@@ -153,10 +148,9 @@ class SortDataAjax
     {
         $tipo = strtoupper($tipoDado);
 
+        ParserDado::setFaker($this->faker);
 
-
-
-        return $this->getDado($tipo, $tamanhoDado);
+        return ParserDado::getDado($tipo, $tamanhoDado);
     }
 
     /**
