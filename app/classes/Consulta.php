@@ -48,10 +48,12 @@ class Consulta{
 
         foreach($fields as $key => $campo){
             if($campo['Key'] != "PRI" || ($campo['Extra'] == '' && $campo['Key'] == "PRI")){
+
                 $array = array();
 
                 $array['campo'] = $campo['Field'];
-                $array['tipo']  = $campo['Type'];
+                $array['tipo']  = Consulta::tratarTipo($campo['Type']);
+                $array['tamanho']  = Consulta::tratarTamanho($campo['Type']);
 
                 array_push($campo_info, $array);
             }
@@ -61,6 +63,7 @@ class Consulta{
     }
 
     /**
+     * @deprecated
      * @param $tabelas
      * @return array
      * @throws \Exception
@@ -87,5 +90,27 @@ class Consulta{
         }
 
         return $tabelas_info;
+    }
+
+    /**
+     * TODO: Mudar essa função para uma classe mais coerente, não deve ficar na classe de consulta
+     * @param $tipo
+     * @return mixed
+     */
+    private static function tratarTamanho($tipo)
+    {
+        $tamanho = strpos($tipo, "(");
+        return str_replace(["(", ")"], "", substr($tipo, $tamanho, strlen($tipo)));
+    }
+
+    /**
+     * TODO: Mudar essa função para uma classe mais coerente, não deve ficar na classe de consulta
+     * @param $tipo
+     * @return string
+     */
+    private static function tratarTipo($tipo)
+    {
+        $tamanho = strpos($tipo, "(");
+        return strtoupper(substr($tipo, 0, $tamanho));
     }
 }

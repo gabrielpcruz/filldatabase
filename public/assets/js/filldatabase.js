@@ -22,17 +22,26 @@ $(document).ready(function () {
 
 });
 
+/**
+ *
+ * @param $campoBruto
+ * @returns {{nomeColuna: (*|jQuery|*|*|*|*), tamanhoColuna: (*|jQuery|*|*), tipoColuna: (*|jQuery|*|*|*)}}
+ */
 function preencheCamposBanco($campoBruto) {
-
     //Pega o nome da e o tipo da Coluna
     let $campo = {
         nomeColuna : $($campoBruto).children().last().attr("id"),
-        tipoColuna : $($campoBruto).children().last().val()
+        tipoColuna : $($campoBruto).children().last().val(),
+        tamanhoColuna : $($campoBruto).children().last().data("tamanho"),
     };
 
     return $campo;
 }
 
+/**
+ *
+ * @param $json
+ */
 function fillDatabase($json) {
     $.ajax({
         type: "POST",

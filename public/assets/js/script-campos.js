@@ -12,7 +12,7 @@ $(document).ready(function () {
                $("#campos").html("");
 
                $(obj).each(function ($a) {
-
+                    console.log($a)
                    criarCampo(obj[$a]);
                })
            },
@@ -21,12 +21,15 @@ $(document).ready(function () {
    });
 });
 
-function criarCampo($nomeCampo) {
+/**
+ *
+ * @param $campo
+ */
+function criarCampo($campo) {
 
     let $div = criarDiv();
-    let $label = criarLabel($nomeCampo);
-    let $select = criarSelect($nomeCampo);
-
+    let $label = criarLabel($campo);
+    let $select = criarSelect($campo);
 
     $div.append($label);
     $div.append($select);
@@ -34,6 +37,10 @@ function criarCampo($nomeCampo) {
     $("#campos").append($div);
 }
 
+/**
+ *
+ * @returns {void|jQuery|HTMLElement}
+ */
 function criarDiv() {
     //Div
     let $div = $("<div>");
@@ -43,6 +50,11 @@ function criarDiv() {
     return $div;
 }
 
+/**
+ *
+ * @param $nomeCampo
+ * @returns {void|jQuery|HTMLElement}
+ */
 function criarLabel($nomeCampo) {
     //Label
     let $label = $("<label>");
@@ -52,24 +64,53 @@ function criarLabel($nomeCampo) {
     return $label;
 }
 
-function criarSelect($nomeCampo) {
+/**
+ *
+ * @param $campo
+ * @returns {void|jQuery|HTMLElement}
+ */
+function criarSelect($campo) {
     //Select
     let $select = $("<select>");
 
     $select.attr("class", "form-control");
-    $select.attr("name", $nomeCampo['campo']);
-    $select.attr("id", $nomeCampo['campo']);
-
-    $select.append(criarOption($nomeCampo['tipo']));
+    $select.attr("name", $campo['campo']);
+    $select.attr("id", $campo['campo']);
+    $select.attr("data-tamanho", $campo['tamanho']);
+    $select.append(criarOptionCampo($campo['tipo'], $campo['tamanho']));
 
     return $select;
 }
 
-function criarOption($nome = "teste") {
+/**
+ *
+ * @param $nome
+ * @returns {void|jQuery|HTMLElement}
+ */
+function criarOptionTabela($nome = "teste") {
     //Option
     let $option = $("<option>");
 
     $option.text($nome)
+    $option.attr("value", $nome)
+
+    return $option;
+}
+
+
+/**
+ *
+ * @param $nome
+ * @param $tamanho
+ * @returns {void|jQuery|HTMLElement}
+ */
+function criarOptionCampo($nome = 'teste', $tamanho = 'erro') {
+    //Option
+    let $option = $("<option>");
+    let $tipo_tamanho = $nome + "(" + $tamanho + ")";
+
+    $option.text($tipo_tamanho)
+
     $option.attr("value", $nome)
 
     return $option;

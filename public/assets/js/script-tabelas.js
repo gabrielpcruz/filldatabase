@@ -16,5 +16,5 @@ $(document).ready(function () {
 });
 
 function preecherCampo($nomeCampo, $dado) {
-    $($nomeCampo).append(criarOption($dado));
+    $($nomeCampo).append(criarOptionTabela($dado));
 }

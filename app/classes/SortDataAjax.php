@@ -96,7 +96,7 @@ class SortDataAjax
         foreach ($dados as $key => $colunas) {
             foreach ($colunas as $coluna) {
 
-                $dado = $this->gerarDado($coluna['valor']);
+                $dado = $this->gerarDado($coluna['tipo'], $coluna['tamanho']);
 
                 if (is_null($dado)) {
                     $vals .= " NULL, ";
@@ -131,7 +131,8 @@ class SortDataAjax
         foreach ($data as $column) {
             $coluna = [
                 'nome' => $column->nomeColuna,
-                'valor' => $column->tipoColuna
+                'tipo' => $column->tipoColuna,
+                'tamanho' => $column->tamanhoColuna,
             ];
 
             array_push($colunas, $coluna);
@@ -142,14 +143,20 @@ class SortDataAjax
     }
 
     /**
+     * TODO: Criar mecanismo para gerar um dado, usando o faker, de acordo com o tipo e o tamaho, uma opção é usar o FillEnum para isso
+     *
      * tudo pra minúsculo e depois chama outra função
      * @param $tipoDado
      * @return mixed
      */
-    private function gerarDado($tipoDado)
+    private function gerarDado($tipoDado, $tamanhoDado)
     {
-        $tipo = strtolower($tipoDado);
-        return $this->getDado($tipo);
+        $tipo = strtoupper($tipoDado);
+
+
+
+
+        return $this->getDado($tipo, $tamanhoDado);
     }
 
     /**
