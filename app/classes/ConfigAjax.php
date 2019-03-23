@@ -72,7 +72,7 @@ class ConfigAjax
     {
         $this->sessionControl();
 
-        if($this->ParamsVerify() && !Connection::isConnected()) {
+        if($this->paramsVerify() && !Connection::isConnected()) {
             $this->setConfig();
             return json_encode(['msg' => "concetado com sucesso", 'status' => 'success', 'conexao' => 'conectado']);
         } else {
@@ -118,7 +118,7 @@ class ConfigAjax
     /**
      * @return bool
      */
-    public function ParamsVerify()
+    public function paramsVerify()
     {
         parse_str($_POST["data"], $_POST);
 
@@ -160,15 +160,6 @@ class ConfigAjax
     public function setConfig()
     {
         $this->setSuccess();
-
-        //Configuração do config.php
-        $file = fopen("../config.php", "w");
-
-        //Seta a string com as configurações
-        $string = $this->getStgringConfig();
-
-
-        fwrite($file, $string);
 
         //Conexão
         try{
@@ -216,5 +207,45 @@ class ConfigAjax
             ?> 
             '
         ;
+    }
+
+    /**
+     *
+     */
+    public function destroyConnection()
+    {
+        //Configuração do config.php
+        $file = fopen("../config.php", "w+");
+
+        //Seta a string com as configurações
+        $string = "<?php";
+
+
+        fwrite($file, $string);
+        fclose($file);
+    }
+
+    /**
+     *
+     */
+    public function prepararConexao()
+    {
+        $mensagem = json_encode(['erro' => '1']);
+
+        if ($this->paramsVerify()) {
+
+            $file = fopen("../config.php", "w+");
+
+            //Seta a string com as configurações
+            $string = $this->getStgringConfig();
+
+            fwrite($file, $string);
+
+            fclose($file);
+
+            $mensagem = json_encode(['erro' => '0']);
+        }
+
+        return $mensagem;
     }
 }

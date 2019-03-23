@@ -23,6 +23,15 @@ class HomeController extends ContainerController{
 	}
 
     /**
+     *
+     */
+	public function prepararConexao()
+    {
+        $config_ajax = new ConfigAjax();
+        echo $config_ajax->prepararConexao();
+    }
+
+    /**
      * Conecta no banco de dados informado
      */
 	public function conectar()
@@ -37,12 +46,14 @@ class HomeController extends ContainerController{
     public function desconectar()
     {
         $_SESSION['host']     = NULL;
-        $_SESSION['usuario']    = NULL;
-        $_SESSION['senha'] = NULL;
+        $_SESSION['usuario']  = NULL;
+        $_SESSION['senha']    = NULL;
         $_SESSION['banco']    = NULL;
-        $_SESSION['sucesso']    = NULL;
+        $_SESSION['sucesso']  = NULL;
         $_SESSION['banco']    = NULL;
         Connection::desconectar();
+        $config = new ConfigAjax();
+        $config->destroyConnection();
     }
 
     /**
