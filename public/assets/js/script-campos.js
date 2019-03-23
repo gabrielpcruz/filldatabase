@@ -10,7 +10,7 @@ var ScriptCampos = (function () {
                     url: '/home/carregarCampos',
                     data: {'tabela':$tabela},
                     success: function (data) {
-                        let obj = $.parseJSON(data);
+                        var obj = $.parseJSON(data);
 
                         $("#campos").html("");
 
@@ -30,9 +30,9 @@ var ScriptCampos = (function () {
      */
     var criarCampo = function($campo) {
 
-        let $div = criarDiv();
-        let $label = criarLabel($campo);
-        let $select = criarSelect($campo);
+        var $div = criarDiv();
+        var $label = criarLabel($campo);
+        var $select = criarSelect($campo);
 
         $div.append($label);
         $div.append($select);
@@ -46,7 +46,7 @@ var ScriptCampos = (function () {
      */
     var criarDiv = function () {
         //Div
-        let $div = $("<div>");
+        var $div = $("<div>");
 
         $div.attr("class", "form-group col-md-3 float-left");
 
@@ -59,7 +59,7 @@ var ScriptCampos = (function () {
      */
     var criarLabel = function ($nomeCampo) {
         //Label
-        let $label = $("<label>");
+        var $label = $("<label>");
 
         $label.text($nomeCampo['campo']);
 
@@ -73,7 +73,7 @@ var ScriptCampos = (function () {
      */
     var criarSelect = function ($campo) {
         //Select
-        let $select = $("<select>");
+        var $select = $("<select>");
 
         $select.attr("class", "form-control");
         $select.attr("disabled", "disabled");
@@ -91,10 +91,10 @@ var ScriptCampos = (function () {
      * @param $tamanho
      * @returns {void|jQuery|HTMLElement}
      */
-    var criarOptionCampo = function ($nome = 'teste', $tamanho = 'erro') {
+    var criarOptionCampo = function ($nome, $tamanho) {
         //Option
-        let $option = $("<option>");
-        let $tipo_tamanho = $nome + "(" + $tamanho + ")";
+        var $option = $("<option>");
+        var $tipo_tamanho = $nome + "(" + $tamanho + ")";
 
         $option.text($tipo_tamanho)
 

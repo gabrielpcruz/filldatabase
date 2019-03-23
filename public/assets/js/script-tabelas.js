@@ -8,12 +8,12 @@ var ScriptTabelas = (function(){
                 url: '/home/carregarTabelas',
                 success: function (data) {
                     if (data) {
-                        let obj = $.parseJSON(data);
+                        var obj = $.parseJSON(data);
                         $(obj).each(function ($a) {
                             preencherCampo("#tabelas", obj[$a]);
                         })
                     }
-                },
+                }
             });
         }
     };
@@ -27,9 +27,9 @@ var ScriptTabelas = (function(){
      * @param $nome
      * @returns {void|jQuery|HTMLElement}
      */
-    var criarOptionTabela = function ($nome = "teste") {
+    var criarOptionTabela = function ($nome) {
         //Option
-        let $option = $("<option>");
+        var $option = $("<option>");
 
         $option.text($nome)
         $option.attr("value", $nome)
@@ -45,6 +45,6 @@ var ScriptTabelas = (function(){
     return {
         init : function() {
             carregarTabelas();
-        },
+        }
     };
 })();

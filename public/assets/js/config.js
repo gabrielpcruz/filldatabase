@@ -20,7 +20,7 @@ var Config = (function(){
             type: "POST",
             url: '/home/desconectar',
             success: function (data) {
-                var $msg = $mensagem ? $mensagem.msg : "desconcetado com sucesso";
+                var $msg = $mensagem ? $mensagem.msg : "Desconectado com sucesso";
                 var $status = $mensagem ? $mensagem.status : 'success';
                 //Emite um alerta
                 toastr[$status]($msg)
@@ -34,7 +34,7 @@ var Config = (function(){
         $.ajax({
             type: "POST",
             url: '/home/conectar',
-            data: {data: $($formulario).serialize()},
+            data: {data: $formulario},
             success: function (data) {
                 if (data) {
                     var data = JSON.parse(data);
@@ -54,10 +54,13 @@ var Config = (function(){
     };
     
     var prepararConexao = function ($formulario) {
+
+        $formulario = $($formulario).serialize();
+
         $.ajax({
             type: "POST",
             url: '/home/prepararConexao',
-            data: {data: $($formulario).serialize()},
+            data: {data: $formulario},
             success: function (data) {
                 if (typeof data == "string") {
                     var a = data.replace("<?php", "");
@@ -73,7 +76,7 @@ var Config = (function(){
                         $("#conexao").html('<i class="fa fa-spinner fa-spin fa-fw"></i><strong ">conectando...</strong>');
 
                     } else{
-                        limparConfiguracoes({msg: 'erro ao preparar a configuração de conexão', status: 'error'})
+                        limparConfiguracoes({msg: 'Erro ao preparar a configuração de conexão.', status: 'error'})
                     }
                 }
             },
@@ -96,7 +99,7 @@ var Config = (function(){
         $("#usuario").val('')
         $("#senha").val('')
         $("#banco").val('')
-        $("#tabelas").html('<option class="form-control" value="Selecione a tabela"></option>')
+        $("#tabelas").html('<option class="form-control" value=""></option>')
         $("#campos").html('')
     };
 

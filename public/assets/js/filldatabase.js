@@ -6,21 +6,31 @@ $(document).ready(function () {
    $("#filldatabase").click(function (event) {
        event.preventDefault();
 
-       let camposHtml = $("#campos").children();
+       if (!validarTabela()) {
+           toastr['error']("Selecione uma tabela")
+           return false
+       }
 
-       let camposBanco = [];
+       var camposHtml = $("#campos").children();
+
+       var camposBanco = [];
 
        $(camposHtml).each(function ($i, $campo) {
            camposBanco.push(preencheCamposBanco($($campo)));
        });
 
-       let json = JSON.stringify(camposBanco);
+       var json = JSON.stringify(camposBanco);
 
         //Retorna o array
        fillDatabase(json);
    });
 
 });
+
+function validarTabela() {
+    console.log($.trim($("#tabelas").val()))
+   return $.trim($("#tabelas").val());
+}
 
 /**
  *
@@ -29,7 +39,7 @@ $(document).ready(function () {
  */
 function preencheCamposBanco($campoBruto) {
     //Pega o nome da e o tipo da Coluna
-    let $campo = {
+    var $campo = {
         nomeColuna : $($campoBruto).children().last().attr("id"),
         tipoColuna : $($campoBruto).children().last().val(),
         tamanhoColuna : $($campoBruto).children().last().data("tamanho"),

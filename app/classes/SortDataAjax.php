@@ -109,9 +109,9 @@ class SortDataAjax
         $stmt = Connection::insert($insert);
 
         if ($stmt->errorCode() == "00000") {
-            return json_encode(['msg' => "Registro inserido com sucesso!", "status" => "success"]);
+            return json_encode(['msg' => FillMessage::MG0003, "status" => "success"]);
         } else {
-            return json_encode(['msg' => "Falha ao inserir registro: " . $stmt->errorInfo()[2], 'status' => "error"]);
+            return json_encode(['msg' => FillMessage::MG0004 . $stmt->errorInfo()[2], 'status' => "error"]);
         }
     }
 

@@ -74,10 +74,10 @@ class ConfigAjax
 
         if($this->paramsVerify() && !Connection::isConnected()) {
             $this->setConfig();
-            return json_encode(['msg' => "concetado com sucesso", 'status' => 'success', 'conexao' => 'conectado']);
+            return json_encode(['msg' => FillMessage::MG0001, 'status' => 'success', 'conexao' => 'conectado']);
         } else {
             $this->setSuccess(false);
-            return json_encode(['msg' => "falha na conexão", 'status' => 'error', 'conexao' => 'conexão pendente']);
+            return json_encode(['msg' => FillMessage::MG0002, 'status' => 'error', 'conexao' => 'conexão pendente']);
         }
     }
 
