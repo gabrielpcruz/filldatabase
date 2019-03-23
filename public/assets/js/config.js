@@ -33,6 +33,8 @@ var Config = (function(){
                 exibirMensagem($mensagem, $status);
 
                 htmlDesconectar($data);
+
+                Script.desabilitarBotes();
             }
         });
     };
@@ -170,8 +172,7 @@ var Config = (function(){
     };
 })();
 
-$.getScript("assets/js/script-tabelas.js", function () {
-
-});
+$.getScript("assets/js/script.js", function () {});
+$.getScript("assets/js/script-tabelas.js", function () {});
 
 Config.init();

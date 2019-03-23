@@ -20,11 +20,6 @@ class SortDataAjax
     private $faker;
 
     /**
-     * @var array
-     */
-    private $types;
-
-    /**
      * @var string
      */
     private $tabela;

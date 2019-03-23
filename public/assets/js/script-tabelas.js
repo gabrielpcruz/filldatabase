@@ -11,7 +11,9 @@ var ScriptTabelas = (function(){
                         var obj = $.parseJSON(data);
                         $(obj).each(function ($a) {
                             preencherCampo("#tabelas", obj[$a]);
-                        })
+                        });
+
+                        Script.habilitarBotoes();
                     }
                 }
             });
