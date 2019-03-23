@@ -17,7 +17,7 @@ var ScriptCampos = (function () {
                         $(obj).each(function ($a) {
                             criarCampo(obj[$a]);
                         })
-                    },
+                    }
                 });
 
             });
@@ -45,7 +45,7 @@ var ScriptCampos = (function () {
      * @returns {void|jQuery|HTMLElement}
      */
     var criarDiv = function () {
-        //Div
+
         var $div = $("<div>");
 
         $div.attr("class", "form-group col-md-3 float-left");
@@ -58,7 +58,7 @@ var ScriptCampos = (function () {
      * @returns {void|jQuery|HTMLElement}
      */
     var criarLabel = function ($nomeCampo) {
-        //Label
+
         var $label = $("<label>");
 
         $label.text($nomeCampo['campo']);
@@ -72,7 +72,7 @@ var ScriptCampos = (function () {
      * @returns {void|jQuery|HTMLElement}
      */
     var criarSelect = function ($campo) {
-        //Select
+
         var $select = $("<select>");
 
         $select.attr("class", "form-control");
@@ -92,13 +92,14 @@ var ScriptCampos = (function () {
      * @returns {void|jQuery|HTMLElement}
      */
     var criarOptionCampo = function ($nome, $tamanho) {
-        //Option
+
         var $option = $("<option>");
+
         var $tipo_tamanho = $nome + "(" + $tamanho + ")";
 
-        $option.text($tipo_tamanho)
+        $option.text($tipo_tamanho);
 
-        $option.attr("value", $nome)
+        $option.attr("value", $nome);
 
         return $option;
     };
@@ -111,7 +112,7 @@ var ScriptCampos = (function () {
     return {
         init : function() {
             carregarCampos();
-        },
+        }
     };
 })();
 

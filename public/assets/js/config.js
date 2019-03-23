@@ -1,58 +1,77 @@
 var Config = (function(){
 
     var conectar = function () {
+        // noinspection JSCheckFunctionSignatures
         $(document).ready(function () {
-            $("#formulario").on("submit", function (event) {
-                event.preventDefault();
+            // noinspection JSCheckFunctionSignatures
+            $("#formulario").on("submit", function ($event) {
+                $event.preventDefault();
 
                 if ($.trim($("#submit").text()) == 'conectar') {
                     prepararConexao(this);
                 } else {
-                    limparConfiguracoes()
+                    desconectar()
                 }
-
             });
         });
     };
 
-    var limparConfiguracoes = function ($mensagem) {
+    /**
+     * Responsável por desconectar do bando de dados
+     * @param $mensagem
+     */
+    var desconectar = function ($mensagem) {
+
         $.ajax({
             type: "POST",
             url: '/home/desconectar',
-            success: function (data) {
-                var $msg = $mensagem ? $mensagem.msg : "Desconectado com sucesso";
-                var $status = $mensagem ? $mensagem.status : 'success';
-                //Emite um alerta
-                toastr[$status]($msg)
-                //Muda os textos do html
-                htmlDesconectar(data);
+            success: function ($data) {
+
+                var $mensagem = ($.trim($data) != "") ? $mensagem.msg : "Desconectado com sucesso";
+                var $status   = ($.trim($data) != "") ? $mensagem.status : "success";
+
+                exibirMensagem($mensagem, $status);
+
+                htmlDesconectar($data);
             }
         });
     };
 
+    /**
+     * Tenta conectar no banco de dados de fato
+     *
+     * @param $formulario | formulário já serializado
+     */
     var iniciarConexao = function ($formulario) {
+
         $.ajax({
             type: "POST",
             url: '/home/conectar',
             data: {data: $formulario},
-            success: function (data) {
-                if (data) {
-                    var data = JSON.parse(data);
+            success: function ($data) {
 
-                    toastr[data.status](data.msg)
+                if ($data) {
+                    $data = JSON.parse($data);
 
-                    if (data.status == 'success') {
-                        htmlConectar(data);
-                        ScriptTabelas.init()
+                    if ($data.status == 'success') {
+                        htmlConectar($data);
+                        ScriptTabelas.init();
                     } else{
-                        limparConfiguracoes()
-                        htmlDesconectar(data);
+                        limparHtml($data);
                     }
                 }
-            },
+            }
         });
     };
-    
+
+    /**
+     * Antes de tentar conectar, é necessário preencher o arquivo de configuração com os dados informados
+     * Pois o preenchimento do arquivo leva cerca de 2 segundos, como a execução é muito rápida,
+     * criei os dois passos "prepararConexao" e finalmente o "conectar" com um pequeno intervalo de 3 segundos
+     * e uma animação no botão de status que indica "concetando..."
+     *
+     * @param $formulario
+     */
     var prepararConexao = function ($formulario) {
 
         $formulario = $($formulario).serialize();
@@ -61,46 +80,81 @@ var Config = (function(){
             type: "POST",
             url: '/home/prepararConexao',
             data: {data: $formulario},
-            success: function (data) {
-                if (typeof data == "string") {
-                    var a = data.replace("<?php", "");
+            success: function ($data) {
 
-                    var data = JSON.parse($.trim(a));
+                if (typeof $data == "string") {
 
-                    if (data.erro == 0) {
+                    var $data = $data.replace("<?php", "");
+
+                    $data = JSON.parse($.trim($data));
+
+                    if ($data.erro == 0) {
 
                         setTimeout(function () {
                             iniciarConexao($formulario)
-                        }, 3000)
+                        }, 3000);
 
                         $("#conexao").html('<i class="fa fa-spinner fa-spin fa-fw"></i><strong ">conectando...</strong>');
 
                     } else{
-                        limparConfiguracoes({msg: 'Erro ao preparar a configuração de conexão.', status: 'error'})
+
+                        $data = {msg: 'Erro ao preparar a configuração de conexão.', status: 'error'};
+                        desconectar($data);
                     }
                 }
             },
         });
     };
 
-    var htmlConectar = function (data) {
-        $("#conexao").text(data.conexao)
-        $("#conexao").removeClass('badge-warning')
-        $("#conexao").addClass('badge-success')
-        $("#submit").text('logout')
+    /**
+     * Muda os textos de alguns html e exibe mensagem
+     * @param $data
+     */
+    var htmlConectar = function ($data) {
+
+        $("#conexao").text($data.conexao);
+        $("#conexao").removeClass('badge-warning');
+        $("#conexao").addClass('badge-success');
+        $("#submit").text('logout');
+        exibirMensagem($data.msg, $data.status)
     };
 
-    var htmlDesconectar = function (data) {
-        $("#conexao").text(data ? data.conexao : "conexão pendente")
-        $("#conexao").removeClass('badge-success')
-        $("#conexao").addClass('badge-warning')
-        $("#submit").text('conectar')
-        $("#host").val('')
-        $("#usuario").val('')
-        $("#senha").val('')
-        $("#banco").val('')
-        $("#tabelas").html('<option class="form-control" value=""></option>')
-        $("#campos").html('')
+    /**
+     * Limpa os inputs padrões
+     */
+    var limparHtml = function () {
+
+        $("#host").val('');
+        $("#usuario").val('');
+        $("#senha").val('');
+        $("#banco").val('');
+        $("#tabelas").html('<option class="form-control" value=""></option>');
+        $("#campos").html('');
+        $("#conexao").text('conexão pendente');
+    };
+
+    /**
+     * Muda os textos dos html e chama afunção que limpa os inputs
+     * @param $data
+     */
+    var htmlDesconectar = function ($data) {
+
+        $("#conexao").text($data ? $data.conexao : "conexão pendente");
+        $("#conexao").removeClass('badge-success');
+        $("#conexao").addClass('badge-warning');
+        $("#submit").text('conectar');
+        limparHtml();
+    };
+
+    /**
+     * Exibe mensagens
+     *
+     * @param $mensagem
+     * @param $status
+     */
+    var exibirMensagem = function ($mensagem, $status) {
+
+        toastr[$status]($mensagem);
     };
 
     /**
