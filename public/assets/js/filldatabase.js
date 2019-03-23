@@ -28,7 +28,6 @@ $(document).ready(function () {
 });
 
 function validarTabela() {
-    console.log($.trim($("#tabelas").val()))
    return $.trim($("#tabelas").val());
 }
 

@@ -57,6 +57,7 @@ var Config = (function(){
                         htmlConectar($data);
                         ScriptTabelas.init();
                     } else{
+                        exibirMensagem($data.msg, $data.status);
                         limparHtml($data);
                     }
                 }
