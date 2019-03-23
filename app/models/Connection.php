@@ -1,66 +1,81 @@
 <?php
 
 namespace app\models;
+
 use \PDO;
 use app\classes\Bind;
 
-class Connection {
+class Connection
+{
 
-  /**
-   * @var PDO
-   */
-  private static $connection;
+    /**
+     * @var PDO
+     */
+    private static $connection;
 
-  /**
-   * @return PDO
-   * @throws \Exception
-   */
-  private static function connect()
-  {
-    $config = (object) Bind::get('config')->database;
-    $pdo = new \PDO("mysql:host=$config->host;dbname=$config->dbname;charset=$config->charset", $config->username, $config->password, $config->options);
+    /**
+     * @return PDO
+     * @throws \Exception
+     */
+    private static function connect()
+    {
+        try {
 
-    return $pdo;
-  }
+            $config = (object)Bind::get('config')->database;
+            $pdo = new \PDO("mysql:host=$config->host;dbname=$config->dbname;charset=$config->charset", $config->username, $config->password, $config->options);
 
-  /**
-   * @return PDO
-   * @throws \Exception
-   */
-  public static function getConn()
-  {
-    if (!Connection::$connection) {
-      Connection::$connection = Connection::connect();
+            return $pdo;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
     }
 
-    return Connection::$connection;
-  }
+    /**
+     * @return PDO
+     * @throws \Exception
+     */
+    public static function getConn()
+    {
+        try {
 
-  /**
-   * @return bool
-   */
-  public function isConnected()
-  {
-    return isset(Connection::$connection);
-  }
+            if (!Connection::$connection) {
+                Connection::$connection = Connection::connect();
+            }
 
-  public static function desconectar()
-  {
-    self::$connection = NULL;
-  }
+            return Connection::$connection;
 
-  /**
-   * @param $sql
-   * @return bool|\PDOStatement
-   * @throws \Exception
-   */
-  public static function insert($sql)
-  {
-    $con = Connection::getConn();
-    $stmt = $con->prepare($sql);
-    $stmt->execute();
-    return $stmt;
-  }
+        } catch (\Exception $e) {
+
+            throw new \Exception($e->getMessage(), $e->getCode());
+
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isConnected()
+    {
+        return isset(Connection::$connection);
+    }
+
+    public static function desconectar()
+    {
+        self::$connection = NULL;
+    }
+
+    /**
+     * @param $sql
+     * @return bool|\PDOStatement
+     * @throws \Exception
+     */
+    public static function insert($sql)
+    {
+        $con = Connection::getConn();
+        $stmt = $con->prepare($sql);
+        $stmt->execute();
+        return $stmt;
+    }
 }
 
 ?>

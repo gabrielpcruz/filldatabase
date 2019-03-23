@@ -10,8 +10,6 @@ namespace app\classes;
 
 use Faker\Factory;
 use app\models\Connection;
-use app\classes\ParserDado;
-
 
 class SortDataAjax
 {
@@ -30,6 +28,11 @@ class SortDataAjax
      * @var string
      */
     private $tabela;
+
+    /**
+     * @var array
+     */
+    private $inserts = [];
 
     /**
      * Prepara as coisas antes de executar tudo
@@ -55,8 +58,9 @@ class SortDataAjax
         $this->tabela = $tabela;
 
         //Prepara o insert
-        return $this->insertPrepare($colunasArray);
+        $this->inserts[] = $this->insertPrepare($colunasArray);
 
+        return $this->inserir();
     }
 
     /**
@@ -106,13 +110,7 @@ class SortDataAjax
 
         $insert .= " )";
 
-        $stmt = Connection::insert($insert);
-
-        if ($stmt->errorCode() == "00000") {
-            return json_encode(['msg' => FillMessage::MG0003, "status" => "success"]);
-        } else {
-            return json_encode(['msg' => FillMessage::MG0004 . $stmt->errorInfo()[2], 'status' => "error"]);
-        }
+        return $insert;
     }
 
     /**
@@ -138,9 +136,8 @@ class SortDataAjax
     }
 
     /**
-     * TODO: Criar mecanismo para gerar um dado, usando o faker, de acordo com o tipo e o tamaho, uma opção é usar o FillEnum para isso
      *
-     * tudo pra minúsculo e depois chama outra função
+     * tudo pra maiúsculo e depois chama outra função
      * @param $tipoDado
      * @return mixed
      */
@@ -151,16 +148,6 @@ class SortDataAjax
         ParserDado::setFaker($this->faker);
 
         return ParserDado::getDado($tipo, $tamanhoDado);
-    }
-
-    /**
-     * Gera um dado de acordo com o tipo passado
-     * @param $tipo
-     * @return mixed
-     */
-    private function getDado($tipo)
-    {
-      return $this->types[$tipo];
     }
 
     /**
@@ -178,5 +165,25 @@ class SortDataAjax
             $params = substr($string, 0, $last);
         }
         return $params;
+    }
+
+    /**
+     * @param $insert
+     * @return false|string
+     * @throws \Exception
+     */
+    private function inserir()
+    {
+
+        foreach ($this->inserts as $insert) {
+
+            $stmt = Connection::insert($insert);
+
+            if ($stmt->errorCode() == "00000") {
+                return json_encode(['msg' => FillMessage::MG0003, "status" => "success"]);
+            } else {
+                return json_encode(['msg' => FillMessage::MG0004 . $stmt->errorInfo()[2], 'status' => "error"]);
+            }
+        }
     }
 }

@@ -13,16 +13,16 @@ class FillEnum
     /*
      * STRING
      * */
-    public $VARCHAR = "VARCHAR";
+    public static $VARCHAR = "VARCHAR";
 
     /*
      * NUMERIC
      * */
-    public $DECIMAL = "DECIMAL";
-    public $INT     = "INT";
+    public static $DECIMAL = "DECIMAL";
+    public static $INT     = "INT";
 
     /*
      * DATE
      * */
-    public $DATETIME = "DATETIME";
+    public static $DATETIME = "DATETIME";
 }

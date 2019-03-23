@@ -7,6 +7,7 @@ use app\controllers\ContainerController;
 use app\classes\ConfigAjax;
 use app\classes\TabelasAjax;
 use app\classes\SortDataAjax;
+use app\classes\FillView;
 use app\models\Connection;
 
 class HomeController extends ContainerController{
@@ -18,7 +19,8 @@ class HomeController extends ContainerController{
 	{
         $this->view([
             'title' => "Home | {$this->title}",
-            'session' => (object) $_SESSION
+            'session' => (object) $_SESSION,
+            'version' => FillView::$VERSION
         ], "home.index");
 	}
 
@@ -52,8 +54,7 @@ class HomeController extends ContainerController{
         $_SESSION['sucesso']  = NULL;
         $_SESSION['banco']    = NULL;
         Connection::desconectar();
-        $config = new ConfigAjax();
-        $config->destroyConnection();
+        ConfigAjax::destroyConnection();
     }
 
     /**
