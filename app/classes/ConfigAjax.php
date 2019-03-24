@@ -70,69 +70,28 @@ class ConfigAjax
      */
     public function init()
     {
-        $this->sessionControl();
-
-        if($this->ParamsVerify() && !Connection::isConnected()) {
-            $this->setConfig();
-            return json_encode(['msg' => "concetado com sucesso", 'status' => 'success', 'conexao' => 'conectado']);
-        } else {
-            $this->setSuccess(false);
-            return json_encode(['msg' => "falha na conexão", 'status' => 'error', 'conexao' => 'conexão pendente']);
-        }
-    }
-
-    /**
-     *
-     * O if abaixo serve para controlar a sessão
-     * Se a sessão estiver ativa e esta sessão conter uma variável chamada sucesso
-     * quer dizer que esse arquivo já foi aberto antes e consegui abrir uma conexão
-     * com o banco de dados.
-     * Neste caso a sessão deve ser destruída porque a página foi redirecionada da index.php
-     * pelo botão 'logout'.
-     * No entanto, se se o 	'if' resultar em falso, quer dizer que ainda não foi feita uma
-     * conexão com o banco, logo não há porque destruir a sessão que não foi criada
-     * Este trecho de código foi extraído da página da documentação oficial do PHP
-     * link("http://php.net/manual/pt_BR/function.session-destroy.php");
-     */
-    public function sessionControl()
-    {
-        if(isset($_SESSION['sucesso']) && isset($_SESSION)){
-            // Apaga todas as variáveis da sessão
-            $_SESSION = array();
-
-            // Se é preciso matar a sessão, então os cookies de sessão também devem ser apagados.
-            // Nota: Isto destruirá a sessão, e não apenas os dados!
-            if (ini_get("session.use_cookies")) {
-                $params = session_get_cookie_params();
-                setcookie(session_name(), '', time() - 42000,
-                    $params["path"], $params["domain"],
-                    $params["secure"], $params["httponly"]
-                );
-            }
-
-            // Por último, destrói a sessão
-            session_destroy();
+        if ($this->paramsVerify() && !Connection::isConnected()) {
+            return $this->setConfig();
         }
     }
 
     /**
      * @return bool
      */
-    public function ParamsVerify()
+    public function paramsVerify()
     {
         parse_str($_POST["data"], $_POST);
 
         if (
-            (isset($_POST['host'])       && $_POST['host']       != "") &&
-            (isset($_POST['banco'])      && $_POST['banco'] 	 != "") &&
-            (isset($_POST['usuario'])    && $_POST['usuario']    != "") &&
-            (isset($_POST['senha'])      && $_POST['senha']      != "")
-        )
-        {
+            (isset($_POST['host']) && $_POST['host'] != "") &&
+            (isset($_POST['banco']) && $_POST['banco'] != "") &&
+            (isset($_POST['usuario']) && $_POST['usuario'] != "") &&
+            (isset($_POST['senha']) && $_POST['senha'] != "")
+        ) {
             //Setando variáveis
-            $this->host     = $_POST['host'];
-            $this->db_name  = $_POST['banco'];
-            $this->user     = $_POST['usuario'];
+            $this->host = $_POST['host'];
+            $this->db_name = $_POST['banco'];
+            $this->user = $_POST['usuario'];
             $this->password = $_POST['senha'];
 
             return true;
@@ -143,54 +102,18 @@ class ConfigAjax
     }
 
     /**
-     * @param bool $status
-     */
-    private function setSuccess($status = true)
-    {
-        if($status) {
-            unset($_SESSION['preenchimento']);
-        } else {
-            $_SESSION['preenchimento'] = "falha";
-        }
-    }
-
-    /**
      * @throws \Exception
      */
     public function setConfig()
     {
-        $this->setSuccess();
-
-        //Configuração do config.php
-        $file = fopen("../config.php", "w");
-
-        //Seta a string com as configurações
-        $string = $this->getStgringConfig();
-
-
-        fwrite($file, $string);
-
-        //Conexão
-        try{
+        try {
             $conexao = Connection::getConn();
-        } catch( Exception $e){
-            throw new Exception( $e);
-            $_SESSION['erro-conexao'] = "erro-conexao";
+            $this->setSession($conexao);
+            return json_encode(['msg' => FillMessage::MG0001, 'status' => 'success', 'conexao' => 'conectado']);
+        } catch (\Exception $e) {
+            return json_encode(['msg' => $e->getMessage(), 'status' => 'error', 'conexao' => 'conexão pendente']);
         }
 
-
-        if($conexao){
-            $_SESSION['sucesso'] = "sucesso";
-            $_COOKIE['sucesso'] = "sucesso";
-
-            $_SESSION['host']    = $this->getHost();
-            $_SESSION['banco']   = $this->getDbName();
-            $_SESSION['usuario'] = $this->getUser();
-            $_SESSION['senha']   = $this->getPassword();
-
-            //Remove a variável que mostrava erro de conexão
-            unset($_SESSION['erro-conexao']);
-        }
     }
 
     /**
@@ -202,10 +125,10 @@ class ConfigAjax
             '<?php 
                 return [
                     "database" => [
-                        "host"     => "'. $this->getHost()    .'",
-                        "dbname"   => "'. $this->getDbName()  .'",
-                        "username" => "'. $this->getUser()    .'",
-                        "password" => "'. $this->getPassword(). '",
+                        "host"     => "' . $this->getHost() . '",
+                        "dbname"   => "' . $this->getDbName() . '",
+                        "username" => "' . $this->getUser() . '",
+                        "password" => "' . $this->getPassword() . '",
                         "charset"  => "utf8",
                         "options"  => [
                             "PDO::ATTR_ERRMOD" => "PDO::ERRMOD_EXCEPTION",
@@ -214,7 +137,60 @@ class ConfigAjax
                     ]
                 ];
             ?> 
-            '
-        ;
+            ';
+    }
+
+    /**
+     *
+     */
+    public static function destroyConnection()
+    {
+        //Configuração do config.php
+        $file = fopen("../config.php", "w+");
+
+        //Seta a string com as configurações
+        $string = "<?php";
+
+
+        fwrite($file, $string);
+        fclose($file);
+    }
+
+    /**
+     *
+     */
+    public function prepararConexao()
+    {
+        $mensagem = json_encode(['erro' => '1']);
+
+        if ($this->paramsVerify()) {
+
+            $file = fopen("../config.php", "w+");
+
+            //Seta a string com as configurações
+            $string = $this->getStgringConfig();
+
+            fwrite($file, $string);
+
+            fclose($file);
+
+            $mensagem = json_encode(['erro' => '0']);
+        }
+
+        return $mensagem;
+    }
+
+    /**
+     * @param $conexao
+     */
+    private function setSession($conexao)
+    {
+        if ($conexao) {
+            $_SESSION['sucesso'] = "sucesso";
+            $_SESSION['host'] = $this->getHost();
+            $_SESSION['banco'] = $this->getDbName();
+            $_SESSION['usuario'] = $this->getUser();
+            $_SESSION['senha'] = $this->getPassword();
+        }
     }
 }

@@ -18,7 +18,7 @@
                         <label for="host">host</label>
                         <input type="text" class="form-control" name="host" id="host"
                                value='{{ session.host ? session.host : ""}}'
-                        placeholder="Host do Mysql">
+                               placeholder="Host do Mysql">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="usuario">usuário</label>
@@ -50,11 +50,13 @@
                         </button>
 
                         {% if session.preenchimento is not null %}
-                            <small class="text-danger text-xs">Preencha Todos os Campos </small>
+                        <small class="text-danger text-xs">Preencha Todos os Campos</small>
                         {% endif %}
 
                         {% if session.erro-conexao is not null %}
-                            <small class="text-danger text-xs"> Falha na conexão: revise os dados informados e tente novamente</small>
+                        <small class="text-danger text-xs"> Falha na conexão: revise os dados informados e tente
+                            novamente
+                        </small>
                         {% endif %}
 
                     </div>
@@ -68,8 +70,14 @@
             <h3>Montagem da Query</h3>
         </div>
         <div class="col-md-6">
-            <button  type="submit" id="filldatabase" class="btn btn-primary btn-sm float-right ml-1"><i class="fas fa-sync-alt"></i> Fill Database</button>
-            <button disabled type="submit" class="btn btn-primary btn-sm float-right ml-1s"><i class="fas fa-sync-alt"></i> Gerar Script</button>
+            <button
+                    type="submit" id="filldatabase" class="btn btn-primary btn-sm float-right ml-1"><i
+                    class="fas fa-sync-alt"></i> Fill Database
+            </button>
+            <button disabled="disabled"
+                    type="button" id="gerarscript" class="btn btn-primary btn-sm float-right ml-1s" data-toggle="modal" data-target="#exampleModal">
+                <i class="fas fa-sync-alt"></i> Gerar Script
+            </button>
         </div>
     </div>
 
@@ -79,12 +87,11 @@
                 <div class="form-row">
                     <label for="tabelas">Tabelas</label>
                     <select class="form-control " name="tabelas" id="tabelas">
-                        <option class="form-control" value="Selecione a tabela"></option>
+                        <option class="form-control" value=""></option>
                     </select>
                 </div>
             </form>
         </div>
-
     </div>
 
     <br>

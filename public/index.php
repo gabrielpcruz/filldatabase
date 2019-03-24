@@ -22,5 +22,5 @@ $controller->$method($parameter);
 
 } catch (\Exception $e) {
 
-	dd($e->getMessage());
+	dd($e);
 }
