@@ -33,8 +33,6 @@ var Config = (function(){
                 exibirMensagem($mensagem, $status);
 
                 htmlDesconectar($data);
-
-                Script.desabilitarBotes();
             }
         });
     };

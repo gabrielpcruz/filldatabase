@@ -12,8 +12,6 @@ var ScriptTabelas = (function(){
                         $(obj).each(function ($a) {
                             preencherCampo("#tabelas", obj[$a]);
                         });
-
-                        Script.habilitarBotoes();
                     }
                 }
             });
