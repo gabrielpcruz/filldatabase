@@ -11,7 +11,7 @@ namespace app\classes;
 use Faker\Factory;
 use app\models\Connection;
 
-class SortDataAjax
+class SortData
 {
 
     /**

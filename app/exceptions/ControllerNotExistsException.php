@@ -2,6 +2,8 @@
 
 namespace app\exceptions;
 
-class ControllerNotExistsException extends \Exception{
+use app\classes\FillError;
+
+class ControllerNotExistsException extends FillError {
 
 }

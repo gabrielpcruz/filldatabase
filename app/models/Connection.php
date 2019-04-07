@@ -54,7 +54,7 @@ class Connection
     /**
      * @return bool
      */
-    public function isConnected()
+    public static function isConnected()
     {
         return isset(Connection::$connection);
     }

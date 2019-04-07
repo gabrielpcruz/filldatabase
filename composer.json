@@ -13,6 +13,7 @@
 		"twig/twig": "^2.5",
 		"twig/extensions": "^1.5",
 		"fortawesome/font-awesome": "^4.7",
-		"fzaninotto/faker":"dev-master"
+		"fzaninotto/faker":"dev-master",
+		"ext-json": "*"
 	}
 }

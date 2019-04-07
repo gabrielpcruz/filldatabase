@@ -2,6 +2,8 @@
 
 namespace app\exceptions;
 
-class MethodNotExistsException extends \Exception{
+use app\classes\FillError;
+
+class MethodNotExistsException extends FillError {
 
 }

@@ -5,6 +5,7 @@ require "../bootstrap.php";
 use core\Controller;
 use core\Method;
 use core\Parameters;
+use app\classes\FillError;
 
 
 try {
@@ -20,7 +21,7 @@ $parameter = $parameter->load();
 
 $controller->$method($parameter);
 
-} catch (\Exception $e) {
+} catch (FillError $e) {
 
 	dd($e);
 }

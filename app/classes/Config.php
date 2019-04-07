@@ -10,7 +10,7 @@ namespace app\classes;
 
 use app\models\Connection;
 
-class ConfigAjax
+class Config
 {
     /**
      * @var string

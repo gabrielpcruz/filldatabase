@@ -16,6 +16,8 @@ class Consulta{
         $conexao = Connection::getConn();
         $resultado = $conexao->query("SHOW TABLES");
 
+        $tables = [];
+
         while ($row = $resultado->fetch(\PDO::FETCH_NUM)) {
             $tables[] = $row[0];
         }
@@ -39,6 +41,8 @@ class Consulta{
 
         $conexao = Connection::getConn();
         $resultado = $conexao->query("DESC $tabela");
+        $fields = [];
+
 
         while ($row = $resultado->fetch(\PDO::FETCH_ASSOC)) {
             $fields[] = $row;
