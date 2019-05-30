@@ -19,7 +19,7 @@ class Tabelas
      */
     public function ajaxTabelas()
     {
-        $tabelas = Consulta::retorna_tabelas();
+        $tabelas = Consulta::retornaTabelas();
         return json_encode($tabelas);
     }
 
@@ -30,7 +30,7 @@ class Tabelas
      */
     public function ajaxCampos($tabela)
     {
-        $campos = Consulta::retorna_campos($tabela);
+        $campos = Consulta::retornaCampos($tabela);
         return json_encode($campos);
     }
 }

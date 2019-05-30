@@ -20,10 +20,9 @@ class Connection
     private static function connect()
     {
         try {
-
             $config = (object)Bind::get('config')->database;
-            $pdo = new \PDO("mysql:host=$config->host;dbname=$config->dbname;charset=$config->charset", $config->username, $config->password, $config->options);
-
+            $a = "mysql:host=$config->host;dbname=$config->dbname;charset=$config->charset";
+            $pdo = new \PDO($a, $config->username, $config->password, $config->options);
             return $pdo;
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage(), $e->getCode());
@@ -37,17 +36,13 @@ class Connection
     public static function getConn()
     {
         try {
-
             if (!Connection::$connection) {
                 Connection::$connection = Connection::connect();
             }
 
             return Connection::$connection;
-
         } catch (\Exception $e) {
-
             throw new \Exception($e->getMessage(), $e->getCode());
-
         }
     }
 
@@ -61,7 +56,7 @@ class Connection
 
     public static function desconectar()
     {
-        self::$connection = NULL;
+        self::$connection = null;
     }
 
     /**
@@ -77,5 +72,3 @@ class Connection
         return $stmt;
     }
 }
-
-?>

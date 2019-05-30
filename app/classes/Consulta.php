@@ -4,14 +4,14 @@ namespace app\classes;
 
 use app\models\Connection;
 
-
-class Consulta{
+class Consulta
+{
 
     /**
      * @return array
      * @throws \Exception
      */
-    public static function retorna_tabelas()
+    public static function retornaTabelas()
     {
         $conexao = Connection::getConn();
         $resultado = $conexao->query("SHOW TABLES");
@@ -24,7 +24,7 @@ class Consulta{
 
         $tabelas = array();
 
-        foreach($tables as $key => $tabela){
+        foreach ($tables as $key => $tabela) {
             array_push($tabelas, $tabela);
         }
 
@@ -36,7 +36,7 @@ class Consulta{
      * @return array
      * @throws \Exception/
      */
-    public static function retorna_campos($tabela)
+    public static function retornaCampos($tabela)
     {
 
         $conexao = Connection::getConn();
@@ -50,9 +50,8 @@ class Consulta{
 
         $campo_info = array();
 
-        foreach($fields as $key => $campo){
-            if($campo['Key'] != "PRI" || ($campo['Extra'] == '' && $campo['Key'] == "PRI")){
-
+        foreach ($fields as $key => $campo) {
+            if ($campo['Key'] != "PRI" || ($campo['Extra'] == '' && $campo['Key'] == "PRI")) {
                 $array = array();
 
                 $array['campo'] = $campo['Field'];
@@ -72,7 +71,7 @@ class Consulta{
      * @return array
      * @throws \Exception
      */
-    public static function retorna_tabelas_info($tabelas)
+    public static function retornaTabelasInfo($tabelas)
     {
         $conexao = Connection::getConn();
 

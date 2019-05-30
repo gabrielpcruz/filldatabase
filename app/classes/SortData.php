@@ -34,7 +34,8 @@ class SortData
      *
      * SortDataAjax constructor.
      */
-    public function __construct(){
+    public function __construct()
+    {
 
         $this->faker = Factory::create();
     }
@@ -89,7 +90,6 @@ class SortData
         $vals = "";
         foreach ($dados as $key => $colunas) {
             foreach ($colunas as $coluna) {
-
                 $dado = $this->gerarDado($coluna['tipo'], $coluna['tamanho']);
 
                 if (is_null($dado)) {
@@ -171,7 +171,6 @@ class SortData
     {
 
         foreach ($this->inserts as $insert) {
-
             $stmt = Connection::insert($insert);
 
             if ($stmt->errorCode() == "00000") {

@@ -8,7 +8,6 @@
 
 namespace app\classes;
 
-
 class FillView
 {
     public static $VERSION = '1.0.1';

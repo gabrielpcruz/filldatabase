@@ -1,11 +1,38 @@
 var Config = (function(){
 
+    var validarFormulario = function ($formulario) {
+
+        let valido = true;
+
+        let target = $($formulario).find('input[type=text], input[type=password]');
+
+        let mensagens = [];
+
+        $.each(target, function(){
+            if (!$(this).val()) {
+                mensagens.push($(this).attr("name"));
+                valido = false;
+            }
+        });
+
+        if (mensagens.length) {
+            exibirMensagem( "Informe os campos: " +  mensagens.join(", ") + ".", 'error')
+        }
+
+        return valido;
+
+    };
+
     var conectar = function () {
         // noinspection JSCheckFunctionSignatures
         $(document).ready(function () {
             // noinspection JSCheckFunctionSignatures
             $("#formulario").on("submit", function ($event) {
                 $event.preventDefault();
+
+                if (!validarFormulario(this)) {
+                    return;
+                }
 
                 if ($.trim($("#submit").text()) == 'conectar') {
                     prepararConexao(this);
@@ -27,8 +54,8 @@ var Config = (function(){
             url: '/home/desconectar',
             success: function ($data) {
 
-                var $mensagem = ($.trim($data) != "") ? $mensagem.msg : "Desconectado com sucesso";
-                var $status   = ($.trim($data) != "") ? $mensagem.status : "success";
+                var $mensagem = ($.trim($data) != "") ? $data.msg : "Desconectado com sucesso";
+                var $status   = ($.trim($data) != "") ? $data.status : "success";
 
                 exibirMensagem($mensagem, $status);
 
@@ -154,7 +181,6 @@ var Config = (function(){
      * @param $status
      */
     var exibirMensagem = function ($mensagem, $status) {
-
         toastr[$status]($mensagem);
     };
 

@@ -5,6 +5,6 @@
 
 function dd($dump)
 {
-	var_dump($dump);
-	die();
+    var_dump($dump);
+    die();
 }

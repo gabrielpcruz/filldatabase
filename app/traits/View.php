@@ -4,7 +4,8 @@ namespace app\traits;
 
 use core\Twig;
 
-trait View {
+trait View
+{
 
   private function twig()
   {

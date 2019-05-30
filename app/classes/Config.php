@@ -82,12 +82,12 @@ class Config
     {
         parse_str($_POST["data"], $_POST);
 
-        if (
-            (isset($_POST['host']) && $_POST['host'] != "") &&
-            (isset($_POST['banco']) && $_POST['banco'] != "") &&
-            (isset($_POST['usuario']) && $_POST['usuario'] != "") &&
-            (isset($_POST['senha']) && $_POST['senha'] != "")
-        ) {
+        $temHost = (isset($_POST['host']) && $_POST['host'] != "");
+        $temBanco = (isset($_POST['banco']) && $_POST['banco'] != "");
+        $temUsuario = (isset($_POST['usuario']) && $_POST['usuario'] != "");
+        $temSenha = (isset($_POST['senha']) && $_POST['senha'] != "");
+
+        if ($temHost && $temBanco && $temUsuario && $temSenha) {
             //Setando variáveis
             $this->host = $_POST['host'];
             $this->db_name = $_POST['banco'];
@@ -98,7 +98,6 @@ class Config
         }
 
         return false;
-
     }
 
     /**
@@ -113,7 +112,6 @@ class Config
         } catch (\Exception $e) {
             return json_encode(['msg' => $e->getMessage(), 'status' => 'error', 'conexao' => 'conexão pendente']);
         }
-
     }
 
     /**
@@ -164,7 +162,6 @@ class Config
         $mensagem = json_encode(['erro' => '1']);
 
         if ($this->paramsVerify()) {
-
             $file = fopen("../config.php", "w+");
 
             //Seta a string com as configurações

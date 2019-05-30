@@ -2,25 +2,22 @@
 
 namespace app\models;
 
-abstract class Model {
+abstract class Model
+{
 
-  protected $connection;
+    protected $connection;
 
-  public function __construct()
-  {
-    $this->connection = Connection::connect();
-  }
+    public function __construct()
+    {
+        $this->connection = Connection::connect();
+    }
 
-  public function all()
-  {
-    $sql = "SELECT * FROM {$this->table}";
-    $list = $this->connection->query($sql);
-    $list->execute();
+    public function all()
+    {
+        $sql = "SELECT * FROM {$this->table}";
+        $list = $this->connection->query($sql);
+        $list->execute();
 
-    return $list->fetchAll();
-  }
+        return $list->fetchAll();
+    }
 }
-
-
-
- ?>
