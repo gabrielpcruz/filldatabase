@@ -1,4 +1,4 @@
-var Config = (function(){
+var Config = (function () {
 
     var validarFormulario = function ($formulario) {
 
@@ -8,7 +8,7 @@ var Config = (function(){
 
         let mensagens = [];
 
-        $.each(target, function(){
+        $.each(target, function () {
             if (!$(this).val()) {
                 mensagens.push($(this).attr("name"));
                 valido = false;
@@ -16,7 +16,7 @@ var Config = (function(){
         });
 
         if (mensagens.length) {
-            exibirMensagem( "Informe os campos: " +  mensagens.join(", ") + ".", 'error')
+            exibirMensagem("Informe os campos: " + mensagens.join(", ") + ".", 'error')
         }
 
         return valido;
@@ -55,7 +55,7 @@ var Config = (function(){
             success: function ($data) {
 
                 var $mensagem = ($.trim($data) != "") ? $data.msg : "Desconectado com sucesso";
-                var $status   = ($.trim($data) != "") ? $data.status : "success";
+                var $status = ($.trim($data) != "") ? $data.status : "success";
 
                 exibirMensagem($mensagem, $status);
 
@@ -83,7 +83,7 @@ var Config = (function(){
                     if ($data.status == 'success') {
                         htmlConectar($data);
                         ScriptTabelas.init();
-                    } else{
+                    } else {
                         exibirMensagem($data.msg, $data.status);
                         limparHtml($data);
                     }
@@ -111,21 +111,17 @@ var Config = (function(){
             success: function ($data) {
 
                 if (typeof $data == "string") {
-
                     var $data = $data.replace("<?php", "");
 
                     $data = JSON.parse($.trim($data));
 
                     if ($data.erro == 0) {
-
                         setTimeout(function () {
                             iniciarConexao($formulario)
                         }, 3000);
 
                         $("#conexao").html('<i class="fa fa-spinner fa-spin fa-fw"></i><strong ">conectando...</strong>');
-
-                    } else{
-
+                    } else {
                         $data = {msg: 'Erro ao preparar a configuração de conexão.', status: 'error'};
                         desconectar($data);
                     }
@@ -190,13 +186,15 @@ var Config = (function(){
      * @return object
      */
     return {
-        init : function() {
+        init: function () {
             conectar();
         }
     };
 })();
 
-$.getScript("assets/js/script.js", function () {});
-$.getScript("assets/js/script-tabelas.js", function () {});
+$.getScript("assets/js/script.js", function () {
+});
+$.getScript("assets/js/script-tabelas.js", function () {
+});
 
 Config.init();

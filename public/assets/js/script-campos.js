@@ -1,14 +1,14 @@
 var ScriptCampos = (function () {
 
-    var carregarCampos = function(){
+    var carregarCampos = function () {
         $(document).ready(function () {
-            $("#tabelas").change( function () {
+            $("#tabelas").change(function () {
                 $tabela = $(this).val();
 
                 $.ajax({
                     type: "POST",
                     url: '/home/carregarCampos',
-                    data: {'tabela':$tabela},
+                    data: {'tabela': $tabela},
                     success: function (data) {
                         var obj = $.parseJSON(data);
 
@@ -28,7 +28,7 @@ var ScriptCampos = (function () {
      *
      * @param $campo
      */
-    var criarCampo = function($campo) {
+    var criarCampo = function ($campo) {
 
         var $div = criarDiv();
         var $label = criarLabel($campo);
@@ -110,7 +110,7 @@ var ScriptCampos = (function () {
      * @return object
      */
     return {
-        init : function() {
+        init: function () {
             carregarCampos();
         }
     };

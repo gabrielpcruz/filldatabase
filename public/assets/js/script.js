@@ -1,4 +1,4 @@
-var Script = (function(){
+var Script = (function () {
 
     desabilitarBotes = function () {
         $("#gerarscript").prop('disabled', 'disabled');
@@ -16,10 +16,10 @@ var Script = (function(){
      * @return object
      */
     return {
-        desabilitarBotes : function() {
+        desabilitarBotes: function () {
             desabilitarBotes();
         },
-        habilitarBotoes : function() {
+        habilitarBotoes: function () {
             habilitarBotoes();
         }
     };

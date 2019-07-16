@@ -1,15 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: gabriel
- * Date: 06/06/18
- * Time: 20:28
- */
 
 namespace app\classes;
 
 use app\models\Connection;
 
+/**
+ * Class Config
+ * @package app\classes
+ */
 class Config
 {
     /**
@@ -134,7 +132,6 @@ class Config
                         ]
                     ]
                 ];
-            ?> 
             ';
     }
 

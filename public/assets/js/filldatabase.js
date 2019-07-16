@@ -3,32 +3,33 @@
  */
 
 $(document).ready(function () {
-   $("#filldatabase").click(function (event) {
-       event.preventDefault();
+    $("#filldatabase").click(function (event) {
+        event.preventDefault();
 
-       if (!validarTabela()) {
-           toastr['error']("Selecione uma tabela")
-           return false
-       }
+        if (!validarTabela()) {
+            toastr['error']("Selecione uma tabela")
+            return false
+        }
 
-       var camposHtml = $("#campos").children();
+        var camposHtml = $("#campos").children();
 
-       var camposBanco = [];
+        var camposBanco = [];
 
-       $(camposHtml).each(function ($i, $campo) {
-           camposBanco.push(preencheCamposBanco($($campo)));
-       });
+        $(camposHtml).each(function ($i, $campo) {
+            camposBanco.push(preencheCamposBanco($($campo)));
+        });
 
-       var json = JSON.stringify(camposBanco);
+        var json = JSON.stringify(camposBanco);
 
         //Retorna o array
-       fillDatabase(json);
-   });
+        fillDatabase(json);
+    });
 
 });
 
-function validarTabela() {
-   return $.trim($("#tabelas").val());
+function validarTabela()
+{
+    return $.trim($("#tabelas").val());
 }
 
 /**
@@ -36,12 +37,13 @@ function validarTabela() {
  * @param $campoBruto
  * @returns {{nomeColuna: (*|jQuery|*|*|*|*), tamanhoColuna: (*|jQuery|*|*), tipoColuna: (*|jQuery|*|*|*)}}
  */
-function preencheCamposBanco($campoBruto) {
+function preencheCamposBanco($campoBruto)
+{
     //Pega o nome da e o tipo da Coluna
     var $campo = {
-        nomeColuna : $($campoBruto).children().last().attr("id"),
-        tipoColuna : $($campoBruto).children().last().val(),
-        tamanhoColuna : $($campoBruto).children().last().data("tamanho"),
+        nomeColuna: $($campoBruto).children().last().attr("id"),
+        tipoColuna: $($campoBruto).children().last().val(),
+        tamanhoColuna: $($campoBruto).children().last().data("tamanho"),
     };
 
     return $campo;
@@ -51,11 +53,12 @@ function preencheCamposBanco($campoBruto) {
  *
  * @param $json
  */
-function fillDatabase($json) {
+function fillDatabase($json)
+{
     $.ajax({
         type: "POST",
         url: '/home/filldatabase',
-        data: {'campos' : $json, 'tabela' : $("#tabelas").val()},
+        data: {'campos': $json, 'tabela': $("#tabelas").val()},
         success: function (data) {
             if (data) {
                 var data = JSON.parse(data);

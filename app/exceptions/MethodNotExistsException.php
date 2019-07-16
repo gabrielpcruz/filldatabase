@@ -4,6 +4,11 @@ namespace app\exceptions;
 
 use app\classes\FillError;
 
-class MethodNotExistsException extends FillError {
+/**
+ * Class MethodNotExistsException
+ * @package app\exceptions
+ */
+class MethodNotExistsException extends FillError
+{
 
 }

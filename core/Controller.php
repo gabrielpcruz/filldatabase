@@ -7,7 +7,8 @@ use app\classes\FillMessage;
 use app\classes\Uri;
 use app\exceptions\ControllerNotExistsException;
 
-class Controller {
+class Controller
+{
 
     /**
      * Contém a URI que foi solicitada na requisição
@@ -75,7 +76,7 @@ class Controller {
     {
         $controller = $this->getControllerNotHome();
 
-        if(!$this->controllerExists($controller)) {
+        if (!$this->controllerExists($controller)) {
             throw new ControllerNotExistsException(FillMessage::MG0005($controller), FillCode::CG0005);
         }
 
@@ -87,7 +88,7 @@ class Controller {
      */
     private function getControllerNotHome()
     {
-        if(substr_count($this->uri, "/") > 1) {
+        if (substr_count($this->uri, "/") > 1) {
             list($controller) = array_values(array_filter(explode("/", $this->uri)));
             return ucfirst($controller) . "Controller";
         }
@@ -131,7 +132,7 @@ class Controller {
     {
         $controller = $this->namespace . "\\" . $this->controller;
 
-        return new $controller;
+        return new $controller();
     }
 
     /**
@@ -144,8 +145,7 @@ class Controller {
 
         # Itera sobre o array setando os controllers existentes
         foreach ($folders as $folder) {
-            if (!in_array($folder, [".", "..", "ContainerController.php"])){
-
+            if (!in_array($folder, [".", "..", "ContainerController.php"])) {
                 $this->folders[] = "app\\controllers\\" . $folder;
             }
         }

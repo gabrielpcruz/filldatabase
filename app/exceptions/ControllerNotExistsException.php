@@ -4,6 +4,11 @@ namespace app\exceptions;
 
 use app\classes\FillError;
 
-class ControllerNotExistsException extends FillError {
+/**
+ * Class ControllerNotExistsException
+ * @package app\exceptions
+ */
+class ControllerNotExistsException extends FillError
+{
 
 }

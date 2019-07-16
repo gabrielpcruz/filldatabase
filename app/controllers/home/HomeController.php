@@ -14,24 +14,25 @@ use app\models\Connection;
  * Class HomeController
  * @package app\controllers\home
  */
-class HomeController extends ContainerController{
+class HomeController extends ContainerController
+{
 
     /**
      * Carrega a tela inicial
      */
-	public function index()
-	{
+    public function index()
+    {
         $this->view([
             'title' => "Home | {$this->title}",
             'session' => (object) $_SESSION,
             'version' => FillView::$VERSION
         ], "home.index");
-	}
+    }
 
     /**
      *
      */
-	public function prepararConexao()
+    public function prepararConexao()
     {
         $config_ajax = new Config();
         echo $config_ajax->prepararConexao();
@@ -41,7 +42,7 @@ class HomeController extends ContainerController{
      * Conecta no banco de dados informado
      * @throws \Exception
      */
-	public function conectar()
+    public function conectar()
     {
         $config_ajax = new Config();
         echo $config_ajax->init();
@@ -52,12 +53,12 @@ class HomeController extends ContainerController{
      */
     public function desconectar()
     {
-        $_SESSION['host']     = NULL;
-        $_SESSION['usuario']  = NULL;
-        $_SESSION['senha']    = NULL;
-        $_SESSION['banco']    = NULL;
-        $_SESSION['sucesso']  = NULL;
-        $_SESSION['banco']    = NULL;
+        $_SESSION['host']     = null;
+        $_SESSION['usuario']  = null;
+        $_SESSION['senha']    = null;
+        $_SESSION['banco']    = null;
+        $_SESSION['sucesso']  = null;
+        $_SESSION['banco']    = null;
         Connection::desconectar();
         Config::destroyConnection();
     }
