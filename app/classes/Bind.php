@@ -32,6 +32,6 @@ class Bind
             throw new \Exception("Esse índice não existe dentro do bind: {$name}.");
         }
 
-        return (object) static::$bind[$name];
+        return (array) static::$bind[$name];
     }
 }

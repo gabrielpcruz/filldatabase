@@ -192,9 +192,7 @@ var Config = (function () {
     };
 })();
 
-$.getScript("assets/js/script.js", function () {
-});
-$.getScript("assets/js/script-tabelas.js", function () {
-});
+$.getScript("assets/js/script.js", function () {});
+$.getScript("assets/js/script-tabelas.js", function () {});
 
 Config.init();

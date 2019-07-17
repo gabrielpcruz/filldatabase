@@ -68,7 +68,7 @@ class Config
      */
     public function init()
     {
-        if ($this->paramsVerify() && !Connection::isConnected()) {
+        if ($this->paramsVerify()) {
             return $this->setConfig();
         }
     }
@@ -104,8 +104,7 @@ class Config
     public function setConfig()
     {
         try {
-            $conexao = Connection::getConn();
-            $this->setSession($conexao);
+            $this->setSession();
             return json_encode(['msg' => FillMessage::MG0001, 'status' => 'success', 'conexao' => 'conectado']);
         } catch (\Exception $e) {
             return json_encode(['msg' => $e->getMessage(), 'status' => 'error', 'conexao' => 'conexão pendente']);
@@ -118,21 +117,21 @@ class Config
     public function getStgringConfig()
     {
         return
-            '<?php 
-                return [
-                    "database" => [
-                        "host"     => "' . $this->getHost() . '",
-                        "dbname"   => "' . $this->getDbName() . '",
-                        "username" => "' . $this->getUser() . '",
-                        "password" => "' . $this->getPassword() . '",
-                        "charset"  => "utf8",
-                        "options"  => [
-                            "PDO::ATTR_ERRMOD" => "PDO::ERRMOD_EXCEPTION",
-                            "PDO::ATTR_DEFAULT_FETCH_MODE" => "PDO::FETCH_OBJ"
-                        ]
-                    ]
-                ];
-            ';
+        '<?php
+        
+        
+            return [
+                "driver"    => "mysql",
+                "host"      => "' . $this->getHost() .'",
+                "database"  => "' .$this->getDbName().'",
+                "username"  => "' .$this->getUser().'",
+                "password"  => "' .$this->getPassword().'",
+                "charset"   => "utf8",
+                "collation" => "utf8_unicode_ci",
+                "prefix"    => "",
+            ];
+            
+        ';
     }
 
     /**
@@ -175,16 +174,13 @@ class Config
     }
 
     /**
-     * @param $conexao
      */
-    private function setSession($conexao)
+    private function setSession()
     {
-        if ($conexao) {
-            $_SESSION['sucesso'] = "sucesso";
-            $_SESSION['host'] = $this->getHost();
-            $_SESSION['banco'] = $this->getDbName();
-            $_SESSION['usuario'] = $this->getUser();
-            $_SESSION['senha'] = $this->getPassword();
-        }
+        $_SESSION['sucesso'] = "sucesso";
+        $_SESSION['host'] = $this->getHost();
+        $_SESSION['banco'] = $this->getDbName();
+        $_SESSION['usuario'] = $this->getUser();
+        $_SESSION['senha'] = $this->getPassword();
     }
 }

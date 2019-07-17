@@ -13,6 +13,8 @@
 		"twig/extensions": "^1.5",
 		"fortawesome/font-awesome": "^4.7",
 		"fzaninotto/faker":"dev-master",
-		"ext-json": "*"
+		"ext-json": "*",
+		"illuminate/database": "^5.8",
+		"illuminate/events": "^5.8"
 	}
 }

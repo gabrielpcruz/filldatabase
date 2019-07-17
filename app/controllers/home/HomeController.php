@@ -59,7 +59,6 @@ class HomeController extends ContainerController
         $_SESSION['banco']    = null;
         $_SESSION['sucesso']  = null;
         $_SESSION['banco']    = null;
-        Connection::desconectar();
         Config::destroyConnection();
     }
 
