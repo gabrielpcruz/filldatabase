@@ -45,7 +45,6 @@ class Consulta
         $campo_info = array();
 
         foreach ($result as $key => $campo) {
-
             if ($campo->Key != "PRI" || ($campo->Extra == '' && $campo->Key == "PRI")) {
                 $array = array();
 

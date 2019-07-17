@@ -119,19 +119,17 @@ class Config
         return
         '<?php
         
-        
-            return [
-                "driver"    => "mysql",
-                "host"      => "' . $this->getHost() .'",
-                "database"  => "' .$this->getDbName().'",
-                "username"  => "' .$this->getUser().'",
-                "password"  => "' .$this->getPassword().'",
-                "charset"   => "utf8",
-                "collation" => "utf8_unicode_ci",
-                "prefix"    => "",
-            ];
-            
-        ';
+    return [
+        "driver"    => "mysql",
+        "host"      => "' . $this->getHost() . '",
+        "database"  => "' . $this->getDbName() . '",
+        "username"  => "' . $this->getUser() . '",
+        "password"  => "' . $this->getPassword() . '",
+        "charset"   => "utf8",
+        "collation" => "utf8_unicode_ci",
+        "prefix"    => "",
+    ];
+';
     }
 
     /**

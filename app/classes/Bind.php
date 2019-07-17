@@ -2,6 +2,8 @@
 
 namespace app\classes;
 
+use Exception;
+
 class Bind
 {
 
@@ -22,14 +24,14 @@ class Bind
     }
 
     /**
-    * @param $name
-    * @return object
-    * @throws \Exception
-    */
+     * @param $name
+     * @return array
+     * @throws Exception
+     */
     public function get($name)
     {
         if (!isset(static::$bind[$name])) {
-            throw new \Exception("Esse índice não existe dentro do bind: {$name}.");
+            throw new Exception("Esse índice não existe dentro do bind: {$name}.");
         }
 
         return (array) static::$bind[$name];
