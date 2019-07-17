@@ -10,9 +10,9 @@ class Connection
 {
     public function __construct($configurations)
     {
-        $capsule = new Manager;
+        $capsule = new Manager();
         $capsule->addConnection($configurations);
-        $capsule->setEventDispatcher(new Dispatcher(new Container));
+        $capsule->setEventDispatcher(new Dispatcher(new Container()));
         $capsule->setAsGlobal();
     }
 }
