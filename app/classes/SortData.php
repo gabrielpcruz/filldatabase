@@ -8,9 +8,14 @@
 
 namespace app\classes;
 
-use Faker\Factory;
 use app\models\Connection;
+use Faker\Factory;
+use Illuminate\Database\Capsule\Manager as DB;
 
+/**
+ * Class SortData
+ * @package app\classes
+ */
 class SortData
 {
 
@@ -30,13 +35,18 @@ class SortData
     private $inserts = [];
 
     /**
+     * @var Connection
+     */
+    private $connection;
+
+    /**
      * Prepara as coisas antes de executar tudo
      *
      * SortDataAjax constructor.
      */
     public function __construct()
     {
-
+        $this->connection = Connection::getConnection();
         $this->faker = Factory::create();
     }
 
@@ -54,9 +64,9 @@ class SortData
         $this->tabela = $tabela;
 
         //Prepara o insert
-        $this->inserts[] = $this->insertPrepare($colunasArray);
+        $this->insertPrepare($colunasArray);
 
-        return $this->inserir();
+        return $this->insert();
     }
 
     /**
@@ -70,46 +80,21 @@ class SortData
         //Trata os dados para um array
         $this->dataTrate($dados);
 
-        //INSERT INTO $tabela ($campo1, ... ) VALUES ($item1, ...)
-        $insert = "INSERT INTO {$this->tabela} (";
-
-        //Gera a primeira parte do INSERT
-        $cols = "";
-        foreach ($dados as $key => $colunas) {
-            foreach ($colunas as $coluna) {
-                $cols .= " " . $coluna['nome'] . ",";
-            }
-        }
-
-        //Remove a última vírgula das colunas
-        $insert .= $this->trataVirgula($cols);
-
-        $insert .= " ) VALUES ( ";
+        $dadosInsert = [];
 
         //Gera os dados de fato usando o \Faker
-        $vals = "";
         foreach ($dados as $key => $colunas) {
             foreach ($colunas as $coluna) {
-                $dado = $this->gerarDado($coluna['tipo'], $coluna['tamanho']);
+                $dado = $this->makeData($coluna['tipo'], $coluna['tamanho']);
 
-                if (is_null($dado)) {
-                    $vals .= " NULL, ";
-                } else {
-                    $vals .= " '" . $dado . "',";
-                }
+                $dadosInsert[$coluna['nome']] = $dado;
             }
         }
 
-        //Remove a última vírgula dos valores
-        $insert .= $this->trataVirgula($vals);
-
-        $insert .= " )";
-
-        return $insert;
+        $this->inserts[] = $dadosInsert;
     }
 
     /**
-     * Deixa o array mais organizado com map
      * @param $data
      */
     private function dataTrate(&$data)
@@ -132,11 +117,10 @@ class SortData
 
     /**
      *
-     * tudo pra maiúsculo e depois chama outra função
      * @param $tipoDado
      * @return mixed
      */
-    private function gerarDado($tipoDado, $tamanhoDado)
+    private function makeData($tipoDado, $tamanhoDado)
     {
         $tipo = strtoupper($tipoDado);
 
@@ -146,37 +130,22 @@ class SortData
     }
 
     /**
-     * @param $string
-     * @return bool|string
-     */
-    public function trataVirgula($string)
-    {
-        //Procura a posição da última ocorrência da vírgula
-        $last = strripos($string, ",");
-        //Onde ficarão os parâmetros
-        $params = "";
-        //Verifica se a última posição é de fato uma vírgula. Se sim, põe a string sem a vírgula em $params
-        if ($string[$last] === ',') {
-            $params = substr($string, 0, $last);
-        }
-        return $params;
-    }
-
-    /**
-     * @param $insert
      * @return false|string
-     * @throws \Exception
      */
-    private function inserir()
+    private function insert()
     {
 
         foreach ($this->inserts as $insert) {
-            $stmt = Connection::insert($insert);
+            try {
+                $stmt = DB::table($this->tabela)->insert($insert);
 
-            if ($stmt->errorCode() == "00000") {
-                return json_encode(['msg' => FillMessage::MG0003, "status" => "success"]);
-            } else {
-                return json_encode(['msg' => FillMessage::MG0004 . $stmt->errorInfo()[2], 'status' => "error"]);
+                if ($stmt) {
+                    return json_encode(['msg' => FillMessage::MG0003, "status" => "success"]);
+                } else {
+                    return json_encode(['msg' => FillMessage::MG0004 . $stmt->errorInfo()[2], 'status' => "error"]);
+                }
+            } catch (\Exception $e) {
+                return json_encode(['msg' => $e->getMessage(), 'status' => "error"]);
             }
         }
     }

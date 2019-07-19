@@ -17,7 +17,7 @@ class Consulta
      */
     public static function retornaTabelas()
     {
-        Consulta::$connection = new Connection(Bind::get('config'));
+        Consulta::$connection = Connection::getConnection();
         $result = DB::select("SHOW TABLES");
 
         $tables = array();
@@ -39,7 +39,7 @@ class Consulta
     public static function retornaCampos($tabela)
     {
 
-        Consulta::$connection = new Connection(Bind::get('config'));
+        Consulta::$connection = Connection::getConnection();
         $result = DB::select("DESC $tabela");
 
         $campo_info = array();
