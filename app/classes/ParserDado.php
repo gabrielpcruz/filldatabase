@@ -8,6 +8,10 @@
 
 namespace app\classes;
 
+/**
+ * Class ParserDado
+ * @package app\classes
+ */
 class ParserDado
 {
 

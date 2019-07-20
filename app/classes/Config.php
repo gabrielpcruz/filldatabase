@@ -2,8 +2,6 @@
 
 namespace app\classes;
 
-use app\models\Connection;
-
 /**
  * Class Config
  * @package app\classes

@@ -9,7 +9,9 @@
 namespace app\classes;
 
 use app\models\Connection;
+use Exception;
 use Faker\Factory;
+use Faker\Generator;
 use Illuminate\Database\Capsule\Manager as DB;
 
 /**
@@ -20,7 +22,7 @@ class SortData
 {
 
     /**
-     * @var \Faker\Generator
+     * @var Generator
      */
     private $faker;
 
@@ -55,7 +57,7 @@ class SortData
      * @param $colunas
      * @param $tabela
      * @return false|string
-     * @throws \Exception
+     * @throws Exception
      */
     public function fillDataBase($colunas, $tabela)
     {
@@ -73,7 +75,7 @@ class SortData
      * Prepara o insert
      * @param $dados
      * @return false|string
-     * @throws \Exception
+     * @throws Exception
      */
     private function insertPrepare($dados)
     {
@@ -118,6 +120,7 @@ class SortData
     /**
      *
      * @param $tipoDado
+     * @param $tamanhoDado
      * @return mixed
      */
     private function makeData($tipoDado, $tamanhoDado)
@@ -134,17 +137,12 @@ class SortData
      */
     private function insert()
     {
-
         foreach ($this->inserts as $insert) {
             try {
-                $stmt = DB::table($this->tabela)->insert($insert);
+                DB::table($this->tabela)->insert($insert);
 
-                if ($stmt) {
-                    return json_encode(['msg' => FillMessage::MG0003, "status" => "success"]);
-                } else {
-                    return json_encode(['msg' => FillMessage::MG0004 . $stmt->errorInfo()[2], 'status' => "error"]);
-                }
-            } catch (\Exception $e) {
+                return json_encode(['msg' => FillMessage::MG0003, "status" => "success"]);
+            } catch (Exception $e) {
                 return json_encode(['msg' => $e->getMessage(), 'status' => "error"]);
             }
         }
