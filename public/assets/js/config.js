@@ -60,6 +60,7 @@ var Config = (function () {
                 exibirMensagem($mensagem, $status);
 
                 htmlDesconectar($data);
+                mostrarTabelas(false)
             }
         });
     };
@@ -82,10 +83,12 @@ var Config = (function () {
 
                     if ($data.status == 'success') {
                         htmlConectar($data);
+                        mostrarTabelas()
                         ScriptTabelas.init();
                     } else {
                         exibirMensagem($data.msg, $data.status);
                         limparHtml($data);
+                        mostrarTabelas(false)
                     }
                 }
             }
@@ -128,6 +131,16 @@ var Config = (function () {
                 }
             },
         });
+    };
+
+    var mostrarTabelas = function (mostrar = true) {
+        if (mostrar) {
+            $("#titulo-query").removeClass('d-none');
+            $("#tabelas-campos").removeClass('d-none');
+        } else {
+            $("#titulo-query").addClass('d-none');
+            $("#tabelas-campos").addClass('d-none');
+        }
     };
 
     /**

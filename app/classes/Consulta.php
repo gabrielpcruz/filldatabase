@@ -24,7 +24,8 @@ class Consulta
 
         foreach ($result as $tabela) {
             $array = get_object_vars($tabela);
-            $firstElement = reset(array_values($array));
+            $arrayValues = array_values($array);
+            $firstElement = reset($arrayValues);
             array_push($tables, $firstElement);
         }
 
@@ -49,35 +50,13 @@ class Consulta
                 $array = array();
 
                 $array['campo'] = $campo->Field;
-                $array['tipo']  = Consulta::tratarTipo($campo->Type);
-                $array['tamanho']  = Consulta::tratarTamanho($campo->Type);
+                $array['tipo']  = tratarTipo($campo->Type);
+                $array['tamanho'] = tratarTamanho($campo->Type);
 
                 array_push($campo_info, $array);
             }
         }
 
         return $campo_info;
-    }
-
-    /**
-     * TODO: Mudar essa função para uma classe mais coerente, não deve ficar na classe de consulta
-     * @param $tipo
-     * @return mixed
-     */
-    private static function tratarTamanho($tipo)
-    {
-        $tamanho = strpos($tipo, "(");
-        return str_replace(["(", ")"], "", substr($tipo, $tamanho, strlen($tipo)));
-    }
-
-    /**
-     * TODO: Mudar essa função para uma classe mais coerente, não deve ficar na classe de consulta
-     * @param $tipo
-     * @return string
-     */
-    private static function tratarTipo($tipo)
-    {
-        $tamanho = strpos($tipo, "(");
-        return strtoupper(substr($tipo, 0, $tamanho));
     }
 }

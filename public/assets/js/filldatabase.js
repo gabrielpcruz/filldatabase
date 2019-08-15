@@ -11,6 +11,8 @@ $(document).ready(function () {
             return false
         }
 
+        var numeroInserts = $("#numeroinserts").val();
+
         var camposHtml = $("#campos").children();
 
         var camposBanco = [];
@@ -21,10 +23,16 @@ $(document).ready(function () {
 
         var json = JSON.stringify(camposBanco);
 
-        //Retorna o array
-        fillDatabase(json);
-    });
+        if (numeroInserts == "") {
+            fillDatabase(json);
+            return;
+        }
 
+        for (var i = 0; i < numeroInserts; i++) {
+            //Retorna o array
+            fillDatabase(json);
+        }
+    });
 });
 
 function validarTabela()

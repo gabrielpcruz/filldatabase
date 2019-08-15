@@ -67,10 +67,10 @@
 
     <div class="row">
         <div class="col-md-6">
-            <h3>Montagem da Query</h3>
+            <h3 id="titulo-query" class="d-none">Montagem da Query</h3>
         </div>
-        <div class="col-md-6">
-            <input type="number" class="form-control col-md-2 float-right ml-1">
+        <div class="col-md-6 float-right">
+            <input type="number" id="numeroinserts" class="form-control col-md-2 float-right ml-1">
             <button
                     type="submit" id="filldatabase" class="btn btn-primary float-right ml-1"><i
                     class="fas fa-sync-alt"></i> Fill Database
@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row d-none" id="tabelas-campos">
         <div class="col-md-4">
             <form action="">
                 <div class="form-row">
