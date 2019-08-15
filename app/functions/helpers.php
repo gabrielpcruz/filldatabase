@@ -1,6 +1,9 @@
 <?php
 
 
+/**
+ * @param $dump
+ */
 function dd($dump)
 {
     var_dump($dump);
@@ -8,7 +11,7 @@ function dd($dump)
 }
 
 /**
- * TODO: Mudar essa função para uma classe mais coerente, não deve ficar na classe de consulta
+ *
  * @param $tipo
  * @return mixed
  */
@@ -19,7 +22,7 @@ function tratarTamanho($tipo)
 }
 
 /**
- * TODO: Mudar essa função para uma classe mais coerente, não deve ficar na classe de consulta
+ *
  * @param $tipo
  * @return string
  */
