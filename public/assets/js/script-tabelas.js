@@ -1,4 +1,4 @@
-var ScriptTabelas = (function(){
+var ScriptTabelas = (function () {
 
     var carregarTabelas = function () {
 
@@ -43,7 +43,7 @@ var ScriptTabelas = (function(){
      * @return object
      */
     return {
-        init : function() {
+        init: function () {
             carregarTabelas();
         }
     };

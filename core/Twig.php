@@ -2,30 +2,45 @@
 
 namespace core;
 
-class Twig {
+/**
+ * Class Twig
+ * @package core
+ */
+class Twig
+{
 
-  private $twig;
+    /**
+     * @var
+     */
+    private $twig;
 
-  private $functions = [];
+    /**
+     * @return \Twig_Environment
+     */
+    public function loadTwig()
+    {
+        $this->twig = new \Twig_Environment($this->loadViews(), [
+            'debug' => true,
+            // 'cache' => ROOT . '/cache',
+            'auto_reload' => true
+        ]);
 
-  public function loadTwig()
-  {
-    $this->twig = new \Twig_Environment($this->loadViews(), [
-      'debug' => true,
-      // 'cache' => ROOT . '/cache',
-      'auto_reload' => true
-    ]);
+        return $this->twig;
+    }
 
-    return $this->twig;
-  }
+    /**
+     * @return \Twig_Loader_Filesystem
+     */
+    private function loadViews()
+    {
+        return new \Twig_Loader_Filesystem('../app/views');
+    }
 
-  private function loadViews()
-  {
-    return new \Twig_Loader_Filesystem('../app/views');
-  }
-
-  public function loadExtensions()
-  {
-    return $this->twig->addExtension(new \Twig_Extensions_Extension_Text());
-  }
+    /**
+     * @return mixed
+     */
+    public function loadExtensions()
+    {
+        return $this->twig->addExtension(new \Twig_Extensions_Extension_Text());
+    }
 }

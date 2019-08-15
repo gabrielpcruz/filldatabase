@@ -2,36 +2,38 @@
 
 namespace app\classes;
 
-class Bind {
+use Exception;
 
-  /**
-   * @var array
-   */
-  private static $bind = [];
+class Bind
+{
 
-  /**
-   * @param $name
-   * @param $value
-   */
-  public static function set ($name, $value)
-  {
-    if(!isset(static::$bind[$name])) {
-      static::$bind[$name] = $value;
-    }
-  }
+    /**
+    * @var array
+    */
+    private static $bind = [];
 
-  /**
-   * @param $name
-   * @return object
-   * @throws \Exception
-   */
-  public function get($name)
-  {
-    if(!isset(static::$bind[$name])) {
-      throw new \Exception("Esse índice não existe dentro do bind: {$name}.");
+    /**
+    * @param $name
+    * @param $value
+    */
+    public static function set($name, $value)
+    {
+        if (!isset(static::$bind[$name])) {
+            static::$bind[$name] = $value;
+        }
     }
 
-    return (object) static::$bind[$name];
-  }
+    /**
+     * @param $name
+     * @return array
+     * @throws Exception
+     */
+    public function get($name)
+    {
+        if (!isset(static::$bind[$name])) {
+            throw new Exception("Esse índice não existe dentro do bind: {$name}.");
+        }
+
+        return (array) static::$bind[$name];
+    }
 }
-

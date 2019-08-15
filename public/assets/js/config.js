@@ -1,4 +1,27 @@
-var Config = (function(){
+var Config = (function () {
+
+    var validarFormulario = function ($formulario) {
+
+        let valido = true;
+
+        let target = $($formulario).find('input[type=text], input[type=password]');
+
+        let mensagens = [];
+
+        $.each(target, function () {
+            if (!$(this).val()) {
+                mensagens.push($(this).attr("name"));
+                valido = false;
+            }
+        });
+
+        if (mensagens.length) {
+            exibirMensagem("Informe os campos: " + mensagens.join(", ") + ".", 'error')
+        }
+
+        return valido;
+
+    };
 
     var conectar = function () {
         // noinspection JSCheckFunctionSignatures
@@ -6,6 +29,10 @@ var Config = (function(){
             // noinspection JSCheckFunctionSignatures
             $("#formulario").on("submit", function ($event) {
                 $event.preventDefault();
+
+                if (!validarFormulario(this)) {
+                    return;
+                }
 
                 if ($.trim($("#submit").text()) == 'conectar') {
                     prepararConexao(this);
@@ -27,12 +54,13 @@ var Config = (function(){
             url: '/home/desconectar',
             success: function ($data) {
 
-                var $mensagem = ($.trim($data) != "") ? $mensagem.msg : "Desconectado com sucesso";
-                var $status   = ($.trim($data) != "") ? $mensagem.status : "success";
+                var $mensagem = ($.trim($data) != "") ? $data.msg : "Desconectado com sucesso";
+                var $status = ($.trim($data) != "") ? $data.status : "success";
 
                 exibirMensagem($mensagem, $status);
 
                 htmlDesconectar($data);
+                mostrarTabelas(false)
             }
         });
     };
@@ -55,10 +83,12 @@ var Config = (function(){
 
                     if ($data.status == 'success') {
                         htmlConectar($data);
+                        mostrarTabelas()
                         ScriptTabelas.init();
-                    } else{
+                    } else {
                         exibirMensagem($data.msg, $data.status);
                         limparHtml($data);
+                        mostrarTabelas(false)
                     }
                 }
             }
@@ -84,27 +114,33 @@ var Config = (function(){
             success: function ($data) {
 
                 if (typeof $data == "string") {
-
                     var $data = $data.replace("<?php", "");
 
                     $data = JSON.parse($.trim($data));
 
                     if ($data.erro == 0) {
-
                         setTimeout(function () {
                             iniciarConexao($formulario)
                         }, 3000);
 
                         $("#conexao").html('<i class="fa fa-spinner fa-spin fa-fw"></i><strong ">conectando...</strong>');
-
-                    } else{
-
+                    } else {
                         $data = {msg: 'Erro ao preparar a configuração de conexão.', status: 'error'};
                         desconectar($data);
                     }
                 }
             },
         });
+    };
+
+    var mostrarTabelas = function (mostrar = true) {
+        if (mostrar) {
+            $("#titulo-query").removeClass('d-none');
+            $("#tabelas-campos").removeClass('d-none');
+        } else {
+            $("#titulo-query").addClass('d-none');
+            $("#tabelas-campos").addClass('d-none');
+        }
     };
 
     /**
@@ -154,7 +190,6 @@ var Config = (function(){
      * @param $status
      */
     var exibirMensagem = function ($mensagem, $status) {
-
         toastr[$status]($mensagem);
     };
 
@@ -164,7 +199,7 @@ var Config = (function(){
      * @return object
      */
     return {
-        init : function() {
+        init: function () {
             conectar();
         }
     };

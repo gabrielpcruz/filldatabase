@@ -11,7 +11,7 @@ namespace app\classes;
 /**
  * Class TabelasAjax
  */
-class TabelasAjax
+class Tabelas
 {
 
     /**
@@ -19,17 +19,18 @@ class TabelasAjax
      */
     public function ajaxTabelas()
     {
-        $tabelas = Consulta::retorna_tabelas();
-        echo json_encode($tabelas);
+        $tabelas = Consulta::retornaTabelas();
+        return json_encode($tabelas);
     }
 
     /**
      * @param $tabela
+     * @return false|string
      * @throws \Exception
      */
     public function ajaxCampos($tabela)
     {
-        $campos = Consulta::retorna_campos($tabela);
-        echo json_encode($campos);
+        $campos = Consulta::retornaCampos($tabela);
+        return json_encode($campos);
     }
 }

@@ -4,7 +4,13 @@ namespace app\controllers;
 
 use app\traits\View;
 
-abstract class ContainerController {
-    protected $title = "home";
+/**
+ * Class ContainerController
+ * @package app\controllers
+ */
+abstract class ContainerController
+{
     use View;
+
+    protected $title = "home";
 }

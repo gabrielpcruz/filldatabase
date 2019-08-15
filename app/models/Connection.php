@@ -2,80 +2,46 @@
 
 namespace app\models;
 
-use \PDO;
 use app\classes\Bind;
+use Exception;
+use Illuminate\Database\Capsule\Manager;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Container\Container;
 
+/**
+ * Class Connection
+ * @package app\models
+ */
 class Connection
 {
 
     /**
-     * @var PDO
+     * @var Connection
      */
     private static $connection;
 
     /**
-     * @return PDO
-     * @throws \Exception
+     * Connection constructor.
+     * @param $configurations
      */
-    private static function connect()
+    public function __construct(array $configurations)
     {
-        try {
+        $capsule = new Manager();
+        $capsule->addConnection($configurations);
+        $capsule->setEventDispatcher(new Dispatcher(new Container()));
+        $capsule->setAsGlobal();
+    }
 
-            $config = (object)Bind::get('config')->database;
-            $pdo = new \PDO("mysql:host=$config->host;dbname=$config->dbname;charset=$config->charset", $config->username, $config->password, $config->options);
-
-            return $pdo;
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage(), $e->getCode());
+    /**
+     * @return Connection
+     * @throws Exception
+     */
+    public static function getConnection()
+    {
+        if (!self::$connection) {
+            self::$connection = new self(Bind::get('config'));
         }
-    }
 
-    /**
-     * @return PDO
-     * @throws \Exception
-     */
-    public static function getConn()
-    {
-        try {
-
-            if (!Connection::$connection) {
-                Connection::$connection = Connection::connect();
-            }
-
-            return Connection::$connection;
-
-        } catch (\Exception $e) {
-
-            throw new \Exception($e->getMessage(), $e->getCode());
-
-        }
-    }
-
-    /**
-     * @return bool
-     */
-    public function isConnected()
-    {
-        return isset(Connection::$connection);
-    }
-
-    public static function desconectar()
-    {
-        self::$connection = NULL;
-    }
-
-    /**
-     * @param $sql
-     * @return bool|\PDOStatement
-     * @throws \Exception
-     */
-    public static function insert($sql)
-    {
-        $con = Connection::getConn();
-        $stmt = $con->prepare($sql);
-        $stmt->execute();
-        return $stmt;
+        return self::$connection;
     }
 }
-
-?>

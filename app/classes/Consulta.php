@@ -3,114 +3,60 @@
 namespace app\classes;
 
 use app\models\Connection;
+use Exception;
+use Illuminate\Database\Capsule\Manager as DB;
 
+class Consulta
+{
 
-class Consulta{
+    public static $connection;
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
-    public static function retorna_tabelas()
+    public static function retornaTabelas()
     {
-        $conexao = Connection::getConn();
-        $resultado = $conexao->query("SHOW TABLES");
+        Consulta::$connection = Connection::getConnection();
+        $result = DB::select("SHOW TABLES");
 
-        while ($row = $resultado->fetch(\PDO::FETCH_NUM)) {
-            $tables[] = $row[0];
+        $tables = array();
+
+        foreach ($result as $tabela) {
+            $array = get_object_vars($tabela);
+            $arrayValues = array_values($array);
+            $firstElement = reset($arrayValues);
+            array_push($tables, $firstElement);
         }
 
-        $tabelas = array();
-
-        foreach($tables as $key => $tabela){
-            array_push($tabelas, $tabela);
-        }
-
-        return $tabelas;
+        return $tables;
     }
 
     /**
      * @param $tabela
      * @return array
-     * @throws \Exception/
+     * @throws Exception/
      */
-    public static function retorna_campos($tabela)
+    public static function retornaCampos($tabela)
     {
 
-        $conexao = Connection::getConn();
-        $resultado = $conexao->query("DESC $tabela");
-
-        while ($row = $resultado->fetch(\PDO::FETCH_ASSOC)) {
-            $fields[] = $row;
-        }
+        Consulta::$connection = Connection::getConnection();
+        $result = DB::select("DESC $tabela");
 
         $campo_info = array();
 
-        foreach($fields as $key => $campo){
-            if($campo['Key'] != "PRI" || ($campo['Extra'] == '' && $campo['Key'] == "PRI")){
-
+        foreach ($result as $key => $campo) {
+            if ($campo->Key != "PRI" || ($campo->Extra == '' && $campo->Key == "PRI")) {
                 $array = array();
 
-                $array['campo'] = $campo['Field'];
-                $array['tipo']  = Consulta::tratarTipo($campo['Type']);
-                $array['tamanho']  = Consulta::tratarTamanho($campo['Type']);
+                $array['campo'] = $campo->Field;
+                $array['tipo']  = tratarTipo($campo->Type);
+                $array['tamanho'] = tratarTamanho($campo->Type);
 
                 array_push($campo_info, $array);
             }
         }
 
         return $campo_info;
-    }
-
-    /**
-     * @deprecated
-     * @param $tabelas
-     * @return array
-     * @throws \Exception
-     */
-    public static function retorna_tabelas_info($tabelas)
-    {
-        $conexao = Connection::getConn();
-
-        $tabelas_info = array();
-
-        foreach ($tabelas as $tabela) {
-            $query = "desc $tabela";
-            $results = $conexao->query($query);
-            foreach ($results as $key => $campo) {
-                if ($key == 'Type') {
-                    $array = array();
-
-                    $array["tabela"] = $tabela;
-                    $array["tipo"]   = $campo['Type'];
-
-                    array_push($tabelas_info, $array);
-                }
-            }
-        }
-
-        return $tabelas_info;
-    }
-
-    /**
-     * TODO: Mudar essa função para uma classe mais coerente, não deve ficar na classe de consulta
-     * @param $tipo
-     * @return mixed
-     */
-    private static function tratarTamanho($tipo)
-    {
-        $tamanho = strpos($tipo, "(");
-        return str_replace(["(", ")"], "", substr($tipo, $tamanho, strlen($tipo)));
-    }
-
-    /**
-     * TODO: Mudar essa função para uma classe mais coerente, não deve ficar na classe de consulta
-     * @param $tipo
-     * @return string
-     */
-    private static function tratarTipo($tipo)
-    {
-        $tamanho = strpos($tipo, "(");
-        return strtoupper(substr($tipo, 0, $tamanho));
     }
 }

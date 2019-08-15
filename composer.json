@@ -5,14 +5,16 @@
 			"core\\" :"core/"
 		},
 		"files":[
-			"app/functions/helpers.php",
-			"app/functions/db.php"
+			"app/functions/helpers.php"
 		]
 	},
 	"require": {
 		"twig/twig": "^2.5",
 		"twig/extensions": "^1.5",
 		"fortawesome/font-awesome": "^4.7",
-		"fzaninotto/faker":"dev-master"
+		"fzaninotto/faker":"dev-master",
+		"ext-json": "*",
+		"illuminate/database": "^5.8",
+		"illuminate/events": "^5.8"
 	}
 }

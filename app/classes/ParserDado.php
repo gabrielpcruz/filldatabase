@@ -8,7 +8,10 @@
 
 namespace app\classes;
 
-
+/**
+ * Class ParserDado
+ * @package app\classes
+ */
 class ParserDado
 {
 
@@ -37,14 +40,15 @@ class ParserDado
      * @param $tamanho
      * @return mixed
      */
-    public  static function getDado($tipo, $tamanho)
+    public static function getDado($tipo, $tamanho)
     {
         if ($tipo == self::INT || $tipo == self::DECIMAL) {
             return ParserDado::$faker->{self::$tiposDados[$tipo][0]}(1, $tamanho);
         }
 
         if ($tipo == self::VARCHAR) {
-            return substr(ParserDado::$faker->{self::$tiposDados[$tipo][rand(0, count(self::$tiposDados[$tipo]) - 1)]}, 0, $tamanho);
+            $string = ParserDado::$faker->{self::$tiposDados[$tipo][rand(0, count(self::$tiposDados[$tipo]) - 1)]};
+            return substr($string, 0, $tamanho);
         }
     }
 }

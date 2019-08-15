@@ -1,16 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: gabriel
- * Date: 06/06/18
- * Time: 20:28
- */
 
 namespace app\classes;
 
-use app\models\Connection;
-
-class ConfigAjax
+/**
+ * Class Config
+ * @package app\classes
+ */
+class Config
 {
     /**
      * @var string
@@ -70,7 +66,7 @@ class ConfigAjax
      */
     public function init()
     {
-        if ($this->paramsVerify() && !Connection::isConnected()) {
+        if ($this->paramsVerify()) {
             return $this->setConfig();
         }
     }
@@ -82,12 +78,12 @@ class ConfigAjax
     {
         parse_str($_POST["data"], $_POST);
 
-        if (
-            (isset($_POST['host']) && $_POST['host'] != "") &&
-            (isset($_POST['banco']) && $_POST['banco'] != "") &&
-            (isset($_POST['usuario']) && $_POST['usuario'] != "") &&
-            (isset($_POST['senha']) && $_POST['senha'] != "")
-        ) {
+        $temHost = (isset($_POST['host']) && $_POST['host'] != "");
+        $temBanco = (isset($_POST['banco']) && $_POST['banco'] != "");
+        $temUsuario = (isset($_POST['usuario']) && $_POST['usuario'] != "");
+        $temSenha = (isset($_POST['senha']) && $_POST['senha'] != "");
+
+        if ($temHost && $temBanco && $temUsuario && $temSenha) {
             //Setando variáveis
             $this->host = $_POST['host'];
             $this->db_name = $_POST['banco'];
@@ -98,7 +94,6 @@ class ConfigAjax
         }
 
         return false;
-
     }
 
     /**
@@ -107,13 +102,11 @@ class ConfigAjax
     public function setConfig()
     {
         try {
-            $conexao = Connection::getConn();
-            $this->setSession($conexao);
+            $this->setSession();
             return json_encode(['msg' => FillMessage::MG0001, 'status' => 'success', 'conexao' => 'conectado']);
         } catch (\Exception $e) {
             return json_encode(['msg' => $e->getMessage(), 'status' => 'error', 'conexao' => 'conexão pendente']);
         }
-
     }
 
     /**
@@ -122,22 +115,19 @@ class ConfigAjax
     public function getStgringConfig()
     {
         return
-            '<?php 
-                return [
-                    "database" => [
-                        "host"     => "' . $this->getHost() . '",
-                        "dbname"   => "' . $this->getDbName() . '",
-                        "username" => "' . $this->getUser() . '",
-                        "password" => "' . $this->getPassword() . '",
-                        "charset"  => "utf8",
-                        "options"  => [
-                            "PDO::ATTR_ERRMOD" => "PDO::ERRMOD_EXCEPTION",
-                            "PDO::ATTR_DEFAULT_FETCH_MODE" => "PDO::FETCH_OBJ"
-                        ]
-                    ]
-                ];
-            ?> 
-            ';
+        '<?php
+        
+    return [
+        "driver"    => "mysql",
+        "host"      => "' . $this->getHost() . '",
+        "database"  => "' . $this->getDbName() . '",
+        "username"  => "' . $this->getUser() . '",
+        "password"  => "' . $this->getPassword() . '",
+        "charset"   => "utf8",
+        "collation" => "utf8_unicode_ci",
+        "prefix"    => "",
+    ];
+';
     }
 
     /**
@@ -164,7 +154,6 @@ class ConfigAjax
         $mensagem = json_encode(['erro' => '1']);
 
         if ($this->paramsVerify()) {
-
             $file = fopen("../config.php", "w+");
 
             //Seta a string com as configurações
@@ -181,16 +170,13 @@ class ConfigAjax
     }
 
     /**
-     * @param $conexao
      */
-    private function setSession($conexao)
+    private function setSession()
     {
-        if ($conexao) {
-            $_SESSION['sucesso'] = "sucesso";
-            $_SESSION['host'] = $this->getHost();
-            $_SESSION['banco'] = $this->getDbName();
-            $_SESSION['usuario'] = $this->getUser();
-            $_SESSION['senha'] = $this->getPassword();
-        }
+        $_SESSION['sucesso'] = "sucesso";
+        $_SESSION['host'] = $this->getHost();
+        $_SESSION['banco'] = $this->getDbName();
+        $_SESSION['usuario'] = $this->getUser();
+        $_SESSION['senha'] = $this->getPassword();
     }
 }
