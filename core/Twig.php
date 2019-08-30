@@ -1,5 +1,6 @@
 <?php
 
+/* a */
 namespace core;
 
 /**
