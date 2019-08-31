@@ -1,6 +1,6 @@
 <?php
 
-/* abcdefghijklmnopqrstu */
+/* abcdefghijklmnopqrstuv */
 namespace core;
 
 /**
