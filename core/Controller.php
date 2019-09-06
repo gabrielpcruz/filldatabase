@@ -78,7 +78,7 @@ class Controller
         $controller = $this->getControllerNotHome();
 
         if (!$this->controllerExists($controller)) {
-            throw new ControllerNotExistsException(FillMessage::MG0005($controller), FillCode::CG0005);
+            throw new ControllerNotExistsException(FillMessage::MG0005, FillCode::CG0005);
         }
 
         return $this->instatiateController($controller);
