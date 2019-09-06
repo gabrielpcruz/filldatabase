@@ -1,6 +1,6 @@
 <?php
 
-/* namespace s*/
+/* namespace sd*/
 namespace core;
 
 use app\classes\FillCode;
