@@ -14,6 +14,6 @@
 		"fzaninotto/faker":"dev-master",
 		"ext-json": "*",
 		"illuminate/database": "^5.8",
-		"illuminate/events": "^5.8"
+		"illuminate/events": "^6.20"
 	}
 }
