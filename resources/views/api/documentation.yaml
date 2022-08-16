@@ -1,0 +1,88 @@
+openapi: 3.0.3
+info:
+  title: API Documentation
+  description: |-
+    API Documentation.
+    
+    For more referencies look [Swagger editor](https://swagger.io/tools/swagger-editor/)
+  version: v1.0.1
+servers:
+  - url: http://localhost/v1
+
+tags:
+  - name: home
+    description: List all registers from table demo called rice
+    externalDocs:
+      description: Find out more
+      url: http://localhost/v1/home
+paths:
+  /home:
+    post:
+      tags:
+        - home
+      summary: Add rice on table.
+      description: A description here
+      operationId: listRice
+      requestBody:
+        description: Add a rice in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RicePost'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/RicePost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RicePost'
+        required: true
+      responses:
+        '200': # status code
+          description: A JSON array with rices informations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RicePost'
+    get:
+      tags:
+        - home
+      summary: Returns informations about the rice table. sad
+      description: A description here
+      operationId: listRice
+      responses:
+        '200': # status code
+          description: A JSON array with rices informations sad
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rice'
+components:
+  schemas:
+    RicePost:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'rice_name_62b261cd17be0'
+    Rice:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: 'rice_name_62b261cd17be0'
+        created_at:
+          type: string
+          example: "2022-06-22T03:26:53.000000Z"
+        updated_at:
+          type: string
+          example: "2022-06-22T03:26:53.000000Z"
+        deleted_at:
+          type: string
+          example: "2022-06-22T03:26:53.000000Z"
