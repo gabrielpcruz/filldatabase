@@ -1,30 +1,67 @@
 {% extends '@layout/layout.twig' %}
 
-{% block title %} Slim 4 template {% endblock %}
+{% block title %} Fill Database | Fill any database with fake data {% endblock %}
 
 {% block content %}
-    <div class="row mt-5">
-        <h2>Rice list</h2>
+    <div class="bg-light p-5 rounded mt-5 mb-5">
+        <h1 class="text-center">Fill Database</h1>
     </div>
 
-    <div class="row mt-5">
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Creation date</th>
-                <th>Update date</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for rice in rices %}
-                <tr>
-                    <td>{{ rice.name }}</td>
-                    <td>{{ rice.created_at|date("d/m/Y H:i:s") }}</td>
-                    <td>{{ rice.updated_at|date("d/m/Y H:i:s") }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+    <hr class="mb-5">
+
+    <div class="row">
+        <form>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 mb-4">
+                    <input type="text" class="form-control" placeholder="Host" aria-label="Host">
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                    <input type="text" class="form-control" placeholder="User" aria-label="User">
+                </div>
+                <div class="col-xs-12 col-sm-4 mb-4">
+                    <input type="password" class="form-control" placeholder="Password" aria-label="Password">
+                </div>
+
+                <div class="d-grid gap-1">
+                    <button type="button" class="btn btn-primary  mb-3">Connect</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <hr class="mt-4 mb-5">
+
+    <div class="row">
+        <form>
+            <div class="row">
+                <div class="col">
+                    <select class="form-select" aria-label="Select the database">
+                        <option selected>Select the database</option>
+                    </select>
+                </div>
+
+                <div class="d-grid gap-1 mt-4">
+                    <button type="button" class="btn btn-primary  mb-3">Expand tables</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <hr class="mt-5 mb-5">
+
+    <div class="row">
+        <form>
+            <div class="row">
+                <div class="col">
+                    <select class="form-select" aria-label="Select the tables">
+                        <option selected>Select the tables</option>
+                    </select>
+                </div>
+
+                <div class="d-grid gap-1 mt-4">
+                    <button type="button" class="btn btn-primary  mb-3">Fill</button>
+                </div>
+            </div>
+        </form>
     </div>
 {% endblock %}
