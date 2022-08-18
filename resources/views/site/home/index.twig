@@ -12,13 +12,23 @@
     <div class="row">
         <form>
             <div class="row">
-                <div class="col-xs-12 col-sm-4 mb-4">
+                <div class="col-xs-12 col-sm-3 mb-3">
+                    <select class="form-select" aria-label="Select the driver">
+                        <option disabled selected>Select the driver</option>
+                        <option>Sqlite3</option>
+                        <option>MySql</option>
+                    </select>
+                </div>
+
+                <div class="col-xs-12 col-sm-3 mb-3">
                     <input type="text" class="form-control" placeholder="Host" aria-label="Host">
                 </div>
-                <div class="col-xs-12 col-sm-4 mb-4">
+
+                <div class="col-xs-12 col-sm-3 mb-3">
                     <input type="text" class="form-control" placeholder="User" aria-label="User">
                 </div>
-                <div class="col-xs-12 col-sm-4 mb-4">
+
+                <div class="col-xs-12 col-sm-3 mb-3">
                     <input type="password" class="form-control" placeholder="Password" aria-label="Password">
                 </div>
 

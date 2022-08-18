@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Api\Connection;
+use App\Http\Api\Tables;
 use App\Http\Site\Documentation;
 use App\Http\Site\Home;
 use Slim\App;
@@ -14,4 +16,8 @@ return function (App $app) {
     // Api
     $app->get('/v1/home', [HomeApi::class, 'index']);
     $app->get('/home', [Home::class, 'index']);
+
+
+    $app->post('/connection', [Connection::class, 'create']);
+    $app->get('/database', [Tables::class, 'tables']);
 };

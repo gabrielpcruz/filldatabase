@@ -12,15 +12,7 @@ try {
         throw new DomainException('Only CLI allowed. Script stopped.');
     }
 
-    $commands = (require_once $container->get('settings')->get('file.commands'));
-
-    $console = new Application();
-
-    if (!empty($commands)) {
-        foreach ($commands as $commandClass) {
-            $console->add($container->get($commandClass));
-        }
-    }
+    $console = getConsole($container);
 
     $console->run();
 
