@@ -107,8 +107,10 @@ class DefaultErrorHandler implements ErrorHandlerInterface
 
         $response->getBody()->write($json);
 
+        $code = ($exception->getCode() < 100 || $exception->getCode() > 599) ? 500 : $exception->getCode();
+
         return $response
             ->withHeader('Content-Type', 'application/json')
-            ->withStatus($exception->getCode());
+            ->withStatus($code);
     }
 }

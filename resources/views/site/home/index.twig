@@ -12,46 +12,35 @@
     <div class="row">
         <form>
             <div class="row">
-                <div class="col-xs-12 col-sm-3 mb-3">
-                    <select class="form-select" aria-label="Select the driver">
-                        <option disabled selected>Select the driver</option>
-                        <option>Sqlite3</option>
-                        <option>MySql</option>
+                <div class="col-xs-12 col-sm-12 mb-12">
+                    <select id="driver" class="form-select" aria-label="Select the driver">
+                        <option disabled>Select the driver</option>
+                        <option value="sqlite">Sqlite3</option>
+                        <option selected value="mysql">MySql</option>
                     </select>
                 </div>
+            </div>
+
+            <div class="row mt-5">
 
                 <div class="col-xs-12 col-sm-3 mb-3">
-                    <input type="text" class="form-control" placeholder="Host" aria-label="Host">
+                    <input id="host" value="{{ config.host|default('') }}" type="text" class="form-control" placeholder="Host" aria-label="Host">
                 </div>
 
                 <div class="col-xs-12 col-sm-3 mb-3">
-                    <input type="text" class="form-control" placeholder="User" aria-label="User">
+                    <input id="database" value="{{ config.database|default('') }}" type="text" class="form-control" placeholder="Database" aria-label="Database">
                 </div>
 
                 <div class="col-xs-12 col-sm-3 mb-3">
-                    <input type="password" class="form-control" placeholder="Password" aria-label="Password">
+                    <input id="username" value="{{ config.username|default('') }}" type="text" class="form-control" placeholder="User" aria-label="User">
+                </div>
+
+                <div class="col-xs-12 col-sm-3 mb-3">
+                    <input id="password" value="{{ config.password|default('') }}" type="password" class="form-control" placeholder="Password" aria-label="Password">
                 </div>
 
                 <div class="d-grid gap-1">
-                    <button type="button" class="btn btn-primary  mb-3">Connect</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <hr class="mt-4 mb-5">
-
-    <div class="row">
-        <form>
-            <div class="row">
-                <div class="col">
-                    <select class="form-select" aria-label="Select the database">
-                        <option selected>Select the database</option>
-                    </select>
-                </div>
-
-                <div class="d-grid gap-1 mt-4">
-                    <button type="button" class="btn btn-primary  mb-3">Expand tables</button>
+                    <button id="connect" type="button" class="btn btn-primary  mb-3">Connect</button>
                 </div>
             </div>
         </form>
@@ -63,7 +52,7 @@
         <form>
             <div class="row">
                 <div class="col">
-                    <select class="form-select" aria-label="Select the tables">
+                    <select id="tables" class="form-select" aria-label="Select the tables">
                         <option selected>Select the tables</option>
                     </select>
                 </div>
@@ -75,3 +64,10 @@
         </form>
     </div>
 {% endblock %}
+
+
+{% block scripts %}
+    <script type="application/javascript" src="{{ asset('js/Tables.js') }}"></script>
+    <script type="application/javascript" src="{{ asset('js/Connection.js') }}"></script>
+{% endblock %}
+

@@ -1,6 +1,8 @@
 <?php
 
 use App\App;
+use Symfony\Component\Asset\Package;
+use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
 use Symfony\Component\Console\Application;
 
 if (!function_exists('turnNameSpacePathIntoArray')) {

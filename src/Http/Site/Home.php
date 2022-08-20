@@ -2,6 +2,7 @@
 
 namespace App\Http\Site;
 
+use App\App;
 use App\Http\ControllerSite;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -23,10 +24,14 @@ class Home extends ControllerSite
     {
         $rices = [];
 
+        $path = App::settings()->get('path.database') . '/connections/filldatabase.php';
+
+        $config = (object) (require $path);
+
         return $this->view(
             $response,
             "@site/home/index",
-            compact('rices')
+            compact('rices', 'config')
         );
     }
 }

@@ -19,5 +19,5 @@ return function (App $app) {
 
 
     $app->post('/connection', [Connection::class, 'create']);
-    $app->get('/database', [Tables::class, 'tables']);
+    $app->get('/tables', [Tables::class, 'tables']);
 };

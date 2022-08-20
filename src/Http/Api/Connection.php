@@ -23,7 +23,7 @@ class Connection extends ControllerApi
         $application = getConsole($this->container);
         $application->setAutoExit(false);
 
-        $arguments = json_decode($request->getBody()->getContents());
+        $arguments = (object) $request->getParsedBody();
 
         $input = new ArrayInput([
             'command' => 'filldatabase:create-connection',

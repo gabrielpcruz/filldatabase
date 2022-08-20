@@ -1,12 +1,14 @@
 <?php
 
 use Adbar\Dot;
+use App\Provider\Asset;
 use App\Repository\RepositoryManager;
 use Illuminate\Database\Capsule\Manager;
 use Slim\App;
 use Slim\Factory\AppFactory;
 use Psr\Container\ContainerInterface;
 use Slim\Views\Twig;
+use Symfony\Component\Asset\Packages;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
 use function DI\autowire;
@@ -62,6 +64,9 @@ return [
         $twig = new Twig($loader, $settings);
 
         $twig->addExtension(new DebugExtension());
+        $extension = new Asset(new Packages());
+
+        $twig->addExtension($extension);
 
         return $twig;
     },
