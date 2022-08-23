@@ -46,4 +46,12 @@ if (!function_exists('getConsole')) {
     }
 }
 
+if (!function_exists('string_similarity')) {
+    function string_similarity($input, $word): float
+    {
+        $percent = 1 - levenshtein(strtolower($input), strtolower($word)) / max(strlen($input), strlen($word));
+
+        return round($percent * 100, 2);
+    }
+}
 
