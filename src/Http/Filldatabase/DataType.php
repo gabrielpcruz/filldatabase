@@ -40,18 +40,48 @@ class DataType
      */
     public static function getTypeBySimilarity(string $string) : string
     {
-        $similatiry = 0;
-        $typeChoose = "";
 
-        foreach (self::$types as $type) {
-            $percentage = string_similarity($string, $type);
 
-            if ($percentage > $similatiry) {
-                $similatiry = $percentage;
-                $typeChoose = $type;
-            }
+
+
+        list($percentage, $typeChoose) = self::getPercentage($string);
+
+        $second = substr($string, 0, 7);
+
+        list($secondPercent, $secondChoose) = self::getPercentage($second);
+
+        if ($secondPercent > $percentage) {
+            $percentage = $secondPercent;
+            $typeChoose = $secondChoose;
+        }
+
+        $third = substr($string, strlen($string) - 7, strlen($string));
+        list($thirdPercent, $thirdChoose) = self::getPercentage($third);
+
+        if ($thirdPercent > $percentage) {
+            $typeChoose = $thirdChoose;
         }
 
         return $typeChoose;
+    }
+
+    /**
+     * @param $string
+     * @return array
+     */
+    private static function getPercentage($string): array
+    {
+        $similatiry = 0;
+        $choose = "";
+
+        foreach (self::$types as $type) {
+            $percentage = string_similarity($string, $type);
+            if ($percentage > $similatiry) {
+                $similatiry = $percentage;
+                $choose = $type;
+            }
+        }
+
+        return array($similatiry, $choose);
     }
 }

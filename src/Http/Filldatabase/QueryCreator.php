@@ -65,7 +65,7 @@ class QueryCreator
 
         $valuesPart = [];
         $values = [];
-        $quantidade = 1000;
+        $quantidade = 500;
         for ($i = 1; $i <= $quantidade; $i++) {
             foreach ($this->tableDescribe as $column) {
                 $column = new Column((array) $column);
