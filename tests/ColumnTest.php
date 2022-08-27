@@ -7,7 +7,7 @@ use Codeception\Test\Unit;
 class ColumnTest extends Unit
 {
     /**
-     * @dataProvider arrayValidProvider
+     * @dataProvider tableProvider
      * @return void
      */
     public function testColumnsTablesMustMacthWithArrayDataSet(array $table)
@@ -43,11 +43,11 @@ class ColumnTest extends Unit
     /**
      * @return string[]
      */
-    public function arrayValidProvider(): array
+    public function tableProvider(): array
     {
         return [
             [
-                require_once ("tests/_data/table/example_1.php")
+                require_once("tests/_data/column/example_1.php")
             ]
         ];
     }

@@ -2,9 +2,6 @@
 
 namespace App\Http\Filldatabase;
 
-use Faker\Factory;
-use Faker\Generator;
-
 class QueryCreator
 {
     /**
@@ -16,11 +13,6 @@ class QueryCreator
      * @var string
      */
     private string $tableName;
-
-    /**
-     * @var Generator
-     */
-    private Generator $facker;
 
     /**
      * @param string $tableName
@@ -44,7 +36,7 @@ class QueryCreator
     /**
      * @return array|string|string[]
      */
-    public function query()
+    public function insert() : string
     {
         $query = " INSERT INTO TABLE_NAME (FIELDS_NAME) VALUES VALUES_INSIDE ";
 
@@ -65,7 +57,8 @@ class QueryCreator
 
         $valuesPart = [];
         $values = [];
-        $quantidade = 500;
+
+        $quantidade = 1;
         for ($i = 1; $i <= $quantidade; $i++) {
             foreach ($this->tableDescribe as $column) {
                 $column = new Column((array) $column);
