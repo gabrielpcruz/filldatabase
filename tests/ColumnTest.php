@@ -6,29 +6,36 @@ use Codeception\Test\Unit;
 
 class ColumnTest extends Unit
 {
-
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     /**
      * @dataProvider arrayValidProvider
      * @return void
      */
-    public function testSomeFeature(array $table)
+    public function testColumnsTablesMustMacthWithArrayDataSet(array $table)
     {
         foreach ($table as $key => $tableColumn) {
             $column = new Column($tableColumn);
 
-            if ($key == 0) {
-                $this->assertEquals('id_logtransmissaoarquivo', $column->name());
+            if ($key === 'sulphur') {
+                $this->assertEquals('sulphur', $column->name());
                 $this->assertEquals('NO', $column->null());
                 $this->assertEquals(DataType::INT, strtoupper($column->type()));
                 $this->assertEquals('PRI', $column->key());
+                $this->assertEquals('11', $column->length());
+            }
+
+            if ($key === 'chocolate') {
+                $this->assertEquals('chocolate', $column->name());
+                $this->assertEquals('YES', $column->null());
+                $this->assertEquals(DataType::TEXT, strtoupper($column->type()));
+                $this->assertEquals('', $column->key());
+            }
+
+            if ($key === 'proposal') {
+                $this->assertEquals('proposal', $column->name());
+                $this->assertEquals('YES', $column->null());
+                $this->assertEquals(DataType::TINYINT, strtoupper($column->type()));
+                $this->assertEquals('MUL', $column->key());
+                $this->assertEquals('1', $column->length());
             }
         }
     }

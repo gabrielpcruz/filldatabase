@@ -17,6 +17,7 @@ class DataType
     public const DATE = 'DATE';
     public const LONGTEXT = 'LONGTEXT';
     public const TINYINT = 'TINYINT';
+    public const TEXT = 'TEXT';
 
     private static array $types = [
       self::INT,
@@ -32,6 +33,7 @@ class DataType
       self::DATE,
       self::LONGTEXT,
       self::TINYINT,
+      self::TEXT,
     ];
 
     /**
@@ -40,29 +42,26 @@ class DataType
      */
     public static function getTypeBySimilarity(string $string) : string
     {
+        $possibilities = [
+            $string,
+            substr($string, 0, 7),
+            substr($string, strlen($string) - 7, strlen($string)),
+            substr($string, strlen($string) - 5, strlen($string))
+        ];
 
+        $oldPercent = 0;
+        $oldType = "";
 
+        foreach ($possibilities as $possibility) {
+            list($percentage, $typeChoose) = self::getPercentage($possibility);
 
-
-        list($percentage, $typeChoose) = self::getPercentage($string);
-
-        $second = substr($string, 0, 7);
-
-        list($secondPercent, $secondChoose) = self::getPercentage($second);
-
-        if ($secondPercent > $percentage) {
-            $percentage = $secondPercent;
-            $typeChoose = $secondChoose;
+            if ($percentage > $oldPercent) {
+                $oldPercent = $percentage;
+                $oldType = $typeChoose;
+            }
         }
 
-        $third = substr($string, strlen($string) - 7, strlen($string));
-        list($thirdPercent, $thirdChoose) = self::getPercentage($third);
-
-        if ($thirdPercent > $percentage) {
-            $typeChoose = $thirdChoose;
-        }
-
-        return $typeChoose;
+        return $oldType;
     }
 
     /**
@@ -82,6 +81,6 @@ class DataType
             }
         }
 
-        return array($similatiry, $choose);
+        return [$similatiry, $choose];
     }
 }

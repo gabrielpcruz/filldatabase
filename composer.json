@@ -9,6 +9,9 @@
             "email": "gabrielcruz.mail@gmail.com"
         }
     ],
+    "scripts": {
+        "test": "php vendor/bin/codecept run unit"
+    },
     "require": {
         "slim/slim": "^4.10",
         "guzzlehttp/psr7": "^2.4",

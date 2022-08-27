@@ -1,184 +1,206 @@
 <?php
 
 return [
-    [
-        'Field' => 'id_logtransmissaoarquivo',
+    'sulphur' => [
+        'Field' => 'sulphur',
         'Type' => 'int(11) unsigned',
         'Null' => 'NO',
         'Key' => 'PRI',
         'Default' => 'null',
         'Extra' => 'auto_increment',
     ],
-    [
-        'Field' => 'id_usuarioLogado',
+
+    'climb' => [
+        'Field' => 'climb',
         'Type' => 'int(11) unsigned',
         'Null' => 'YES',
         'Key' => 'MUL',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'id_siscliente',
+
+    'gradual' => [
+        'Field' => 'gradual',
         'Type' => 'int(11)',
         'Null' => 'YES',
         'Key' => 'MUL',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'operacao',
+
+    'wrist' => [
+        'Field' => 'wrist',
         'Type' => 'varchar(45)',
         'Null' => 'YES',
         'Key' => 'MUL',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'dataInicio',
+
+    'march' => [
+        'Field' => 'march',
         'Type' => 'datetime',
         'Null' => 'YES',
         'Key' => 'MUL',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'dataFim',
+
+    'muggy' => [
+        'Field' => 'muggy',
         'Type' => 'datetime',
         'Null' => 'YES',
         'Key' => '',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'tempoTransacao',
+
+    'menu' => [
+        'Field' => 'menu',
         'Type' => 'varchar(45)',
         'Null' => 'YES',
         'Key' => '',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'classe',
+
+    'finished' => [
+        'Field' => 'finished',
         'Type' => 'varchar(255)',
         'Null' => 'YES',
         'Key' => '',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'mensagem',
+
+    'formula' => [
+        'Field' => 'formula',
         'Type' => 'longtext',
         'Null' => 'YES',
         'Key' => '',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'conteudo',
+
+    'memorandum' => [
+        'Field' => 'memorandum',
         'Type' => 'longtext',
         'Null' => 'YES',
         'Key' => '',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'ipUsuario',
+
+    'appetite' => [
+        'Field' => 'appetite',
         'Type' => 'varchar(45)',
         'Null' => 'YES',
         'Key' => '',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'browser',
+
+    'computing' => [
+        'Field' => 'computing',
         'Type' => 'varchar(255)',
         'Null' => 'YES',
         'Key' => '',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'sistemaOperacional',
+
+    'band' => [
+        'Field' => 'band',
         'Type' => 'varchar(255)',
         'Null' => 'YES',
         'Key' => '',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'nomeArquivo',
+
+    'pace' => [
+        'Field' => 'pace',
         'Type' => 'varchar(45)',
         'Null' => 'YES',
         'Key' => 'MUL',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'nomeArquivoXml',
+
+    'discipline' => [
+        'Field' => 'discipline',
         'Type' => 'varchar(45)',
         'Null' => 'YES',
         'Key' => '',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'nomeArquivoAssinado',
+
+    'security' => [
+        'Field' => 'security',
         'Type' => 'varchar(45)',
         'Null' => 'YES',
         'Key' => '',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'pathCompleto',
+
+    'employ' => [
+        'Field' => 'employ',
         'Type' => 'text',
         'Null' => 'YES',
         'Key' => '',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'pathCompletoXml',
+
+    'campaign' => [
+        'Field' => 'campaign',
         'Type' => 'text',
         'Null' => 'YES',
         'Key' => '',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'pathCompletoAssinado',
+
+    'chocolate' => [
+        'Field' => 'chocolate',
         'Type' => 'text',
         'Null' => 'YES',
         'Key' => '',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'cancelado',
+
+    'proposal' => [
+        'Field' => 'proposal',
         'Type' => 'tinyint(1)',
         'Null' => 'YES',
         'Key' => 'MUL',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'erro',
+
+    'add' => [
+        'Field' => 'add',
         'Type' => 'tinyint(1)',
         'Null' => 'YES',
         'Key' => 'MUL',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'excecao',
+
+    'default' => [
+        'Field' => 'default',
         'Type' => 'tinyint(1)',
         'Null' => 'YES',
         'Key' => '',
         'Default' => 'null',
         'Extra' => '',
     ],
-    [
-        'Field' => 'excluido',
+
+    'senior' => [
+        'Field' => 'senior',
         'Type' => 'tinyint(1)',
         'Null' => 'NO',
         'Key' => '',
