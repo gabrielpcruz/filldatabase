@@ -50,4 +50,20 @@ class Column
     {
         return $this->column['Null'];
     }
+
+    /**
+     * @return string
+     */
+    public function name() : string
+    {
+        return $this->column['Field'];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPrimaryKey() : bool
+    {
+        return $this->column['Key'] === 'PRI';
+    }
 }

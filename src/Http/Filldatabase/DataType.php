@@ -15,6 +15,8 @@ class DataType
     public const TINYBLOB = 'TINYBLOB';
     public const VARBINARY = 'VARBINARY';
     public const DATE = 'DATE';
+    public const LONGTEXT = 'LONGTEXT';
+    public const TINYINT = 'TINYINT';
 
     private static array $types = [
       self::INT,
@@ -28,6 +30,8 @@ class DataType
       self::TINYBLOB,
       self::VARBINARY,
       self::DATE,
+      self::LONGTEXT,
+      self::TINYINT,
     ];
 
     /**

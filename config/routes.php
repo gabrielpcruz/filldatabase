@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Api\Connection;
+use App\Http\Api\FillDataBase;
 use App\Http\Api\Insert;
 use App\Http\Api\Tables;
 use App\Http\Site\Documentation;
@@ -22,4 +23,7 @@ return function (App $app) {
     $app->post('/connection', [Connection::class, 'create']);
     $app->get('/tables', [Tables::class, 'tables']);
     $app->post('/insert', [Insert::class, 'insert']);
+
+    $app->get('/filldatabase', [FillDataBase::class, 'fill']);
+
 };

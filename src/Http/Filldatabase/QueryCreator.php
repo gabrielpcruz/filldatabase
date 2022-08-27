@@ -2,6 +2,9 @@
 
 namespace App\Http\Filldatabase;
 
+use Faker\Factory;
+use Faker\Generator;
+
 class QueryCreator
 {
     /**
@@ -13,6 +16,11 @@ class QueryCreator
      * @var string
      */
     private string $tableName;
+
+    /**
+     * @var Generator
+     */
+    private Generator $facker;
 
     /**
      * @param string $tableName
@@ -38,18 +46,43 @@ class QueryCreator
      */
     public function query()
     {
-        $query = " INSERT INTO TABLE_NAME VALUES ( VALUES_INSIDE ) ";
+        $query = " INSERT INTO TABLE_NAME (FIELDS_NAME) VALUES VALUES_INSIDE ";
 
         $query = str_replace("TABLE_NAME", $this->tableName, $query);
 
         $dateGenerator = new DataGenerator();
-        $values = [];
+        $fields = [];
+
         foreach ($this->tableDescribe as $column) {
             $column = new Column((array) $column);
 
-            $value = $dateGenerator->fromType($column->type());
-            $values[] = "'{$value}'";
+            if ($column->isPrimaryKey()) {
+                continue;
+            }
+
+            $fields[] = $column->name();
         }
+
+        $valuesPart = [];
+        $values = [];
+        $quantidade = 1000;
+        for ($i = 1; $i <= $quantidade; $i++) {
+            foreach ($this->tableDescribe as $column) {
+                $column = new Column((array) $column);
+
+                if ($column->isPrimaryKey()) {
+                    continue;
+                }
+
+                $value = $dateGenerator->fromType($column->type(), $column->length());
+                $valuesPart[] = "'{$value}'";
+            }
+
+            $values[] = " ( " . implode(", ", $valuesPart) . " ) ";
+            $valuesPart = [];
+        }
+
+        $query = str_replace("FIELDS_NAME", implode(", ", $fields), $query);
 
         return str_replace("VALUES_INSIDE", implode(", ", $values), $query);
     }

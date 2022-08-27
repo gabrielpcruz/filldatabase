@@ -17,7 +17,7 @@ class Insert extends ControllerApi
      */
     public function insert(Request $request, Response $response): Response
     {
-        $arguments = (object) json_decode($request->getBody()->getContents());
+        $arguments = (object) $request->getParsedBody();
 
         $tableName = $arguments->table;
 
@@ -30,6 +30,7 @@ class Insert extends ControllerApi
             ->addTableDescribe($tableDetails)
             ->query();
 
+        $connection->insert($query);
         return $this->responseJSON(
             $response,
             [

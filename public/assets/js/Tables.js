@@ -32,7 +32,9 @@ let Tables = (() => {
                     selectTables.append(
                         $('<option>').attr('value', tableName).append(tableName)
                     );
-                })
+                });
+
+                $("#generate_query").removeAttr('disabled')
             }).fail(() => {
             console.log("error")
         });
