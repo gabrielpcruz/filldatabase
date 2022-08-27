@@ -19,18 +19,17 @@ class Insert extends ControllerApi
     {
         $arguments = (object) $request->getParsedBody();
 
-        $tableName = $arguments->table;
+        $table = $arguments->table;
 
         $connection = Manager::connection('filldatabase');
 
-        $tableDetails = $connection->select("DESCRIBE $tableName");
+        $tableDetails = $connection->select("DESCRIBE $table");
 
-        $query = (new QueryCreator($tableName))
-            ->addTableDescribe($tableDetails)
-            ->insert()
+        $query = (new QueryCreator($table, $tableDetails))
+            ->update(1)
             ->build();
 
-        $connection->insert($query);
+//        $connection->insert($query);
         return $this->responseJSON(
             $response,
             [

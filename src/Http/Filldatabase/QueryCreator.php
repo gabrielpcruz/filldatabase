@@ -2,53 +2,31 @@
 
 namespace App\Http\Filldatabase;
 
-use Generator;
-
 class QueryCreator
 {
     /**
      * @var string
      */
-    private const INSERT_TEMPLATE = " INSERT INTO TABLE_NAME (FIELDS_NAME) VALUES VALUES_INSIDE ";
-
-    /**
-     * @var string
-     */
-    private string $temporaryQuery = "";
+    private string $temporaryQuery;
 
     /**
      * @var array
      */
-    private array $tableDescribe = [];
+    private array $describe;
 
     /**
      * @var string
      */
-    private string $tableName;
+    private string $table;
 
     /**
-     * @var DataGenerator
+     * @param string $table
+     * @param array $describe
      */
-    private DataGenerator $dataGenerator;
-
-    /**
-     * @param string $tableName
-     */
-    public function __construct(string $tableName)
+    public function __construct(string $table, array $describe)
     {
-        $this->tableName = $tableName;
-        $this->dataGenerator = new DataGenerator();
-    }
-
-    /**
-     * @param array $tableDescribe
-     * @return $this
-     */
-    public function addTableDescribe(array $tableDescribe): QueryCreator
-    {
-        $this->tableDescribe = $tableDescribe;
-
-        return $this;
+        $this->table = $table;
+        $this->describe = $describe;
     }
 
     /**
@@ -56,78 +34,22 @@ class QueryCreator
      */
     public function insert(): QueryCreator
     {
-        $this->temporaryQuery = str_replace(
-            "TABLE_NAME",
-            $this->tableName,
-            QueryCreator::INSERT_TEMPLATE
-        );
-
-        $this->temporaryQuery = str_replace(
-            "FIELDS_NAME",
-            $this->formatFields(),
-            $this->temporaryQuery
-        );
-
-        $this->temporaryQuery = str_replace(
-            "VALUES_INSIDE",
-            $this->formatValues(),
-            $this->temporaryQuery
-        );
+        $insert = new Insert($this->table, $this->describe);
+        $this->temporaryQuery = $insert->build();
 
         return $this;
     }
 
     /**
-     * @return Generator
+     * @param $id
+     * @return QueryCreator
      */
-    private function interateTablesFields() : Generator
+    public function update($id): QueryCreator
     {
-        foreach ($this->tableDescribe as $column) {
-            $column = new Column((array)$column);
+        $update = new Update($this->table, $this->describe, $id);
+        $this->temporaryQuery = $update->build();
 
-            if ($column->isPrimaryKey()) {
-                continue;
-            }
-
-            yield $column;
-        }
-    }
-
-    /**
-     * @return string
-     */
-    private function formatValues(): string
-    {
-        $values = [];
-
-        $quantidade = 1;
-
-        for ($i = 1; $i <= $quantidade; $i++) {
-            $valuesPart = [];
-
-            foreach ($this->interateTablesFields() as $column) {
-                $value = $this->dataGenerator->fromType($column->type(), $column->length());
-                $valuesPart[] = "'{$value}'";
-            }
-
-            $values[] = " ( " . implode(", ", $valuesPart) . " ) ";
-        }
-
-        return implode(", ", $values);
-    }
-
-    /**
-     * @return string
-     */
-    private function formatFields(): string
-    {
-        $fields = [];
-
-        foreach ($this->interateTablesFields() as $column) {
-            $fields[] = $column->name();
-        }
-
-        return implode(", ", $fields);
+        return $this;
     }
 
     /**

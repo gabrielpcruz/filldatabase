@@ -6,43 +6,20 @@ use Codeception\Test\Unit;
 class QueryCreatorTest extends Unit
 {
     /**
-     * @var QueryCreator
-     */
-    private QueryCreator $queryCreator;
-
-    /**
-     * @return void
-     */
-    protected function _before()
-    {
-        $this->queryCreator = new QueryCreator('test');
-        $this->queryCreator->addTableDescribe(
-            [
-
-            ]
-        );
-    }
-
-    protected function _after()
-    {
-    }
-
-    /**
      * @dataProvider tableProvider
-     * @param $table
+     * @param $describe
      * @return void
      */
-    public function testDataSetFromFileMustAssertContainsString($table)
+    public function testDataSetFromFileMustAssertContainsString($describe)
     {
-        $keys = array_keys($table);
-        $tableName = reset($keys);
+        $keys = array_keys($describe);
+        $table = reset($keys);
 
-        $fields = implode(', ', array_keys($table[$tableName]));
+        $fields = implode(', ', array_keys($describe[$table]));
 
-        $contains = " INSERT INTO {$tableName} ({$fields}) VALUES ";
+        $contains = " INSERT INTO {$table} ({$fields}) VALUES ";
 
-        $queryCreator = new QueryCreator($tableName);
-        $queryCreator->addTableDescribe($table[$tableName]);
+        $queryCreator = new QueryCreator($table, $describe[$table]);
 
         $this->assertStringContainsStringIgnoringCase($contains, $queryCreator->insert()->build());
     }

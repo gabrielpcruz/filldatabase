@@ -37,6 +37,8 @@ class DataGenerator
                 return $this->longtext($length);
             case DataType::TINYINT:
                 return $this->tinyint($length);
+            case DataType::TEXT:
+                return $this->text($length);
             default:
                 return "";
         }
@@ -100,5 +102,14 @@ class DataGenerator
         $length = intval(str_repeat('9', $times));
 
         return $this->facker->numberBetween(1, $length);
+    }
+
+    /**
+     * @param int $length
+     * @return string
+     */
+    private function text(int $length): string
+    {
+        return $this->facker->text(1000);
     }
 }
