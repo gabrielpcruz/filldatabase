@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Filldatabase\Column;
-use App\Http\Filldatabase\DataType;
+use App\Business\Data\DataType;
+use App\Business\Table\Column;
 use Codeception\Test\Unit;
 
 class ColumnTest extends Unit

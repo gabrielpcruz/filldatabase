@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Filldatabase\DataType;
+use App\Business\Data\DataType;
 use Codeception\Test\Unit;
 
 class DataTypeTest extends Unit

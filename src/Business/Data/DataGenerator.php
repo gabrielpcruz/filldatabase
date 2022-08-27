@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Filldatabase;
+namespace App\Business\Data;
 
 use Faker\Factory;
 use Faker\Generator;

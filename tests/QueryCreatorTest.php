@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Filldatabase\QueryCreator;
+use App\Business\Query\QueryCreator;
 use Codeception\Test\Unit;
 
 class QueryCreatorTest extends Unit

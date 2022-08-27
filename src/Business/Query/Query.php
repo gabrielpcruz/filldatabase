@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Filldatabase;
+namespace App\Business\Query;
 
+use App\Business\Data\DataGenerator;
+use App\Business\Table\Column;
 use Generator;
 
 abstract class Query

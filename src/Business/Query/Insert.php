@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Filldatabase;
+namespace App\Business\Query;
 
 class Insert extends Query
 {

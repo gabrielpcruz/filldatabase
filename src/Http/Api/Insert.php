@@ -2,8 +2,8 @@
 
 namespace App\Http\Api;
 
+use App\Business\Query\QueryCreator;
 use App\Http\ControllerApi;
-use App\Http\Filldatabase\QueryCreator;
 use Illuminate\Database\Capsule\Manager;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -20,16 +20,13 @@ class Insert extends ControllerApi
         $arguments = (object) $request->getParsedBody();
 
         $table = $arguments->table;
-
         $connection = Manager::connection('filldatabase');
-
         $tableDetails = $connection->select("DESCRIBE $table");
 
         $query = (new QueryCreator($table, $tableDetails))
-            ->update(1)
+            ->insert()
             ->build();
 
-//        $connection->insert($query);
         return $this->responseJSON(
             $response,
             [

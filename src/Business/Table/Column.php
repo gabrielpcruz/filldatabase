@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Filldatabase;
+namespace App\Business\Table;
+
+use App\Business\Data\DataType;
 
 class Column
 {

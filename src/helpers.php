@@ -1,9 +1,13 @@
 <?php
 
 use App\App;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Symfony\Component\Asset\Package;
 use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 if (!function_exists('turnNameSpacePathIntoArray')) {
     function turnNameSpacePathIntoArray($nameSpacePath, $namespace, $excludeFiles = [], $excludePaths = []): array
@@ -54,6 +58,26 @@ if (!function_exists('string_similarity')) {
         $percent = 1 - $percentage / max(strlen($input), strlen($word));
 
         return round($percent * 100, 2);
+    }
+}
+
+if (!function_exists('command')) {
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws Exception
+     */
+    function command($command): string
+    {
+        $application = getConsole(App::container());
+        $application->setAutoExit(false);
+
+        $input = new ArrayInput($command);
+
+        $output = new BufferedOutput();
+        $application->run($input, $output);
+
+        return $output->fetch();
     }
 }
 
