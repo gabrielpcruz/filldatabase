@@ -44,7 +44,7 @@ class QueryCreatorTest extends Unit
         $queryCreator = new QueryCreator($tableName);
         $queryCreator->addTableDescribe($table[$tableName]);
 
-        $this->assertStringContainsStringIgnoringCase($contains, $queryCreator->insert());
+        $this->assertStringContainsStringIgnoringCase($contains, $queryCreator->insert()->build());
     }
 
     /**

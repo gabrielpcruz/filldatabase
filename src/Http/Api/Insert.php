@@ -25,10 +25,10 @@ class Insert extends ControllerApi
 
         $tableDetails = $connection->select("DESCRIBE $tableName");
 
-        $queryCreator = new QueryCreator($tableName);
-        $query = $queryCreator
+        $query = (new QueryCreator($tableName))
             ->addTableDescribe($tableDetails)
-            ->insert();
+            ->insert()
+            ->build();
 
         $connection->insert($query);
         return $this->responseJSON(

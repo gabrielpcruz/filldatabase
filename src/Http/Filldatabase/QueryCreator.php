@@ -2,8 +2,20 @@
 
 namespace App\Http\Filldatabase;
 
+use Generator;
+
 class QueryCreator
 {
+    /**
+     * @var string
+     */
+    private const INSERT_TEMPLATE = " INSERT INTO TABLE_NAME (FIELDS_NAME) VALUES VALUES_INSIDE ";
+
+    /**
+     * @var string
+     */
+    private string $temporaryQuery = "";
+
     /**
      * @var array
      */
@@ -15,11 +27,17 @@ class QueryCreator
     private string $tableName;
 
     /**
+     * @var DataGenerator
+     */
+    private DataGenerator $dataGenerator;
+
+    /**
      * @param string $tableName
      */
     public function __construct(string $tableName)
     {
         $this->tableName = $tableName;
+        $this->dataGenerator = new DataGenerator();
     }
 
     /**
@@ -34,49 +52,93 @@ class QueryCreator
     }
 
     /**
-     * @return array|string|string[]
+     * @return QueryCreator
      */
-    public function insert() : string
+    public function insert(): QueryCreator
     {
-        $query = " INSERT INTO TABLE_NAME (FIELDS_NAME) VALUES VALUES_INSIDE ";
+        $this->temporaryQuery = str_replace(
+            "TABLE_NAME",
+            $this->tableName,
+            QueryCreator::INSERT_TEMPLATE
+        );
 
-        $query = str_replace("TABLE_NAME", $this->tableName, $query);
+        $this->temporaryQuery = str_replace(
+            "FIELDS_NAME",
+            $this->formatFields(),
+            $this->temporaryQuery
+        );
 
-        $dateGenerator = new DataGenerator();
-        $fields = [];
+        $this->temporaryQuery = str_replace(
+            "VALUES_INSIDE",
+            $this->formatValues(),
+            $this->temporaryQuery
+        );
 
+        return $this;
+    }
+
+    /**
+     * @return Generator
+     */
+    private function interateTablesFields() : Generator
+    {
         foreach ($this->tableDescribe as $column) {
-            $column = new Column((array) $column);
+            $column = new Column((array)$column);
 
             if ($column->isPrimaryKey()) {
                 continue;
             }
 
-            $fields[] = $column->name();
+            yield $column;
         }
+    }
 
-        $valuesPart = [];
+    /**
+     * @return string
+     */
+    private function formatValues(): string
+    {
         $values = [];
 
         $quantidade = 1;
+
         for ($i = 1; $i <= $quantidade; $i++) {
-            foreach ($this->tableDescribe as $column) {
-                $column = new Column((array) $column);
+            $valuesPart = [];
 
-                if ($column->isPrimaryKey()) {
-                    continue;
-                }
-
-                $value = $dateGenerator->fromType($column->type(), $column->length());
+            foreach ($this->interateTablesFields() as $column) {
+                $value = $this->dataGenerator->fromType($column->type(), $column->length());
                 $valuesPart[] = "'{$value}'";
             }
 
             $values[] = " ( " . implode(", ", $valuesPart) . " ) ";
-            $valuesPart = [];
         }
 
-        $query = str_replace("FIELDS_NAME", implode(", ", $fields), $query);
+        return implode(", ", $values);
+    }
 
-        return str_replace("VALUES_INSIDE", implode(", ", $values), $query);
+    /**
+     * @return string
+     */
+    private function formatFields(): string
+    {
+        $fields = [];
+
+        foreach ($this->interateTablesFields() as $column) {
+            $fields[] = $column->name();
+        }
+
+        return implode(", ", $fields);
+    }
+
+    /**
+     * @return string
+     */
+    public function build(): string
+    {
+        $query = $this->temporaryQuery;
+
+        $this->temporaryQuery = "";
+
+        return $query;
     }
 }

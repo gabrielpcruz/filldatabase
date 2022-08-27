@@ -2,7 +2,6 @@
 
 namespace App\Http\Filldatabase;
 
-use DateTime;
 use Faker\Factory;
 use Faker\Generator;
 
@@ -28,22 +27,16 @@ class DataGenerator
         switch ($type) {
             case DataType::INT:
                 return $this->int($length);
-                break;
             case DataType::DATE:
                 return $this->date($length);
-                break;
             case DataType::VARCHAR:
                 return $this->varchar($length);
-                break;
             case DataType::DATETIME:
                 return $this->datetime($length);
-                break;
             case DataType::LONGTEXT:
                 return $this->longtext($length);
-                break;
             case DataType::TINYINT:
                 return $this->tinyint($length);
-                break;
             default:
                 return "";
         }
