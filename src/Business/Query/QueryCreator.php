@@ -2,6 +2,8 @@
 
 namespace App\Business\Query;
 
+use App\Business\Table\Table;
+
 class QueryCreator
 {
     /**
@@ -10,23 +12,16 @@ class QueryCreator
     private string $temporaryQuery;
 
     /**
-     * @var array
+     * @var Table
      */
-    private array $describe;
+    private Table $table;
 
     /**
-     * @var string
+     * @param Table $table
      */
-    private string $table;
-
-    /**
-     * @param string $table
-     * @param array $describe
-     */
-    public function __construct(string $table, array $describe)
+    public function __construct(Table $table)
     {
         $this->table = $table;
-        $this->describe = $describe;
     }
 
     /**
@@ -34,7 +29,7 @@ class QueryCreator
      */
     public function insert(): QueryCreator
     {
-        $insert = new Insert($this->table, $this->describe);
+        $insert = new Insert($this->table);
         $this->temporaryQuery = $insert->build();
 
         return $this;
@@ -46,7 +41,7 @@ class QueryCreator
      */
     public function update($id): QueryCreator
     {
-        $update = new Update($this->table, $this->describe, $id);
+        $update = new Update($this->table, $id);
         $this->temporaryQuery = $update->build();
 
         return $this;

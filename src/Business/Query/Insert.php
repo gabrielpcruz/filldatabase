@@ -19,7 +19,7 @@ class Insert extends Query
     {
         $insert = str_replace(
             "TABLE_NAME",
-            $this->table,
+            $this->table->getName(),
             $this->template()
         );
 
@@ -43,7 +43,7 @@ class Insert extends Query
     {
         $fields = [];
 
-        foreach ($this->interateTablesFieldsWhithoutPrimary() as $column) {
+        foreach ($this->table->interateFieldsWhithoutPrimary() as $column) {
             $fields[] = $column->name();
         }
 
@@ -75,7 +75,7 @@ class Insert extends Query
     {
         $valuesPart = [];
 
-        foreach ($this->interateTablesFieldsWhithoutPrimary() as $column) {
+        foreach ($this->table->interateFieldsWhithoutPrimary() as $column) {
             $value = $this->dataGenerator->fromType($column->type(), $column->length());
             $valuesPart[] = "'{$value}'";
         }

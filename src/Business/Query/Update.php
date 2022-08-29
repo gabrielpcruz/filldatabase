@@ -2,6 +2,8 @@
 
 namespace App\Business\Query;
 
+use App\Business\Table\Table;
+
 class Update extends Query
 {
     /**
@@ -10,13 +12,12 @@ class Update extends Query
     private int $id;
 
     /**
-     * @param string $table
-     * @param array $describe
+     * @param Table $table
      * @param int $id
      */
-    public function __construct(string $table, array $describe, int $id)
+    public function __construct(Table $table, int $id)
     {
-        parent::__construct($table, $describe);
+        parent::__construct($table);
         $this->id = $id;
     }
 

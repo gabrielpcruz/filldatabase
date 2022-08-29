@@ -4,19 +4,15 @@ namespace App\Business\Query;
 
 use App\Business\Data\DataGenerator;
 use App\Business\Table\Column;
+use App\Business\Table\Table;
 use Generator;
 
 abstract class Query
 {
     /**
-     * @var string
+     * @var Table
      */
-    protected string $table;
-
-    /**
-     * @var array
-     */
-    protected array $describe;
+    protected Table $table;
 
     /**
      * @var DataGenerator
@@ -24,40 +20,12 @@ abstract class Query
     protected DataGenerator $dataGenerator;
 
     /**
-     * @param string $table
-     * @param array $describe
+     * @param Table $table
      */
-    public function __construct(string $table, array $describe)
+    public function __construct(Table $table)
     {
         $this->table = $table;
-        $this->describe = $describe;
         $this->dataGenerator = new DataGenerator();
-    }
-
-    /**
-     * @return Generator
-     */
-    protected function interateTablesFields() : Generator
-    {
-        foreach ($this->describe as $column) {
-            $column = new Column((array)$column);
-
-            yield $column;
-        }
-    }
-
-    /**
-     * @return Generator
-     */
-    protected function interateTablesFieldsWhithoutPrimary() : Generator
-    {
-        foreach ($this->interateTablesFields() as $column) {
-            if ($column->isPrimaryKey()) {
-                continue;
-            }
-
-            yield $column;
-        }
     }
 
     /**

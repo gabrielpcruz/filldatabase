@@ -1,6 +1,7 @@
 <?php
 
 use App\Business\Query\QueryCreator;
+use App\Business\Table\Table;
 use Codeception\Test\Unit;
 
 class QueryCreatorTest extends Unit
@@ -13,13 +14,18 @@ class QueryCreatorTest extends Unit
     public function testDataSetFromFileMustAssertContainsString($describe)
     {
         $keys = array_keys($describe);
-        $table = reset($keys);
+        $tableName = reset($keys);
+        $describeTable = $describe[$tableName];
 
-        $fields = implode(', ', array_keys($describe[$table]));
+        $configs['table'] =  $describeTable;
 
-        $contains = " INSERT INTO {$table} ({$fields}) VALUES ";
+        $fields = implode(', ', array_keys($describeTable));
 
-        $queryCreator = new QueryCreator($table, $describe[$table]);
+        $contains = " INSERT INTO {$tableName} ({$fields}) VALUES ";
+
+        $table = new Table($tableName, $configs);
+
+        $queryCreator = new QueryCreator($table);
 
         $this->assertStringContainsStringIgnoringCase($contains, $queryCreator->insert()->build());
     }

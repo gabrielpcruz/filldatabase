@@ -3,6 +3,7 @@
 namespace App\Http\Api;
 
 use App\Business\Query\QueryCreator;
+use App\Business\Table\Table;
 use App\Http\ControllerApi;
 use Illuminate\Database\Capsule\Manager;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -21,9 +22,16 @@ class Insert extends ControllerApi
 
         $table = $arguments->table;
         $connection = Manager::connection('filldatabase');
-        $tableDetails = $connection->select("DESCRIBE $table");
+        $configs = [];
+        $database = $connection->getDatabaseName();
+        $configs['table'] = $connection->select("DESCRIBE $table");
 
-        $query = (new QueryCreator($table, $tableDetails))
+        $sql = "SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = '$database' AND TABLE_NAME = '$table'";
+
+        $configs['foreign'] = $connection->select($sql);
+
+        $table = new Table($table, $configs);
+        $query = (new QueryCreator($table))
             ->insert()
             ->build();
 
