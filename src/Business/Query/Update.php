@@ -26,7 +26,7 @@ class Update extends Query
      */
     protected function template(): string
     {
-        return " UPDATE TABLE_NAME SET_FIELDS_NAME_VALUES WHERE QUERIES_CONDITIONS ";
+        return QueryTemplate::update();
     }
 
     /**
@@ -36,7 +36,7 @@ class Update extends Query
     {
         $update = str_replace(
             "TABLE_NAME",
-            $this->table,
+            $this->table->getName(),
             $this->template()
         );
 
@@ -60,7 +60,7 @@ class Update extends Query
     {
         $fields = [];
 
-        foreach ($this->interateTablesFieldsWhithoutPrimary() as $key => $column) {
+        foreach ($this->table->interateFieldsWhithoutPrimary() as $key => $column) {
             $value = $this->dataGenerator->fromType($column->type(), $column->length());
 
             $set = ($key === 0) ? "SET" : "";
@@ -78,13 +78,13 @@ class Update extends Query
     {
         $tableId = "";
 
-        foreach ($this->interateTablesFields() as $column) {
+        foreach ($this->table->interateFields() as $column) {
             if ($column->isPrimaryKey()) {
                 $tableId = $column->name();
                 break;
             }
         }
 
-        return " {$this->table}.{$tableId} = '{$this->id}' ";
+        return " {$this->table->getName()}.{$tableId} = {$this->id} ";
     }
 }

@@ -15,6 +15,10 @@ class Table
      * @var Column[]
      */
     private array $columns;
+
+    /**
+     * @var string
+     */
     private string $name;
 
     /**
@@ -56,6 +60,28 @@ class Table
 
             yield $column;
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getTableNameForeingKey(): string
+    {
+        if (!$this->hasForeignKey()) {
+            return "";
+        }
+
+        $foreing = (array) reset($this->describe['foreign']);
+
+        return $foreing['REFERENCED_TABLE_NAME'];
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasForeignKey(): bool
+    {
+        return array_key_exists('foreign', $this->describe) && count($this->describe['foreign']) > 0;
     }
 
     /**

@@ -9,7 +9,7 @@ class Insert extends Query
      */
     protected function template(): string
     {
-        return " INSERT INTO TABLE_NAME (FIELDS_NAME) VALUES VALUES_INSIDE ";
+        return QueryTemplate::insert();
     }
 
     /**
