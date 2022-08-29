@@ -22,14 +22,12 @@ class Insert extends ControllerApi
 
         $query = (new FillDatabase())
             ->queryCreator($table)
-            ->update(1)
+            ->insert()
             ->build();
 
         return $this->responseJSON(
             $response,
-            [
-                'query' => $query
-            ]
+            [ 'query' => $query ]
         );
     }
 }
