@@ -77,7 +77,28 @@ class Insert extends Query
 
         foreach ($this->table->interateFieldsWhithoutPrimary() as $column) {
             $value = $this->dataGenerator->fromType($column->type(), $column->length());
-            $valuesPart[] = "'{$value}'";
+
+            if (
+                $this->table->hasForeignKey()
+            ) {
+                $lastInsert = "";
+                $isForeingColumn = false;
+
+                foreach ($this->table->foreigns() as $foreign) {
+                    if ($column->name() === $foreign->columnOrigin()) {
+                        $lastInsert = QueryTemplate::lastIdFromTable(
+                            $foreign->columnForeing(),
+                            $foreign->tableForeing()
+                        );
+
+                        $isForeingColumn = true;
+                    }
+                }
+
+                $valuesPart[] = $isForeingColumn ? " ({$lastInsert}) " : "'{$value}'";
+            } else {
+                $valuesPart[] = "'{$value}'";
+            }
         }
 
         return implode(", ", $valuesPart);

@@ -21,6 +21,24 @@ class QueryTemplate
     }
 
     /**
+     * @return string
+     */
+    public static function lastInsertId(): string
+    {
+        return " LAST_INSERT_ID() ";
+    }
+
+    /**
+     * @param $idColumn
+     * @param $table
+     * @return string
+     */
+    public static function lastIdFromTable($idColumn, $table): string
+    {
+        return " SELECT MAX({$idColumn}) FROM {$table} ";
+    }
+
+    /**
      * @param $table
      * @return string
      */

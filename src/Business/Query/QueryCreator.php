@@ -2,6 +2,7 @@
 
 namespace App\Business\Query;
 
+use App\Business\FillDatabase;
 use App\Business\Table\Table;
 
 class QueryCreator
@@ -9,7 +10,7 @@ class QueryCreator
     /**
      * @var string
      */
-    private string $temporaryQuery;
+    private string $temporaryQuery = "";
 
     /**
      * @var Table
@@ -29,8 +30,20 @@ class QueryCreator
      */
     public function insert(): QueryCreator
     {
+        if ($this->table->hasForeignKey()) {
+            $foreignsQuery = "";
+
+            foreach ($this->table->foreigns() as $foreign) {
+                $foreingName = $foreign->tableForeing();
+                $query = (new FillDatabase())->queryCreator($foreingName)->insert()->build();
+                $foreignsQuery .= $query . " ; " . PHP_EOL;
+            }
+
+            $this->temporaryQuery = $foreignsQuery;
+        }
+
         $insert = new Insert($this->table);
-        $this->temporaryQuery = $insert->build();
+        $this->temporaryQuery .= $insert->build();
 
         return $this;
     }

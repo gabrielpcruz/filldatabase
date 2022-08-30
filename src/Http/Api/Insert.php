@@ -6,6 +6,7 @@ use App\Http\ControllerApi;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Business\FillDatabase;
+use Illuminate\Database\Capsule\Manager;
 
 class Insert extends ControllerApi
 {
@@ -24,6 +25,10 @@ class Insert extends ControllerApi
             ->queryCreator($table)
             ->insert()
             ->build();
+
+        foreach (explode(";", $query) as $partial) {
+            Manager::connection('filldatabase')->insert($partial);
+        }
 
         return $this->responseJSON(
             $response,

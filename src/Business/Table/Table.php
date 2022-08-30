@@ -14,7 +14,12 @@ class Table
     /**
      * @var Column[]
      */
-    private array $columns;
+    private array $columns = [];
+
+    /**
+     * @var ForeignKey[]
+     */
+    private array $foreigns = [];
 
     /**
      * @var string
@@ -29,6 +34,7 @@ class Table
     {
         $this->describe = $describe;
         $this->fillColumns();
+        $this->fillForeing();
         $this->name = $name;
     }
 
@@ -43,6 +49,18 @@ class Table
     }
 
     /**
+     * @return void
+     */
+    private function fillForeing()
+    {
+        if (array_key_exists('foreign', $this->describe)) {
+            foreach ($this->interateForeings() as $foreign) {
+                $this->foreigns[] = $foreign;
+            }
+        }
+    }
+
+    /**
      * @return Column[]
      */
     public function columns(): array
@@ -51,29 +69,35 @@ class Table
     }
 
     /**
+     * @return ForeignKey[]
+     */
+    public function foreigns(): array
+    {
+        return $this->foreigns;
+    }
+
+    /**
      * @return Generator
      */
     public function interateFields() : Generator
     {
         foreach ($this->describe['table'] as $column) {
-            $column = new Column((array)$column);
+            $column = new Column((array) $column);
 
             yield $column;
         }
     }
 
     /**
-     * @return string
+     * @return Generator
      */
-    public function getTableNameForeingKey(): string
+    public function interateForeings() : Generator
     {
-        if (!$this->hasForeignKey()) {
-            return "";
+        foreach ($this->describe['foreign'] as $field) {
+            $field = new ForeignKey((array) $field);
+
+            yield $field;
         }
-
-        $foreing = (array) reset($this->describe['foreign']);
-
-        return $foreing['REFERENCED_TABLE_NAME'];
     }
 
     /**
@@ -81,7 +105,7 @@ class Table
      */
     public function hasForeignKey(): bool
     {
-        return array_key_exists('foreign', $this->describe) && count($this->describe['foreign']) > 0;
+        return count($this->foreigns);
     }
 
     /**

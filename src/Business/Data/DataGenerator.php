@@ -50,7 +50,20 @@ class DataGenerator
      */
     private function int($length) : int
     {
-        $times = $length > 3 ? $length - 2 : $length;
+        $times = $length;
+
+        if ($length > 3) {
+            $times = $length - 3;
+        }
+
+        if ($length > 10) {
+            $times = $length - 5;
+        }
+
+        if ($length > 13) {
+            $times = $length - 6;
+        }
+
         $length = intval(str_repeat('9', $times));
 
         return $this->facker->numberBetween(1, $length);
