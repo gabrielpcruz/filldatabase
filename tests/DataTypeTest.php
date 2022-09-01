@@ -193,11 +193,25 @@ class DataTypeTest extends Unit
     public function testMustAssertText()
     {
         $integer = [
-            'Type' => 'TEXT()',
+            'Type' => 'TEXT(1500)',
         ];
 
         $type = DataType::getTypeBySimilarity($integer['Type']);
 
         $this->assertEquals(DataType::TEXT, $type);
+    }
+
+    /**
+     * @return void
+     */
+    public function testMustAssertChar()
+    {
+        $integer = [
+            'Type' => 'char(2)',
+        ];
+
+        $type = DataType::getTypeBySimilarity($integer['Type']);
+
+        $this->assertEquals(DataType::CHAR, $type);
     }
 }

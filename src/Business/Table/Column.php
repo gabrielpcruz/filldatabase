@@ -28,6 +28,28 @@ class Column
     }
 
     /**
+     * @return bool
+     */
+    public function isEnum() : bool
+    {
+        return $this->type() === DataType::ENUM;
+    }
+
+    /**
+     * @return string
+     */
+    public function enumValue() : string
+    {
+        preg_match_all('/\"[A-zÀ-ú]+\"|\'[A-zÀ-ú]+\'/', $this->column['Type'], $options);
+
+        $options = reset($options);
+
+        shuffle($options);
+
+        return str_replace("'", '', reset($options));
+    }
+
+    /**
      * @return string
      */
     public function length() : string

@@ -76,7 +76,12 @@ class Insert extends Query
         $valuesPart = [];
 
         foreach ($this->table->interateFieldsWhithoutPrimary() as $column) {
-            $value = $this->dataGenerator->fromType($column->type(), $column->length());
+
+            if ($column->isEnum()) {
+                $value = $column->enumValue();
+            } else {
+                $value = $this->dataGenerator->fromType($column->type(), $column->length());
+            }
 
             if (
                 $this->table->hasForeignKey()

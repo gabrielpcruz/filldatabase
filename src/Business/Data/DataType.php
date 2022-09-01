@@ -18,7 +18,12 @@ class DataType
     public const LONGTEXT = 'LONGTEXT';
     public const TINYINT = 'TINYINT';
     public const TEXT = 'TEXT';
+    public const CHAR = 'CHAR';
+    public const ENUM = 'ENUM';
 
+    /**
+     * @var array|string[]
+     */
     private static array $types = [
       self::INT,
       self::VARCHAR,
@@ -34,6 +39,8 @@ class DataType
       self::LONGTEXT,
       self::TINYINT,
       self::TEXT,
+      self::CHAR,
+      self::ENUM,
     ];
 
     /**

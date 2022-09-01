@@ -39,6 +39,8 @@ class DataGenerator
                 return $this->tinyint($length);
             case DataType::TEXT:
                 return $this->text($length);
+            case DataType::CHAR:
+                return $this->char($length);
             default:
                 return "";
         }
@@ -48,7 +50,7 @@ class DataGenerator
      * @param $length
      * @return int
      */
-    private function int($length) : int
+    private function getCaracteresLength($length): int
     {
         $times = $length;
 
@@ -64,7 +66,16 @@ class DataGenerator
             $times = $length - 6;
         }
 
-        $length = intval(str_repeat('9', $times));
+        return intval(str_repeat('9', $times));
+    }
+
+    /**
+     * @param $length
+     * @return int
+     */
+    private function int($length) : int
+    {
+        $length = $this->getCaracteresLength($length);
 
         return $this->facker->numberBetween(1, $length);
     }
@@ -111,8 +122,7 @@ class DataGenerator
      */
     private function tinyint(int $length): string
     {
-        $times = $length > 3 ? $length - 2 : $length;
-        $length = intval(str_repeat('9', $times));
+        $length = $this->getCaracteresLength($length);
 
         return $this->facker->numberBetween(1, $length);
     }
@@ -124,5 +134,27 @@ class DataGenerator
     private function text(int $length): string
     {
         return $this->facker->text(1000);
+    }
+
+    /**
+     * @param int $length
+     * @return string
+     */
+    private function char(int $length): string
+    {
+        $text = $this->facker->text(1000);
+
+        return substr($text, 0, $length);
+    }
+
+    /**
+     * @param int $length
+     * @return string
+     */
+    private function enum(int $length): string
+    {
+        $text = $this->facker->text(1000);
+
+        return substr($text, 0, $length);
     }
 }
