@@ -1,21 +1,14 @@
-# Skeleton slim framework 4 application (http + cli)
+# A helfull tool for populate a database
+## :stop_sign: Do not use this in production environment, we are not responsible for possible damage caused. :stop_sign:
 
 [![GitHub issues](https://img.shields.io/github/issues/gabrielpcruz/filldatabase?style=plastic)](https://github.com/gabrielpcruz/filldatabase/issues)
 ![Build Status](https://github.com/gabrielpcruz/filldatabase/actions/workflows/php.yml/badge.svg)
+
+# Disclaimer :rotating_light:
+We are not responsible for misuse of our software. We no way hold any responsibility of any damages caused during that may arise due to misuse of our our software.
+This tools is exclusive for educatives ends and helpfull on enviroments that no production.
 
 ## SetUP and Runing
 
 You can use my [another repository](https://github.com/gabrielpcruz/application-php)
 to execute this aplication using docker.
-
-
-*
-* Your warranty is now void.
-*
-* We're not responsible for bricked devices, dead databases,
-* thermonuclear war, or you getting fired because the alarm app failed. Please
-* do some research if you have any concerns about features included in this recovery
-* before flashing it! YOU are choosing to make these modifications, and if
-* you point the finger at us for messing up your device, we will laugh at you.
-*
-*/
