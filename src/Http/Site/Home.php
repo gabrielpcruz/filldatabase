@@ -2,15 +2,15 @@
 
 namespace App\Http\Site;
 
-use App\App;
-use App\Http\ControllerSite;
+use App\Business\Rice\RiceBusiness;
+use App\Http\SiteController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class Home extends ControllerSite
+class Home extends SiteController
 {
     /**
      * @param Request $request
@@ -22,16 +22,35 @@ class Home extends ControllerSite
      */
     public function index(Request $request, Response $response): Response
     {
-        $rices = [];
+        $riceBusiness = new RiceBusiness();
 
-        $path = App::settings()->get('path.database') . '/connections/filldatabase.php';
-
-        $config = (object) (require $path);
+        $rices = $riceBusiness->all()->toArray();
 
         return $this->view(
             $response,
             "@site/home/index",
-            compact('rices', 'config')
+            compact('rices')
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function logado(Request $request, Response $response): Response
+    {
+        $riceBusiness = new RiceBusiness();
+
+        $rices = $riceBusiness->all()->toArray();
+
+        return $this->view(
+            $response,
+            "@site/home/logado",
+            compact('rices')
         );
     }
 }

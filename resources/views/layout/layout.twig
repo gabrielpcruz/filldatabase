@@ -5,6 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ assets('img/favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ assets('img/favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ assets('img/favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ assets('img/favicon/site.webmanifest') }}">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -13,19 +21,92 @@
 </head>
 <body>
 
-<main class="container">
+{% if guard() %}
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/logado">Home</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    {#                    <a class="nav-link" href="#">Features</a> #}
+                </div>
+            </div>
+
+            <div class="text-end">
+                <div class="navbar-nav">
+                    <a class="nav-link" aria-current="page" href="/logout"><i class="fa-solid fa-right-from-bracket">Logout</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+{% endif %}
+
+
+<br>
+
+<main class="container mt-5">
+    {% if flash('error') %}
+        <div class="row">
+            <ul class="alert alert-danger list-unstyled">
+                {% for message in flash('error') %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if flash('success') %}
+        <div class="row">
+            <ul class="alert alert-success list-unstyled">
+                {% for message in flash('success') %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if flash('warning') %}
+        <div class="row">
+            <ul class="alert alert-warning list-unstyled">
+                {% for message in flash('warning') %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if flash('info') %}
+        <div class="row">
+            <ul class="alert alert-info list-unstyled">
+                {% for message in flash('info') %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
     {% block content %}{% endblock %}
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<footer>
+    {% if guard() %}
+        slim | &copy;{{ "now" |date('Y') }}
+    {% endif %}
+</footer>
 
 {% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"></script>
 {% endblock %}
-
 </body>
 </html>

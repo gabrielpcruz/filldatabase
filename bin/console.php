@@ -3,7 +3,6 @@
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use App\App;
-use Symfony\Component\Console\Application;
 
 try {
     $container = (require_once './config/bootstrap.php')->getContainer();

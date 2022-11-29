@@ -26,9 +26,9 @@ class Insert extends ControllerApi
             ->insert()
             ->build();
 
-        foreach (explode(";", $query) as $partial) {
-            Manager::connection('filldatabase')->insert($partial);
-        }
+//        foreach (explode(";", $query) as $partial) {
+//            Manager::connection('filldatabase')->insert($partial);
+//        }
 
         return $this->responseJSON(
             $response,

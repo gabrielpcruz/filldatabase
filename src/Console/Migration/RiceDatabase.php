@@ -14,7 +14,7 @@ class RiceDatabase extends ConsoleMigration
      */
     protected function getConnectionName(): string
     {
-        return 'sqlite';
+        return 'default';
     }
 
     /**
@@ -22,7 +22,7 @@ class RiceDatabase extends ConsoleMigration
      */
     protected function configure()
     {
-        $this->setName('migration:create-database');
+        $this->setName('slim:migration-create-demo');
         $this->setDescription('Create de demo database');
     }
 

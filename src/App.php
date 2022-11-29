@@ -14,9 +14,15 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Slim\App as SlimApp;
 use Exception;
+use Slim\Flash\Messages;
 
 class App
 {
+    /**
+     * @var string
+     */
+    public const VERSION = '1.0.0';
+
     /**
      * @var string
      */
@@ -43,6 +49,11 @@ class App
     private static Container $container;
 
     /**
+     * @var Messages
+     */
+    private static Messages $flash;
+
+    /**
      * @return bool
      */
     public static function isConsole(): bool
@@ -63,7 +74,7 @@ class App
      */
     public static function getAppEnv(): string
     {
-        return getenv('APP_ENV') ? strtolower(getenv('APP_ENV')) : self::DEVELOPMENT;
+        return getenv('APP_ENV') ? strtoupper(getenv('APP_ENV')) : self::DEVELOPMENT;
     }
 
     /**
@@ -88,6 +99,18 @@ class App
     public static function isProduction(): bool
     {
         return self::getAppEnv() == self::PRODUCTION;
+    }
+
+    /**
+     * @return string
+     */
+    public static function version(): string
+    {
+        if (self::isProduction()) {
+            return App::VERSION;
+        }
+
+        return uniqid();
     }
 
     /**
@@ -126,6 +149,22 @@ class App
     public static function container(): ContainerInterface
     {
         return self::getInstace()->getContainer();
+    }
+
+    /**
+     * @return Messages
+     * @throws DependencyException
+     * @throws NotFoundException
+     */
+    public static function flash(): Messages
+    {
+        $flash = 'flash';
+
+        if (!isset(self::$flash)) {
+            self::$flash = self::getContainer()->get($flash);
+        }
+
+        return self::$flash;
     }
 
     /**
@@ -190,7 +229,6 @@ class App
      */
     private static function defineConstants(Dot $settings)
     {
-        define('ROOT_PATH', $settings->get('root'));
         define('STORAGE_PATH', $settings->get('path.storage'));
         define('PUBLIC_PATH', $settings->get('path.public'));
     }

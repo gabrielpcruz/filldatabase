@@ -1,14 +1,23 @@
 <?php
 
 use Adbar\Dot;
-use App\Provider\Asset;
+use App\Factory\AuthorizationServerFactory;
+
 use App\Repository\RepositoryManager;
+use App\Repository\User\AccessTokenRepository;
+use App\Twig\AssetsTwigExtension;
+use App\Twig\FlashMessageTwigExtension;
+use App\Twig\GuardTwigExtension;
+use App\Twig\GuestTwigExtension;
+use App\Twig\VersionTwigExtension;
 use Illuminate\Database\Capsule\Manager;
+use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\AuthorizationValidators\BearerTokenValidator;
+use League\OAuth2\Server\CryptKey;
 use Slim\App;
 use Slim\Factory\AppFactory;
 use Psr\Container\ContainerInterface;
 use Slim\Views\Twig;
-use Symfony\Component\Asset\Packages;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
 use function DI\autowire;
@@ -22,16 +31,18 @@ return [
         $enviromentSettings = [];
 
         if (Application::isDevelopment()) {
-//            $enviromentSettings = require __DIR__ . '/enviroment/development.php';
+            $enviromentSettings = require __DIR__ . '/enviroment/development.php';
         }
 
         if (Application::isHomologation()) {
-//            $enviromentSettings = require __DIR__ . '/enviroment/homologation.php';
+            $enviromentSettings = require __DIR__ . '/enviroment/homologation.php';
         }
 
         if (Application::isProduction()) {
-//            $enviromentSettings = require __DIR__ . '/enviroment/production.php';
+            $enviromentSettings = require __DIR__ . '/enviroment/production.php';
         }
+
+        $settings = array_replace_recursive($settings, $enviromentSettings);
 
         return new Dot($settings);
     },
@@ -52,8 +63,7 @@ return [
 
         $rootPath = $settings->get('view.path');
         $templates = $settings->get('view.templates');
-        $settings = $settings->get('view.settings');
-
+        $viewSettings = $settings->get('view.settings');
 
         $loader = new FilesystemLoader([], $rootPath);
 
@@ -61,12 +71,14 @@ return [
             $loader->addPath($template, $namespace);
         }
 
-        $twig = new Twig($loader, $settings);
+        $twig = new Twig($loader, $viewSettings);
 
         $twig->addExtension(new DebugExtension());
-        $extension = new Asset(new Packages());
-
-        $twig->addExtension($extension);
+        $twig->addExtension(new AssetsTwigExtension());
+        $twig->addExtension(new GuestTwigExtension());
+        $twig->addExtension(new GuardTwigExtension());
+        $twig->addExtension(new VersionTwigExtension());
+        $twig->addExtension(new FlashMessageTwigExtension());
 
         return $twig;
     },
@@ -76,4 +88,25 @@ return [
     Illuminate\Database\ConnectionInterface::class => function (ContainerInterface $container) {
         return Manager::connection('default');
     },
+
+    // OAuth
+    AuthorizationServer::class => factory([
+        AuthorizationServerFactory::class,
+        'create',
+    ]),
+
+    BearerTokenValidator::class => function (ContainerInterface $container) {
+        $oauth2PublicKey = $container->get('settings')->get('file.oauth_public');
+
+        /** @var RepositoryManager $repositoryManager */
+        $repositoryManager = $container->get(RepositoryManager::class);
+
+        /** @var AccessTokenRepository $accessTokenRepository */
+        $accessTokenRepository = $repositoryManager->get(AccessTokenRepository::class);
+
+        $beareValidator = new BearerTokenValidator($accessTokenRepository);
+        $beareValidator->setPublicKey(new CryptKey($oauth2PublicKey));
+
+        return $beareValidator;
+    }
 ];
