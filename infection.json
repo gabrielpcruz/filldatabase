@@ -1,0 +1,27 @@
+{
+    "$schema": "vendor/infection/infection/resources/schema.json",
+    "source": {
+        "directories": [
+            "src"
+        ],
+        "excludes": [
+            "App.php",
+            "helpers.php",
+            "Console",
+            "Entity",
+            "Message",
+            "Middleware",
+            "Repository",
+            "Twig",
+            "Service",
+            "Handler",
+            "Factory",
+            "Exception",
+            "Enum"
+        ]
+    },
+    "tmpDir": "/storage/tmp",
+    "mutators": {
+        "@default": true
+    }
+}
