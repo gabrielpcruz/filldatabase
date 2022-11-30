@@ -10,7 +10,7 @@
         }
     ],
     "scripts": {
-        "test": "php vendor/bin/codecept run unit"
+        "test": "php vendor/bin/infection --test-framework=codeception"
     },
     "require": {
         "slim/slim": "^4.10",
@@ -40,7 +40,8 @@
     "require-dev": {
         "codeception/codeception": "^4.1",
         "codeception/module-asserts": "^1.0.0",
-        "infection/infection": "0.26.6"
+        "infection/infection": "0.26.6",
+        "infection/codeception-adapter": "^0.4.1"
     },
     "config": {
         "allow-plugins": {
