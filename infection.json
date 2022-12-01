@@ -20,6 +20,7 @@
             "Enum"
         ]
     },
+    "tmpDir": "/tmp",
     "mutators": {
         "@default": true
     }
