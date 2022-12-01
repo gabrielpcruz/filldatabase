@@ -10,7 +10,7 @@
         }
     ],
     "scripts": {
-        "test": "php vendor/bin/infection --test-framework=codeception"
+        "test": "php vendor/bin/roave-infection-static-analysis-plugin --test-framework=codeception"
     },
     "require": {
         "slim/slim": "^4.10",
@@ -41,7 +41,8 @@
         "codeception/codeception": "^4.1",
         "codeception/module-asserts": "^1.0.0",
         "infection/infection": "0.26.6",
-        "infection/codeception-adapter": "^0.4.1"
+        "infection/codeception-adapter": "^0.4.1",
+        "roave/infection-static-analysis-plugin": "^1.18"
     },
     "config": {
         "allow-plugins": {
