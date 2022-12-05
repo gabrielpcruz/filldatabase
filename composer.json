@@ -10,7 +10,7 @@
         }
     ],
     "scripts": {
-        "test": "php vendor/bin/roave-infection-static-analysis-plugin --test-framework=codeception"
+        "test": "php vendor/bin/infection --test-framework=codeception --threads=12"
     },
     "require": {
         "slim/slim": "^4.10",

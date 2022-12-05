@@ -82,7 +82,8 @@ class DataType
 
         foreach (self::$types as $type) {
             $percentage = string_similarity($string, $type);
-            if ($percentage > $similatiry) {
+
+            if ($similatiry > 0 && $percentage > $similatiry) {
                 $similatiry = $percentage;
                 $choose = $type;
             }

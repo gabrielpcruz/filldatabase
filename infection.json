@@ -2,26 +2,35 @@
     "$schema": "vendor/infection/infection/resources/schema.json",
     "source": {
         "directories": [
-            "src"
+            "src/Business/Data",
+            "src/Business/Query",
+            "src/Business/Table"
         ],
         "excludes": [
             "App.php",
             "helpers.php",
             "Console",
             "Entity",
+            "Enum",
+            "Exception",
+            "Factory",
+            "Handler",
+            "Http",
             "Message",
             "Middleware",
+            "Provider",
             "Repository",
-            "Twig",
             "Service",
-            "Handler",
-            "Factory",
-            "Exception",
-            "Enum"
+            "Twig"
         ]
     },
-    "tmpDir": "/tmp",
+    "timeout": 60,
+    "tmpDir": "./storage/tmp",
     "mutators": {
         "@default": true
+    },
+    "logs": {
+        "summary": "summary.log",
+        "github": true
     }
 }
