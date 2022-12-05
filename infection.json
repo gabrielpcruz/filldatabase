@@ -20,7 +20,7 @@
             "Enum"
         ]
     },
-    "tmpDir": "/home/runner/work/filldatabase/filldatabase/storage/tmp/infection",
+    "tmpDir": "/home/runner/work/filldatabase/filldatabase/storage/tmp",
     "mutators": {
         "@default": true
     }
