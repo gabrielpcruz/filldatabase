@@ -20,7 +20,7 @@
             "Enum"
         ]
     },
-    "tmpDir": "/tmp",
+    "tmpDir": "var/cache",
     "mutators": {
         "@default": true
     }
