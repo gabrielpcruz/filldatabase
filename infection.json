@@ -30,7 +30,6 @@
         "@default": true
     },
     "logs": {
-        "summary": "summary.log",
-        "github": true
+        "html": "infection.html"
     }
 }
