@@ -33,4 +33,4 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Run test suite
-      run: php vendor/bin/roave-infection-static-analysis-plugin --test-framework=codeception --threads=3
+      run: composer test
