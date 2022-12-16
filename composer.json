@@ -10,7 +10,7 @@
         }
     ],
     "scripts": {
-        "test": "php vendor/bin/infection --test-framework=codeception --threads=12"
+        "test": "php vendor/bin/codecept run"
     },
     "require": {
         "slim/slim": "^4.10",
