@@ -10,4 +10,12 @@ paths:
   output: tests/_output
   support: tests/_support
   data: tests
-     
+extensions:
+  enabled:
+    - Codeception\Extension\RunFailed
+    - Codeception\Extension\Infection
+  config:
+    Codeception\Extension\Infection:
+      command: vendor/bin/infection
+      timeout: 300
+      formatter: tap
