@@ -10,7 +10,8 @@
         }
     ],
     "scripts": {
-        "test": "php vendor/bin/infection"
+        "test": " php vendor/bin/codecept run",
+        "infection": "php vendor/bin/infection",
     },
     "require": {
         "slim/slim": "^4.10",
