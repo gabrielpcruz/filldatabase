@@ -31,5 +31,6 @@
     },
     "logs": {
         "html": "infection.html"
-    }
+    },
+    "testFramework": "codeception"
 }
