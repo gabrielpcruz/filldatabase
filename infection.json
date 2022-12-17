@@ -25,7 +25,6 @@
         ]
     },
     "timeout": 60,
-    "tmpDir": "storage/tmp",
     "mutators": {
         "@default": true
     },
