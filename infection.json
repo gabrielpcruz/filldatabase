@@ -24,6 +24,7 @@
             "Twig"
         ]
     },
+    "tmpDir": "storage/tmp",
     "timeout": 60,
     "mutators": {
         "@default": true
