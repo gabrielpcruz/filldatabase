@@ -24,7 +24,7 @@
             "Twig"
         ]
     },
-    "tmpDir": "${{ github.workspace }}/storage/tmp",
+    "tmpDir": "storage",
     "timeout": 60,
     "mutators": {
         "@default": true
