@@ -39,4 +39,5 @@ jobs:
                 run: vendor/bin/codecept run
 
             -   name: Run infection suite
+                timeout-minutes: 10
                 run: vendor/bin/infection
