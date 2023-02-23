@@ -40,4 +40,4 @@ jobs:
 
             -   name: Run infection suite
                 timeout-minutes: 10
-                run: vendor/bin/infection
+                run: vendor/bin/infection --logger-github
