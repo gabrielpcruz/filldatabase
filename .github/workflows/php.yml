@@ -35,9 +35,6 @@ jobs:
             -   name: Install dependencies
                 run: composer install --prefer-dist --no-progress
 
-            -   name: Run test suite
-                run: vendor/bin/codecept run
-
             -   name: Run infection suite
                 timeout-minutes: 10
                 run: php vendor/bin/infection --test-framework=codeception
