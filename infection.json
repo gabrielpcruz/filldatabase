@@ -1,5 +1,4 @@
 {
-    "$schema": "vendor/infection/infection/resources/schema.json",
     "source": {
         "directories": [
             "src/Business/Data",
@@ -31,5 +30,6 @@
     },
     "logs": {
         "html": "infection.html"
-    }
+    },
+    "testFramework": "codeception"
 }
