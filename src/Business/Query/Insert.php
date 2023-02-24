@@ -10,17 +10,9 @@ class Insert extends Query
     protected string $insert;
 
     /**
-     * @return string
+     * @return void
      */
-    protected function template(): string
-    {
-        return QueryTemplate::insert();
-    }
-
-    /**
-     * @return string
-     */
-    protected function format(): string
+    public function doInsert(): void
     {
         $this->insert = str_replace(
             "TABLE_NAME",
@@ -34,11 +26,29 @@ class Insert extends Query
             $this->insert
         );
 
-        return str_replace(
+        $this->insert = str_replace(
             "VALUES_INSIDE",
             $this->formatValues(),
             $this->insert
         );
+    }
+
+    /**
+     * @return string
+     */
+    protected function template(): string
+    {
+        return QueryTemplate::insert();
+    }
+
+    /**
+     * @return string
+     */
+    protected function format(): string
+    {
+        $this->doInsert();
+
+        return $this->insert;
     }
 
     /**
