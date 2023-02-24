@@ -37,4 +37,4 @@ jobs:
 
             -   name: Run infection suite
                 timeout-minutes: 10
-                run: php vendor/bin/infection --test-framework=codeception
+                run: composer infection
