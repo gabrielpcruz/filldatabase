@@ -5,6 +5,11 @@ namespace App\Business\Query;
 class Insert extends Query
 {
     /**
+     * @var string
+     */
+    protected string $insert;
+
+    /**
      * @return string
      */
     protected function template(): string
@@ -15,31 +20,31 @@ class Insert extends Query
     /**
      * @return string
      */
-    public function format(): string
+    protected function format(): string
     {
-        $insert = str_replace(
+        $this->insert = str_replace(
             "TABLE_NAME",
             $this->table->getName(),
             $this->template()
         );
 
-        $insert = str_replace(
+        $this->insert = str_replace(
             "FIELDS_NAME",
             $this->formatFields(),
-            $insert
+            $this->insert
         );
 
         return str_replace(
             "VALUES_INSIDE",
             $this->formatValues(),
-            $insert
+            $this->insert
         );
     }
 
     /**
      * @return string
      */
-    protected function formatFields(): string
+    private function formatFields(): string
     {
         $fields = [];
 
@@ -53,7 +58,7 @@ class Insert extends Query
     /**
      * @return string
      */
-    protected function formatValues(): string
+    private function formatValues(): string
     {
         $values = [];
 
