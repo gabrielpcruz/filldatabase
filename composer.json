@@ -11,7 +11,7 @@
     ],
     "scripts": {
         "test": " php vendor/bin/codecept run",
-        "infection": "php vendor/bin/infection"
+        "infection": "XDEBUG_MODE=coverage php vendor/bin/infection"
     },
     "require": {
         "slim/slim": "^4.10",

@@ -1,34 +1,11 @@
 {
     "source": {
         "directories": [
-            "src/Business/Data",
-            "src/Business/Query",
-            "src/Business/Table"
-        ],
-        "excludes": [
-            "App.php",
-            "helpers.php",
-            "Console",
-            "Entity",
-            "Enum",
-            "Exception",
-            "Factory",
-            "Handler",
-            "Http",
-            "Message",
-            "Middleware",
-            "Provider",
-            "Repository",
-            "Service",
-            "Twig"
+            "src"
         ]
     },
-    "timeout": 60,
     "mutators": {
         "@default": true
-    },
-    "logs": {
-        "html": "infection.html"
     },
     "testFramework": "codeception",
     "testFrameworkOptions": "-q"
