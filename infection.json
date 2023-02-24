@@ -30,7 +30,7 @@
     "logs": {
         "html": "infection.html",
         "stryker": {
-            "badge": "/^release-.*$/"
+            "badge": "master"
         }
     },
     "testFramework": "codeception",
