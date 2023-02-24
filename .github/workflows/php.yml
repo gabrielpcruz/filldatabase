@@ -37,6 +37,7 @@ jobs:
 
             -   name: Run infection suite
                 timeout-minutes: 10
+                env:
+                    SUPER_SECRET: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
                 run: composer infection
-                with: # Set the secret as an input
-                    super_secret: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+
