@@ -11,7 +11,7 @@
     ],
     "scripts": {
         "test": " php vendor/bin/codecept run",
-        "infection": "php vendor/bin/infection --test-framework=codeception"
+        "infection": "php vendor/bin/infection"
     },
     "require": {
         "slim/slim": "^4.10",
@@ -27,8 +27,7 @@
         "league/oauth2-server": "^8.3",
         "slim/flash": "^0.4.0",
         "fakerphp/faker": "^1.20",
-        "ext-json": "*",
-        "ext-yaml": "*"
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
@@ -40,11 +39,9 @@
     },
     "require-dev": {
         "codeception/module-asserts": "^1.3.1",
-        "roave/infection-static-analysis-plugin": "^1.18",
-        "infection/infection": "^0.21.4",
         "codeception/codeception": "^4.1",
-        "infection/codeception-adapter": "^0.3.4"
-    }
+        "infection/infection": "^0.26.6",
+        "infection/codeception-adapter": "^0.4.1"
     },
     "config": {
         "allow-plugins": {
@@ -52,3 +49,4 @@
         }
     }
 }
+
