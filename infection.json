@@ -28,7 +28,10 @@
         "@default": true
     },
     "logs": {
-        "html": "infection.html"
+        "html": "infection.html",
+        "stryker": {
+            "badge": "/^release-.*$/"
+        }
     },
     "testFramework": "codeception",
     "testFrameworkOptions": "-q"
