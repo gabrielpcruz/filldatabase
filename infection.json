@@ -28,9 +28,8 @@
         "@default": true
     },
     "logs": {
-        "html": "infection.html",
         "stryker": {
-            "badge": "master"
+            "report": "master"
         }
     },
     "testFramework": "codeception",
