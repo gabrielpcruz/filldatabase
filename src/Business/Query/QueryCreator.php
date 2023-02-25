@@ -36,10 +36,10 @@ class QueryCreator
             foreach ($this->table->foreigns() as $foreign) {
                 $foreingName = $foreign->tableForeing();
                 $query = (new FillDatabase())->queryCreator($foreingName)->insert()->build();
-                $foreignsQuery .= $query . " ; " . PHP_EOL;
+                $foreignsQuery .= $query . " ; " . PHP_EOL . PHP_EOL;
             }
 
-            $this->temporaryQuery = $foreignsQuery;
+            $this->temporaryQuery = $foreignsQuery . PHP_EOL;
         }
 
         $insert = new Insert($this->table);

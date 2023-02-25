@@ -41,6 +41,10 @@ class DataGenerator
                 return $this->text($length);
             case DataType::CHAR:
                 return $this->char($length);
+            case DataType::TIMESTAMP:
+                return $this->timestamp($length);
+            case DataType::BIGINT:
+                return $this->bigint($length);
             default:
                 return "";
         }
@@ -156,5 +160,23 @@ class DataGenerator
         $text = $this->facker->text(1000);
 
         return substr($text, 0, $length);
+    }
+
+    /**
+     * @param int $length
+     * @return int
+     */
+    private function timestamp(int $length): int
+    {
+        return $this->facker->dateTime()->getTimestamp();
+    }
+
+    /**
+     * @param int $length
+     * @return int
+     */
+    private function bigint(int $length): int
+    {
+        return $this->int($length);
     }
 }

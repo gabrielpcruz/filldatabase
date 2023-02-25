@@ -18,8 +18,10 @@ class DataType
     public const LONGTEXT = 'LONGTEXT';
     public const TINYINT = 'TINYINT';
     public const TEXT = 'TEXT';
+    public const TIMESTAMP = 'TIMESTAMP';
     public const CHAR = 'CHAR';
     public const ENUM = 'ENUM';
+    public const BIGINT = 'BIGINT';
 
     /**
      * @var array|string[]
@@ -41,6 +43,8 @@ class DataType
       self::TEXT,
       self::CHAR,
       self::ENUM,
+      self::TIMESTAMP,
+      self::BIGINT,
     ];
 
     /**

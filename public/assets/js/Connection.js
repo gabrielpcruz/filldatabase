@@ -1,5 +1,6 @@
 let Connection = (() => {
     let driver;
+    let database;
     let host;
     let username;
     let password;
@@ -9,6 +10,7 @@ let Connection = (() => {
         host = $('#host').val();
         username = $('#username').val();
         password = $('#password').val();
+        database = $('#database').val();
 
         let valid = true;
 
@@ -16,7 +18,8 @@ let Connection = (() => {
             !driver.trim() ||
             !host.trim() ||
             !username.trim() ||
-            !password.trim()
+            !password.trim() ||
+            !database.trim()
         ) {
             valid = false;
         }
@@ -35,7 +38,7 @@ let Connection = (() => {
             let data = {
                 driver: driver,
                 host: host,
-                database: 'teste',
+                database: database,
                 username: username,
                 password: password
             };
