@@ -10,7 +10,7 @@
         }
     ],
     "scripts": {
-        "test": " php vendor/bin/codecept run",
+        "test": " php vendor/bin/codecept run ",
         "infection": "XDEBUG_MODE=coverage php vendor/bin/infection"
     },
     "require": {
